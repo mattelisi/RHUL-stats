@@ -125,7 +125,7 @@ d %>%
 
 The final questions asked about the status / career level.
 
-```{r, message=FALSE, echo=FALSE, warning=F,fig.height=4,fig.width=4,fig.align='center'}
+```{r, message=FALSE, echo=FALSE, warning=F,fig.height=4,fig.width=6,fig.align='center'}
 d %>%
   filter(Finished==TRUE) %>%
   filter(!is.na(role)) %>%
