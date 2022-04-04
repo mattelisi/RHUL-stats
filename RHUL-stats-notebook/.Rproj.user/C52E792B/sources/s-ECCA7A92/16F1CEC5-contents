@@ -1,0 +1,688 @@
+---
+title: "Analyses MLDS task"
+author: "Matteo Lisi"
+date: "29/11/2021"
+bibliography: /home/matteo/sync/bib_sync/zotero.bib  
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache=FALSE)
+options(knitr.table.format = "html") 
+library(dplyr)
+library(readr)
+library(tidyverse)
+library(tidybayes)
+library(kableExtra)
+library(ggpubr)
+library(rstan)
+library(sjPlot)
+```
+
+
+$~$
+
+# Non-parametric MLDS model
+The analysis presented here will (mostly) use an approach that is non-parametric in the sense that it does not assume a priori a parametric form of the perceptual scale. In brief, if we label the three faces in any given trials as (from left to right) $a$, $b$ and $c$, the model assume that each of them elicit a perceived intensity of emotion expression (along the relevant emotion continuum) indicated with $\psi_a$, $\psi_b$ and $\psi_c$. To make the decision, the observer should compute the difference between the differences
+$$
+\left(\psi_b -\psi_a\right) - \left(\psi_c -\psi_b\right) = 2\psi_b -\psi_a -\psi_c = \delta\left(a,b,c \right).
+$$
+In order to allow for some level of variability in the observer judgments, we further assume that the observer base her/his decisions on a noise-contamined version of this difference
+$$
+\Delta_{a,b,c} = \delta\left(a,b,c \right) + \epsilon
+$$
+where $\epsilon \sim \mathcal{N} \left( 0, \sigma^2\right)$. The observer will choose $c$ when $\Delta_{a,b,c}>0$ and $a$ when $\Delta_{a,b,c}<0$. 
+
+
+----
+
+$~$
+
+# Same-identity task
+
+ <center>
+ ![](/home/matteo/sync/QM/analysisJordanT1T2/MLDS_communitycenter.jpg){width=400px}
+ </center>
+In the same-identity task all images in each trial are morphed from the same actor. Participants examine the central face and indicate its expression looks more like the left one or the right one.
+
+## Dataset
+
+```{r, message=FALSE}
+d <- read_delim("./data/MLDS_jo_all.csv",show_col_types = FALSE)
+d %>%
+  group_by(id, task) %>%
+  summarise(N_trial=length(id),
+            rfg=mean(1 -ref_status), # coding was ref_status==0 for Syrian children
+            age=mean(age),
+            gender=unique(gender),
+            correct_catch = mean(max(score)/n_catch)) %>%
+  group_by(task, rfg) %>%
+  mutate(rfg = ifelse(rfg==1,'refugee','non-refugee')) %>%
+  summarise(N=length(id),
+            Age=mean(age),
+            Age_SD = sd(age),
+            N_females=sum(gender=="Female"),
+            p_correct_catch_trials = mean(correct_catch)) %>%
+  kbl(caption = "Summary of dataset (same-identity)",digits=2) %>%
+  kable_material(c("striped", "hover"))
+```
+
+----
+
+$~$
+
+## Performance in catch-trials
+
+$~$
+
+### Happy-sad
+
+```{r}
+d %>%
+  filter(task=="HS") %>%
+  group_by(id) %>%
+  summarise(rfg=mean(1 -ref_status),
+            score = max(score),
+            n_catch = unique(n_catch),
+            n_errors = n_catch-score) %>%
+  glm(cbind(score,n_errors) ~ rfg, family=binomial('logit'), data=.) %>%
+  tab_model()
+```
+
+$~$
+
+### Fear-anger
+
+```{r}
+d %>%
+  filter(task=="AF") %>%
+  group_by(id) %>%
+  summarise(rfg=mean(1 -ref_status),
+            score = max(score),
+            n_catch = unique(n_catch),
+            n_errors = n_catch-score) %>%
+  glm(cbind(score,n_errors) ~ rfg, family=binomial('logit'), data=.) %>%
+  tab_model()
+```
+
+
+----
+
+$~$
+
+
+## Perceptual scales
+
+```{r, message=FALSE, warning=F,fig.height=4,fig.width=8,fig.align='center'}
+# load models
+m0 <- readRDS("./stan_res/MLDS_HS.RDS") # files from 22 Nov (rfg <- ref_status)
+m1 <- readRDS("./stan_res/MLDS_AF_nA2.RDS")
+
+# map stimulus number correctly to morph %
+fix_S_N <- function(s){
+  S <- ifelse(s==8, 11,
+              ifelse(s>=1 & s<8, s+2,
+                     1))
+  return(S)
+}
+
+# happy-sad
+m0 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         s = fix_S_N(s)) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  #mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>% 
+  mutate(rfg=ifelse(rfg=="B","Refugees", "Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  mutate(B = B*sqrt(3)) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B))  %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=0, rfg=c("Non-refugees","Refugees"),ci.ymin=0,ci.ymax=0) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="")+
+  scale_fill_manual(values=c("black","dark green"), name="")+
+  geom_ribbon(aes(ymin=ci.ymin,ymax=ci.ymax),alpha=0.3,linetype = 0)+
+  geom_line(size=1)+
+  geom_point()+
+  theme_minimal(8)+
+  theme(legend.position=c(.8,.25))+
+  lims(y=c(0,7.7))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nhappy",rep("",4),"neutral",rep("",4),"100%\nsad"))+
+  labs(x="",y="perceptual scale [d']")+
+  ggtitle("Happiness-sadness") -> pHS01
+
+# F-A
+m1 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         s = fix_S_N(s)) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  # mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>%
+  mutate(rfg=ifelse(rfg=="B","Refugees","Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  mutate(B = B*sqrt(3)) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B)) %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=0, rfg=c("Non-refugees","Refugees"),ci.ymin=0,ci.ymax=0) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="",guide="none")+
+  scale_fill_manual(values=c("black","dark green"), name="",guide="none")+
+  geom_ribbon(aes(ymin=ci.ymin,ymax=ci.ymax),alpha=0.3,linetype = 0)+
+  geom_line(size=1)+
+  geom_point()+
+  theme_minimal(8)+
+  lims(y=c(0,7.7))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nafraid",rep("",4),"neutral",rep("",4),"100%\nangry"))+
+  labs(x="",y="perceptual scale [d']")+
+  ggtitle("Fear-anger") -> pAF01
+
+ggarrange(pHS01, pAF01, nrow = 1, ncol = 2, align = "hv",labels = c("A", "B"))
+```
+
+<details><summary>Click here to see Stan code</summary>
+
+```{r, echo=FALSE}
+m0@stanmodel
+```
+
+</details>
+
+----
+
+$~$
+
+## Perceptual scales (normalized)
+
+```{r, message=FALSE, warning=F,fig.height=4,fig.width=8,fig.align='center'}
+# happy-sad
+m0 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         B=B*sqrt(3),
+         B_rfg=B_rfg*sqrt(3)) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  pivot_wider(values_from=B,names_from =s, names_prefix="B", id_cols=-dB_rfg) %>%
+  mutate(B1=B1/B8,
+         B2=B2/B8,
+         B3=B3/B8,
+         B4=B4/B8,
+         B5=B5/B8,
+         B6=B6/B8,
+         B7=B7/B8,
+         B8=B8/B8) %>%
+  pivot_longer(starts_with("B"), values_to = "B", names_to = "s") %>%
+  mutate(s = fix_S_N(as.numeric(str_sub(s,2,2)))) %>%
+  #mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>% 
+  mutate(rfg=ifelse(rfg=="B","Refugees", "Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B)) %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=0, rfg=c("Non-refugees","Refugees"),ci.ymin=0,ci.ymax=0) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="")+
+  scale_fill_manual(values=c("black","dark green"), name="")+
+  geom_ribbon(aes(ymin=ci.ymin,ymax=ci.ymax),alpha=0.3,linetype = 0)+
+  geom_line(size=1)+
+  geom_point()+
+  theme_minimal(8)+
+  theme(legend.position=c(.8,.25))+
+  #lims(y=c(0,1))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nhappy",rep("",4),"neutral",rep("",4),"100%\nsad"))+
+  labs(x="",y="normalized perceptual scale")+
+  ggtitle("Happiness-sadness") -> pHS01
+
+# F-A
+m1 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         B=B*sqrt(3),
+         B_rfg=B_rfg*sqrt(3)) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  pivot_wider(values_from=B,names_from =s, names_prefix="B", id_cols=-dB_rfg) %>%
+  mutate(B1=B1/B8,
+         B2=B2/B8,
+         B3=B3/B8,
+         B4=B4/B8,
+         B5=B5/B8,
+         B6=B6/B8,
+         B7=B7/B8,
+         B8=B8/B8) %>%
+  pivot_longer(starts_with("B"), values_to = "B", names_to = "s") %>%
+  mutate(s = fix_S_N(as.numeric(str_sub(s,2,2)))) %>%
+  #mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>% 
+  mutate(rfg=ifelse(rfg=="B","Refugees", "Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B)) %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=0, rfg=c("Non-refugees","Refugees"),ci.ymin=0,ci.ymax=0) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="",guide="none")+
+  scale_fill_manual(values=c("black","dark green"), name="",guide="none")+
+  geom_ribbon(aes(ymin=ci.ymin,ymax=ci.ymax),alpha=0.3,linetype = 0)+
+  geom_line(size=1)+
+  geom_point()+
+  theme_minimal(8)+
+  lims(y=c(0,1))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nafraid",rep("",4),"neutral",rep("",4),"100%\nangry"))+
+  labs(x="",y="normalized perceptual scale")+
+  ggtitle("Fear-anger") -> pAF01
+
+ggarrange(pHS01, pAF01, nrow = 1, ncol = 2, align = "hv",labels = c("A", "B"))
+```
+
+
+----
+
+$~$
+
+## Comparison with parametric fit (Anger-Fear)
+
+In order to obtain a more parsimonoious description of this data, I fitted also a hierarchical Bayesian version of the parametric model used by [@rhodes_adaptive_2007] for scaling of face identity.
+
+In this model the perceptual scale values are given by a 'double-power' function with 3 free parameters (in addition to the noise, $\sigma$). The likelihood is calculated in the same way as in the previous model, except that the scale function now satisfy:
+$$
+\psi(s) = 
+\begin{cases}
+    \left(\frac{s-C}{M-c}\right)^{r_+},& \text{if } s > C\\
+    -\left(\frac{C-s}{C-m}\right)^{r_-},              & s \le C
+\end{cases}
+$$
+where $m,M$ are the minimum and maximum of emotion morphing of the stimuli. $C$ is a free parameter and represents the breakpoint, corresponding to the morphing level that is perceptually equidistant from the two extremes. The power coefficients $r_+, r_-$ determine the shape (covex, concave) of the upper and lower halves of the function, respectively. 
+
+The idea for why using this model was that it could reveal a categorical boundary. In theory, this would be revealed as "crispening" - a local increase in the slope of the perceptual scale - as that would indicate larger perceptual differences (for a fixed difference in morphing) across the boundary rather than within the boundary. Se this picture taken from [@rhodes_adaptive_2007]:
+
+ <center>
+ ![](./double_power.png){width=500px}
+ </center>
+
+
+$~$
+
+However the scale estimated for our task seems to belong more to the 'neither' case (power parameters have different sign). This may be due to the fact that there are 3 expressions being morphed. (We kept it this way for consistency with the bias task).
+
+
+Here is a plot that compares this parametric fit with the previous 'non-parametric' one.
+
+```{r, message=FALSE, warning=F,fig.height=4,fig.width=8,fig.align='center'}
+# compare AF with parametric fit
+m1p <- readRDS("./stan_res/MLDS_AF_doublepower.RDS")
+
+simpledoublePower <- function(s,C,r0,r1,m=1,M=11){
+  psy_val <- rep(NA,length(s))
+  for(i in 1:length(s)){
+    if(s[i]>C){
+      psy_val[i] <- ((s[i]-C)/(M-C))^(r1)
+    }else{
+      psy_val[i] <- -((C-s[i])/(C-m))^(r0)
+    }
+  }
+  return(psy_val)
+}
+inv.logit <- function(x){ 1/(1+exp(-x))}
+
+m1p %>%
+  spread_draws(theta[par], delta_rfg[par]) %>%
+  group_by(par) %>%
+  summarise(delta_rfg=mean(delta_rfg),
+            theta=mean(theta)) %>%
+  mutate(theta_rfg = theta+delta_rfg,
+         par_label=c("C","r0","r1")) -> par_doublep
+
+par_fun <- expand.grid(s=seq(1,11,length.out=100),
+                       rfg=c("Refugees", "Non-refugees"))
+
+par_fun$beta <- NA
+par_fun$beta[par_fun$rfg=="Refugees"] <- simpledoublePower(par_fun$s[par_fun$rfg=="Refugees"],
+                                                           C = 1 + (11-1)*inv.logit(par_doublep$theta_rfg[par_doublep$par_label=="C"]),
+                                                           r0 = exp(par_doublep$theta_rfg[par_doublep$par_label=="r0"]),
+                                                           r1 = exp(par_doublep$theta_rfg[par_doublep$par_label=="r1"]))
+par_fun$beta[par_fun$rfg=="Non-refugees"] <- simpledoublePower(par_fun$s[par_fun$rfg=="Non-refugees"],
+                                                           C = 1 + (11-1)*inv.logit(par_doublep$theta[par_doublep$par_label=="C"]),
+                                                           r0 = exp(par_doublep$theta[par_doublep$par_label=="r0"]),
+                                                           r1 = exp(par_doublep$theta[par_doublep$par_label=="r1"]))
+
+# FA - normalized scale dimension
+# non-parametric one compressed in the range -1, 1
+m1 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         B=B,
+         B_rfg=B_rfg) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  pivot_wider(values_from=B,names_from =s, names_prefix="B", id_cols=-dB_rfg) %>%
+  mutate(B1=B1/B8*2 -1,
+         B2=B2/B8*2 -1,
+         B3=B3/B8*2 -1,
+         B4=B4/B8*2 -1,
+         B5=B5/B8*2 -1,
+         B6=B6/B8*2 -1,
+         B7=B7/B8*2 -1,
+         B8=B8/B8*2 -1) %>%
+  pivot_longer(starts_with("B"), values_to = "B", names_to = "s") %>%
+  mutate(s = fix_S_N(as.numeric(str_sub(s,2,2)))) %>%
+  #mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>% 
+  mutate(rfg=ifelse(rfg=="B","Refugees", "Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B)) %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=-1, rfg=c("Non-refugees","Refugees"),ci.ymin=-1,ci.ymax=-1) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="",guide="none")+
+  scale_fill_manual(values=c("black","dark green"), name="",guide="none")+
+  geom_errorbar(aes(ymin=ci.ymin,ymax=ci.ymax),width=0)+
+  geom_point()+
+  facet_grid(.~rfg)+
+  geom_line(data=par_fun,size=0.8)+
+  theme_minimal(8)+
+  lims(y=c(-1,1))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nafraid",rep("",4),"neutral",rep("",4),"100%\nangry"))+
+  labs(x="",y="normalized perceptual scale")+
+  ggtitle("Fear-anger")
+```
+
+In this parametric model, the choice consistency is indicated by a single parameter, $\sigma$, which is explicitly estimated. Interstingly, with this model the difference in $\sigma$ between refugees and non-refugees (indicated by `delta_rfg[4]` in the table below) is not significant. 
+
+```{r, echo=FALSE}
+print(m1p ,pars = c("theta","delta_rfg"), probs=c(0.025,0.975), digits=3)
+```
+
+One possible concern with this model is extremely difficult to estimate, and in order to have decent convergence I have to set very conservative parameters in Stan (`adapt_delta = 0.99, max_treedepth = 15`) and it takes several days to complete. 
+
+$~$
+
+## Comparison of parametric fit and bias task data
+
+```{r, message=FALSE, warning=F,fig.height=4,fig.width=6,fig.align='center'}
+# -------------------------------------------------------
+# load bias task data & bayesian model fit
+fitFA <- readRDS("../bias-task/stan_results/FA_res.RDS")
+d_all <- read_csv("../bias-task//data/bias_all_OK.csv")
+
+# -------------------------------------------------------
+# function to extract samples from rstan fit
+extract_rstan <- function(fit, name, dim1=NULL, dim2=NULL, dim3=NULL){
+  par_name <- case_when(
+    is.null(dim1) & is.null(dim2) & is.null(dim3) ~ name,
+    !is.null(dim1) & is.null(dim2) & is.null(dim3) ~ str_c(name,"[",as.character(dim1),"]"),
+    !is.null(dim1) & !is.null(dim2) & is.null(dim3) ~ str_c(name,"[",as.character(dim1),",",as.character(dim2),"]"),
+    !is.null(dim1) & !is.null(dim2) & !is.null(dim3) ~ str_c(name,"[",as.character(dim1),",",as.character(dim2),",",as.character(dim3),"]")
+  )
+  X <- rstan::extract(fit, pars = par_name, inc_warmup = FALSE)[[1]]
+  return(c(X))
+}
+
+# function to compute individual parameters
+individual_parameters <- function(id_n, rfg, fit){
+  
+  if(unique(rfg)==0){
+    par <- c(mean(extract_rstan(fit, "par", 1)), 
+             mean(extract_rstan(fit, "par", 2)))
+  }else{
+    par <- c(mean(extract_rstan(fit, "par", 1)+extract_rstan(fit, "d_rfg", 1)), 
+             mean(extract_rstan(fit, "par", 2)+extract_rstan(fit, "d_rfg", 2)))
+  }
+  
+  U1_i <- mean(extract_rstan(fit, "u", 1, unique(id_n)))
+  U2_i <- mean(extract_rstan(fit, "u", 2, unique(id_n)))
+  
+  return(list(mu = par[1] + U1_i,
+              sigma = exp(par[2] + U2_i)))
+}
+
+# -------------------------------------------------------
+# compute individual bias parameters
+d <- d_all[d_all$task=="FA",]
+d$id_n <- as.numeric(factor(d$id, labels=1:length(unique(d$id))))
+
+d$bias <- NA
+d$sigma <- NA; 
+for(i in 1:nrow(d)){
+  par_i <- individual_parameters(d$id_n[i], d$refugee[i], fitFA)
+  d$bias[i] <- par_i$mu
+  d$sigma[i] <- par_i$sigma
+}
+
+d %>%
+  group_by(id) %>%
+  summarise(rfg=mean(refugee),
+            bias=mean(bias),
+            sigma=mean(sigma),
+            age1 = mean(age),
+            gender=unique(gender)) -> dag
+
+
+# -------------------------------------------------------
+# re-load anger-fear parametric-MLDS 
+m1p <- readRDS("./stan_res/MLDS_AF_doublepower.RDS")
+
+# load raw data
+dMLDS <- read_csv("./data/MLDS_jo_all.csv")
+dMLDS <- dMLDS[dMLDS$task=='AF',]
+dMLDS$rfg <- 1 - dMLDS$ref_status
+
+dtab<-data.frame(id_n = as.numeric(factor(dMLDS$id, 
+                                          labels=1:length(unique(dMLDS$id)))), 
+                 id=dMLDS$id, 
+                 fig_id_n = as.numeric(factor(dMLDS$fig_id, 
+                                              labels=1:length(unique(dMLDS$fig_id)))), 
+                 fig_id = dMLDS$fig_id, rfg = dMLDS$rfg)
+tab_id <- aggregate(id_n~id + rfg, dtab, mean)
+
+m1p %>%
+  spread_draws(C_J[id_n]) %>%
+  group_by(id_n) %>%
+  summarise(C = mean(C_J),
+            ci = mean_hdci(C_J))%>%
+  ungroup()%>%
+  do.call(data.frame, .) -> MLDS_par_i
+
+
+MLDS_par_i$id <- NA
+for(i in 1:nrow(MLDS_par_i)){
+  MLDS_par_i$id[i] <- tab_id$id[tab_id$id_n==MLDS_par_i$id_n[i]]
+}
+
+
+# -------------------------------------------------------
+# join
+d_join <- inner_join(dag, MLDS_par_i, by="id")
+
+# function to change MLDS number similarly to bias number
+fix_S_N <- function(s){
+  S <- ifelse(s==9, 11,
+              ifelse(s>=2 & s<9, s+1,
+                     1))
+  S <- 21 * S/11
+  return(S)
+}
+
+# plot
+d_join %>%
+  mutate(R=ifelse(rfg==1,"refugee","non-refugee"),
+         bias=bias*6.2 + 11,
+         C = fix_S_N(C)) %>%
+  ggplot(aes(x=C,y=bias, color=R))+
+  scale_color_manual(values=c("black","dark green"),name='')+
+  geom_point(size=3,alpha=0.8)+
+  theme_minimal(8)+
+  labs(x="midpoint of perceptual scale (C parameter)",
+       y="bias (bias-task)")+
+  stat_ellipse(type="norm") +
+  ggtitle("",subtitle="Anger-fear task")
+
+```
+
+# Crossed-identity task
+
+## Dataset
+
+```{r, message=FALSE}
+d <- read.table("./MLDS_crossed/data/oct2019/MLDS_Oct2019.txt",sep=",",header=T)
+d %>%
+  mutate(rfg=ifelse(group=='S',1,0),
+         n_catch=12) %>%
+  group_by(id, rfg) %>%
+  summarise(N_trial=length(id),
+            age=mean(age),
+            gender=unique(gender),
+            correct_catch = mean(max(score)/n_catch)) %>%
+  group_by(rfg) %>%
+  mutate(rfg = ifelse(rfg==1,'refugee','non-refugee')) %>%
+  summarise(N=length(id),
+            Age=mean(age),
+            Age_SD = sd(age),
+            N_females=sum(gender=="F",na.rm=T), # need to double-check gender info
+            p_correct_catch_trials = mean(correct_catch)) %>%
+  kbl(caption = "Summary of dataset (same-identity)",digits=2) %>%
+  kable_material(c("striped", "hover"))
+```
+
+----
+
+$~$
+
+## Performance in catch-trials
+
+
+```{r}
+d %>%
+  mutate(rfg=ifelse(group=='S',1,0),
+         n_catch=12) %>%
+  group_by(id, rfg) %>%
+  summarise(score = max(score),
+            n_catch = unique(n_catch),
+            n_errors = n_catch-score) %>%
+  glm(cbind(score,n_errors) ~ rfg, family=binomial('logit'), data=.) %>%
+  tab_model()
+```
+
+----
+
+$~$
+
+## Perceptual scales
+
+Here I kept the same vertical axis as in the previous plots, to show how function in the crossed-id task have smaller scale values on average (thus less consistent choices - as it should be expected given that the task does not allow any simple comparison based on local features).
+
+```{r, message=FALSE, warning=F,fig.height=4,fig.width=4,fig.align='center'}
+m0 <- readRDS("./stan_res/MLDS_crossed_Oct19_v4.RDS")
+
+fix_S_N <- function(s){
+  S <- ifelse(s==8, 11,
+              ifelse(s>=1 & s<8, s+2,
+                     1))
+  return(S)
+}
+
+# only happy-sad crossed-id was run
+m0 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         s = fix_S_N(s)) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>% 
+  #mutate(rfg=ifelse(rfg=="B","Refugees", "Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  mutate(B = B*sqrt(3)) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B))  %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=0, rfg=c("Non-refugees","Refugees"),ci.ymin=0,ci.ymax=0) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="")+
+  scale_fill_manual(values=c("black","dark green"), name="")+
+  geom_ribbon(aes(ymin=ci.ymin,ymax=ci.ymax),alpha=0.3,linetype = 0)+
+  geom_line(size=1)+
+  geom_point()+
+  theme_minimal(8)+
+  theme(legend.position=c(.8,.25))+
+  lims(y=c(0,7.7))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nhappy",rep("",4),"neutral",rep("",4),"100%\nsad"))+
+  labs(x="",y="perceptual scale [d']")+
+  ggtitle("Happiness-sadness") 
+```
+
+----
+
+$~$
+
+## Perceptual scales (normalized)
+
+```{r, message=FALSE, warning=F,fig.height=4,fig.width=4,fig.align='center'}
+# happy-sad
+m0 %>%
+  spread_draws(B[s],dB_rfg[s]) %>%
+  group_by(s) %>%
+  mutate(B_rfg = B + dB_rfg,
+         B=B*sqrt(3),
+         B_rfg=B_rfg*sqrt(3)) %>%
+  pivot_longer(starts_with("B"), values_to="B", names_to="rfg") %>%
+  pivot_wider(values_from=B,names_from =s, names_prefix="B", id_cols=-dB_rfg) %>%
+  mutate(B1=B1/B8,
+         B2=B2/B8,
+         B3=B3/B8,
+         B4=B4/B8,
+         B5=B5/B8,
+         B6=B6/B8,
+         B7=B7/B8,
+         B8=B8/B8) %>%
+  pivot_longer(starts_with("B"), values_to = "B", names_to = "s") %>%
+  mutate(s = fix_S_N(as.numeric(str_sub(s,2,2)))) %>%
+  mutate(rfg=ifelse(rfg=="B","Non-refugees","Refugees")) %>% 
+  #mutate(rfg=ifelse(rfg=="B","Refugees", "Non-refugees")) %>% 
+  group_by(s, rfg) %>%
+  select(s,rfg,B) %>%
+  summarise(beta = mean(B),
+            ci = mean_hdci(B)) %>%
+  ungroup()%>%
+  do.call(data.frame, .) %>%
+  add_row(s=1,beta=0, rfg=c("Non-refugees","Refugees"),ci.ymin=0,ci.ymax=0) %>%
+  ggplot(aes(x=s, y=beta,fill=rfg,color=rfg))+
+  scale_color_manual(values=c("black","dark green"), name="")+
+  scale_fill_manual(values=c("black","dark green"), name="")+
+  geom_ribbon(aes(ymin=ci.ymin,ymax=ci.ymax),alpha=0.3,linetype = 0)+
+  geom_line(size=1)+
+  geom_point()+
+  theme_minimal(8)+
+  theme(legend.position=c(.8,.25))+
+  #lims(y=c(0,1))+
+  scale_x_continuous(breaks=c(1:11),labels=c("100%\nhappy",rep("",4),"neutral",rep("",4),"100%\nsad"))+
+  labs(x="",y="normalized perceptual scale")+
+  ggtitle("Happiness-sadness (crossed-id)")
+
+```
+
+
+
+----
+# References
+<div id="refs"></div>
