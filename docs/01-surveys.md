@@ -57,6 +57,6 @@ This question was about likelihood of using different formats of support
 
 The final questions asked about the status / career level.
 
-<img src="01-surveys_files/figure-html/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" />
+<img src="01-surveys_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
 
 
