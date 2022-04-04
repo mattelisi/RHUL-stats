@@ -1,4 +1,4 @@
-# Surveys {#surveys}
+# Departmental survey about statistical methods {#surveys}
 
 I used an anonymous survey to ask colleagues some questions about which topics may be more interesting or useful in their research. 
 
