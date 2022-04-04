@@ -1,27 +1,69 @@
 {
     "sources": [
         {
-            "URL": "http://yihui.org/knitr/",
+            "ISBN": "9780367610074",
             "author": [
                 {
-                    "family": "Xie",
-                    "given": "Yihui"
+                    "family": "Harrer",
+                    "given": "Mathias"
+                },
+                {
+                    "family": "Cuijpers",
+                    "given": "Pim"
+                },
+                {
+                    "family": "A",
+                    "given": "Furukawa Toshi"
+                },
+                {
+                    "family": "Ebert",
+                    "given": "David D"
                 }
             ],
-            "edition": "2nd",
-            "id": "xie2015",
+            "edition": "1st",
+            "id": "harrer2021doing",
             "issued": {
                 "date-parts": [
                     [
-                        2015
+                        2021
                     ]
                 ]
             },
-            "note": "ISBN 978-1498716963",
-            "publisher": "Chapman; Hall/CRC",
-            "publisher-place": "Boca Raton, Florida",
-            "title": "Dynamic documents with R and knitr",
+            "publisher": "Chapman & Hall/CRC Press",
+            "publisher-place": "Boca Raton, FL; London",
+            "title": "Doing meta-analysis with R: A hands-on guide",
+            "title-short": "Doing meta-analysis with R",
             "type": "book"
+        },
+        {
+            "DOI": "10.31234/osf.io/7tbrm",
+            "URL": "psyarxiv.com/7tbrm",
+            "author": [
+                {
+                    "family": "Williams",
+                    "given": "Donald R"
+                },
+                {
+                    "family": "Rast",
+                    "given": "Philippe"
+                },
+                {
+                    "family": "Bürkner",
+                    "given": "Paul - Christian"
+                }
+            ],
+            "id": "williams_rast_bürkner_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018,
+                        1
+                    ]
+                ]
+            },
+            "publisher": "PsyArXiv",
+            "title": "Bayesian meta-analysis with weakly informative prior distributions",
+            "type": ""
         },
         {
             "URL": "https://www.R-project.org/",
