@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
+url: https://mlisi.xyz/RHUL-stats/
+cover-image: img/cover.png
 description: |
   Notebook for stats support activity at RHUL psych department.
 biblio-style: apalike
