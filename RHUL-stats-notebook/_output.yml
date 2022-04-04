@@ -9,4 +9,8 @@ bookdown::pdf_book:
   latex_engine: xelatex
   citation_package: natbib
   keep_tex: yes
+  fontsize: 11pt
+  header-includes:
+    \usepackage{float}
+    \usepackage{hyperref}
 bookdown::epub_book: default
