@@ -6,11 +6,11 @@ I used an anonymous survey to ask colleagues some questions about which topics m
 
 ### Question 1
 
-In the first question people indicated topics of interests. The winner is multilevle models, followed closely by Bayesian statistics.
+In the first question people indicated topics of interests. The winner are multilevel models, followed closely by Bayesian statistics.
 
 <img src="01-surveys_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" />
 
-Additionally there were some additional suggestions.
+There were some additional suggestions.
 
 
 ```

@@ -6,7 +6,7 @@ I used an anonymous survey to ask colleagues some questions about which topics m
 
 ### Question 1
 
-In the first question people indicated topics of interests. The winner is multilevle models, followed closely by Bayesian statistics.
+In the first question people indicated topics of interests. The winner are multilevel models, followed closely by Bayesian statistics.
 
 ```{r, message=FALSE, echo=FALSE, warning=F,fig.height=5,fig.width=7,fig.align='center'}
 library(tidyverse)
@@ -39,7 +39,7 @@ d %>%
   labs(y="")
 ```
 
-Additionally there were some additional suggestions.
+There were some additional suggestions.
 
 ```{r echo=FALSE}
 d %>%
