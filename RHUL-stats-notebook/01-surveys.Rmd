@@ -8,7 +8,7 @@ I used an anonymous survey to ask colleagues some questions about which topics m
 
 In the first question people indicated topics of interests. The winner are multilevel models, followed closely by Bayesian statistics.
 
-```{r, message=FALSE, echo=FALSE, warning=F,fig.height=5,fig.width=7,fig.align='center'}
+```{r, message=FALSE, echo=FALSE, warning=F,fig.height=9,fig.width=7,fig.align='center'}
 library(tidyverse)
 
 # load Qualtrics csv output (edited to remove double header and IP addresses)
@@ -36,6 +36,7 @@ d %>%
   ggplot(aes(y=value_short, x=N))+
   theme_gray(12) +
   geom_col() +
+  scale_y_discrete(labels = function(x) lapply(strwrap(x, width = 30, simplify = FALSE), paste, collapse="\n")) +
   labs(y="")
 ```
 
@@ -78,6 +79,7 @@ d %>%
   ggplot(aes(y=value, x=N))+
   theme_gray(12) +
   geom_col() +
+  scale_y_discrete(labels = function(x) lapply(strwrap(x, width = 30, simplify = FALSE), paste, collapse="\n")) +
   labs(y="")
 ```
 

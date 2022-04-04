@@ -62,7 +62,8 @@ d %>%
   ggplot(aes(y=value, x=N))+
   theme_gray(12) +
   geom_col() +
-  labs(y="")
+  labs(y="")+
+  scale_y_discrete(labels = function(x) lapply(strwrap(x, width = 30, simplify = FALSE), paste, collapse="\n"))
 
 d %>%
   filter(Finished==TRUE) %>%
