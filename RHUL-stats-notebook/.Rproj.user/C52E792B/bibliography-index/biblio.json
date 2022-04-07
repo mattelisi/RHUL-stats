@@ -126,6 +126,51 @@
             "volume": "83"
         },
         {
+            "URL": "https://xcelab.net/rm/statistical-rethinking/",
+            "author": [
+                {
+                    "family": "McElreath",
+                    "given": "Richard"
+                }
+            ],
+            "edition": "2nd",
+            "id": "statrethinking",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "keyword": "book stats",
+            "publisher": "Chapman & Hall/CRC Press",
+            "title": "Statistical rethinking, a course in r and stan",
+            "type": "book"
+        },
+        {
+            "URL": "https://stefvanbuuren.name/fimd/",
+            "author": [
+                {
+                    "dropping-particle": "van",
+                    "family": "Buuren",
+                    "given": "Stef"
+                }
+            ],
+            "edition": "2nd",
+            "id": "vanbuuren_imputation",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "keyword": "book stats",
+            "publisher": "Chapman & Hall/CRC Press",
+            "title": "Flexible imputation of missing data",
+            "type": "book"
+        },
+        {
             "URL": "https://www.R-project.org/",
             "author": [
                 {

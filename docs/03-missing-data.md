@@ -11,7 +11,7 @@ $$ where $R$ is an indicator variable that is set to 0 for missing data and 1 ot
 
 - Missing at random (**MAR**). A less strong assumption about missingness is that it is systematically related to the observed but not the unobserved data. For example, data are MAR if in a study male respondents are less likely to complete a survey on depression severity than female respondents - that is, the probability of reaching the end of the survey is related to their sex (fully observed) but not the severity of their symptoms. Formally, data is MAR if $$
 \Pr(R=0|Y_\mathrm{obs},Y_\mathrm{mis},\psi) = \Pr(R=0|Y_\mathrm{obs},\psi)
-$$ When data are missing at random (MAR) the results of complete case analyses may be biased and a common approach to deal with this is to use imputation . Stef van Buuren has a [freely available online book on this topic](https://stefvanbuuren.name/fimd/). Among other things, it illustrates how to do multiple imputation in R with examples.
+$$ When data are missing at random (MAR) the results of complete case analyses may be biased and a common approach to deal with this is to use imputation . Stef van Buuren has a [freely available online book on this topic](https://stefvanbuuren.name/fimd/)[@vanbuuren_imputation]. Among other things, it illustrates how to do multiple imputation in R with examples.
 
 - Missing not at random (**MNAR**). This means that the probability of being missing varies for reasons that are unknown to us, and may depends on the missing values themselves. Formally this means that $\Pr(R=0|Y_\mathrm{obs},Y_\mathrm{mis},\psi)$ does not simplify in any way. This case is the most hard to handle: a complete case analyses may or may not be biased, but there is no straightforward way to find out and we may have to find more information about what caused missingness. 
 
@@ -32,7 +32,7 @@ Furthermore, since these are null-hypothesis significance test, a failure to rej
 
 The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is , treating the missing data as parameter and estimating them). 
 
-I plan to creat and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of [the excellent book by Richard McElreath _Statistical Rethinking_](https://xcelab.net/rm/statistical-rethinking/) which present a very accessible worked example of how to do this in R.
+I plan to creat and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of [the excellent book by Richard McElreath _Statistical Rethinking_](https://xcelab.net/rm/statistical-rethinking/)[@statrethinking] which present a very accessible worked example of how to do this in R.
 
 
 
