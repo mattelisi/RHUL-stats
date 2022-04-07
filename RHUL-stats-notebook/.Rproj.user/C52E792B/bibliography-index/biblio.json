@@ -66,6 +66,66 @@
             "type": ""
         },
         {
+            "DOI": "10.1093/biomet/63.3.581",
+            "ISSN": "0006-3444",
+            "URL": "https://doi.org/10.1093/biomet/63.3.581",
+            "author": [
+                {
+                    "family": "RUBIN",
+                    "given": "DONALD B."
+                }
+            ],
+            "container-title": "Biometrika",
+            "id": "rubin76",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        1976,
+                        12
+                    ]
+                ]
+            },
+            "page": "581-592",
+            "title": "Inference and missing data",
+            "type": "article-journal",
+            "volume": "63"
+        },
+        {
+            "ISSN": "01621459",
+            "URL": "http://www.jstor.org/stable/2290157",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2022,
+                        4,
+                        7
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Little",
+                    "given": "Roderick J. A."
+                }
+            ],
+            "container-title": "Journal of the American Statistical Association",
+            "id": "little88",
+            "issue": "404",
+            "issued": {
+                "date-parts": [
+                    [
+                        1988
+                    ]
+                ]
+            },
+            "page": "1198-1202",
+            "publisher": "[American Statistical Association, Taylor & Francis, Ltd.]",
+            "title": "A test of missing completely at random for multivariate data with missing values",
+            "type": "article-journal",
+            "volume": "83"
+        },
+        {
             "URL": "https://www.R-project.org/",
             "author": [
                 {
