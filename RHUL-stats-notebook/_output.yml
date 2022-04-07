@@ -3,7 +3,10 @@ bookdown::bs4_book:
   footnotes_inline: true
   theme:
     primary: "#096B72"
-  repo: https://github.com/mattelisi/RHUL-stats/blob/main/RHUL-stats-notebook
+  repo: 
+    base: https://github.com/mattelisi/RHUL-stats
+    branch: main
+    subdir: RHUL-stats-notebook
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex
