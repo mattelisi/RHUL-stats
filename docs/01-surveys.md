@@ -38,7 +38,7 @@ A few other topics were mentioned in the comment section:
 
 Here people indicated their interest for topics related to data analysis.
 
-<img src="01-surveys_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
+<img src="01-surveys_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
 
 Other things mentioned in the comments were:
 

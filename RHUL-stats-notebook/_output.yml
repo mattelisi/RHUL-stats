@@ -2,7 +2,7 @@ bookdown::bs4_book:
   css: style.css
   footnotes_inline: true
   theme:
-    primary: "#096B72"
+    primary: "#f25c19ff"
   repo: 
     base: https://github.com/mattelisi/RHUL-stats
     branch: main
