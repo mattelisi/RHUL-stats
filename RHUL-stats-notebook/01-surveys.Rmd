@@ -47,7 +47,7 @@ d %>%
   filter(Finished==TRUE) %>%
   select(starts_with('models_') & contains('TEXT')) %>%
   filter(!is.na(models_17_TEXT)) %>%
-  pull(models_17_TEXT)
+  pull(models_17_TEXT) 
 
 ```
 
@@ -64,7 +64,7 @@ A few other topics were mentioned in the comment section:
 
 Here people indicated their interest for topics related to data analysis.
 
-```{r, message=FALSE, echo=FALSE, warning=F,fig.height=4,fig.width=8,fig.align='center'}
+```{r, message=FALSE, echo=FALSE, warning=F,fig.height=4,fig.width=7,fig.align='center'}
 d %>%
   filter(Finished==TRUE) %>%
   select(starts_with('extra_') & !contains('TEXT')) %>%
