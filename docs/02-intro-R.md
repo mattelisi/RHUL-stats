@@ -230,11 +230,22 @@ The Hubble constant estimate have units of $\frac{\text{Km}/\text{sec}}{\text{Me
 
 
 ```r
+# transform in Km
 hubble.const <- coef(hub.m)/(3.09 * 10^(19))
+
+# invert to get age in seconds
 age <- 1/hubble.const
-age/(60^2 * 24 * 365)
-#>    distance 
-#> 12794692825
+
+# use unname() to avoid carrying over 
+# the label "distance" from the model
+age <- unname(age)
+
+# transform age in years
+age <- age/(60^2 * 24 * 365)
+
+# age in billion years
+age/10^9
+#> [1] 12.79469
 ```
 
 giving an estimate of about 13 billion years.
