@@ -282,11 +282,22 @@ which is essentially a linear regression but without the intercept.</p>
 <p><em>So, how old?</em></p>
 <p>The Hubble constant estimate have units of <span class="math inline">\(\frac{\text{Km}/\text{sec}}{\text{Mega-parsecs}}\)</span>. A Mega-parsecs is <span class="math inline">\(3.09 \times 10^{19} \text{Km}\)</span>, so we divide our estimate of <span class="math inline">\(\hat \beta\)</span> by this amount. The reciprocal of <span class="math inline">\(\hat \beta\)</span> then gives the approximate age of the universe (in seconds). In R we can calculate it (in years) as follow</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hubble.const</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">hub.m</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">3.09</span> <span class="op">*</span> <span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="fl">19</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># transform in Km</span>
+<span class="va">hubble.const</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">hub.m</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">3.09</span> <span class="op">*</span> <span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="fl">19</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># invert to get age in seconds</span>
 <span class="va">age</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">hubble.const</span>
-<span class="va">age</span><span class="op">/</span><span class="op">(</span><span class="fl">60</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span>
-<span class="co">#&gt;    distance </span>
-<span class="co">#&gt; 12794692825</span></code></pre></div>
+
+<span class="co"># use unname() to avoid carrying over </span>
+<span class="co"># the label "distance" from the model</span>
+<span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>
+
+<span class="co"># transform age in years</span>
+<span class="va">age</span> <span class="op">&lt;-</span> <span class="va">age</span><span class="op">/</span><span class="op">(</span><span class="fl">60</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span>
+
+<span class="co"># age in billion years</span>
+<span class="va">age</span><span class="op">/</span><span class="fl">10</span><span class="op">^</span><span class="fl">9</span>
+<span class="co">#&gt; [1] 12.79469</span></code></pre></div>
 <p>giving an estimate of about 13 billion years.</p>
 </div>
 <p><span class="math display">\[\\[1in]\]</span></p>
