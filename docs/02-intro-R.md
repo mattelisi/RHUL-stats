@@ -130,8 +130,6 @@ In fact R works with numerous data types, and some of these are not numerical (s
 
 In this example^[Taken from Simon Wood's book on GAM[@wood_gam].] we will see how to import data into R and perform a simple linear regression analysis. 
 
-####
-
 According to the standard big-bang model, the universe expands uniformly and locally, according to Hubble's law
 $$
 y = \beta x
@@ -163,10 +161,14 @@ This tells us that our data frame has 3 variables:
 - `velocity`, their relative velocity in Km/sec
 - `distance`, their distance expressed in Mega-parsecs^[$1 \text{Mega-parsec} = 3.09 \times 10^{19} \text{Km}$]
 
-We can plot them using the following code:
+We can plot^[See `?plot` for more info about how to customize plots in R.] them using the following code:
 
 ```r
-plot(d$distance, d$velocity, xlab="Distance [Mega-parsecs]",ylab="Velocity [Km/sec]", pch=19)
+plot(d$distance, # indicate which variable on X axis
+     d$velocity, # indicate which variable on Y axis
+     xlab="Distance [Mega-parsecs]",
+     ylab="Velocity [Km/sec]", 
+     pch=19) # set the type of point
 ```
 
 <img src="02-intro-R_files/figure-html/unnamed-chunk-9-1.png" width="384" style="display: block; margin: auto;" />
@@ -213,7 +215,9 @@ summary(hub.m)
 
 So, based on this data, our estimate of the Hubble constant is 76.58 with a standard error of 3.96.
 
-### So, how old? 
+::: {.rmdnote}
+
+*So, how old?*
 
 The Hubble constant estimate have units of $\frac{\text{Km}/\text{sec}}{\text{Mega-parsecs}}$. A Mega-parsecs is $3.09 \times 10^{19} \text{Km}$, so we divide our estimate of $\hat \beta$ by this amount. The reciprocal of $\hat \beta$ then gives the approximate age of the universe (in seconds). In R we can calculate it (in years) as follow
 
@@ -228,6 +232,7 @@ age/(60^2 * 24 * 365)
 
 giving an estimate of about 13 billion years.
 
+:::
 
 ## Other learning resources
 
