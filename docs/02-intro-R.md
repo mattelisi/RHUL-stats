@@ -127,13 +127,28 @@ In fact R works with numerous data types, and some of these are not numerical (s
   * Assign `my_character` variable to "universe". (Note that the quotation marks indicate that "universe" is a character.)
   * Assign `my_logical` variable to `FALSE`. (Note that R is case sensitive!)
 
+
 ---
 
 $$\\[1in]$$
 
-## Using R for statistical analyses
 
-### Example 1: _How old is the universe?_
+## Resources for learning R
+
+There is plenty of resources on the web to learn R. I will recommend a couple that I think are particularly well-done and useful:
+
+- [Software Carpentry tutorials on R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
+- The free book [Learning Statistics with R](https://learningstatisticswithr.com/) by [Danielle Navarro](https://djnavarro.net/)
+
+
+
+---
+
+$$\\[1in]$$
+
+## Examples
+
+### Simple linear regression: _How old is the universe?_
 
 In this example^[Taken from Simon Wood's book on GAM[@wood_gam].] we will see how to import data into R and perform a simple linear regression analysis. 
 
@@ -145,13 +160,14 @@ where $\text{velocity}$ and $\text{distance}$ are the relative velocity and dist
 
 According to this model $\beta^{-1}$ gives the approximate age of the universe, but $\beta$ is unknown and must somehow be estimated from observations of $\text{velocity}$ and $\text{distance}$, made for a variety of galaxies at different distances from us. Luckily we have available data from the Hubble Space Telescope. Velocities are assessed by measuring the Doppler effect red shift in the spectrum of light that we receive from the Galaxies. Distance is estimated more indirectly, by using the discovery that in certain class of stars (Cepheids), which display fluctuations in diameter and temperature over a stable period, there is a systematic relationship between the period and their luminosity.
 
-We can load the data in R using the following code
+We can load a dataset of measurements from the Hubble Space Telescope in R using the following code
 
 ```r
-d <- read.table("https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt", header=T)
+d <- read.table(file="https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt", 
+                header=T)
 ```
 
-`read.table` is a generic function to import dataset in text files (e.g. .csv files) into R. We use the argument `header=T` to specify that the first line of the dataset gives the names of the columns. To see the help of this function, and what other arguments and features are available type `?read.table` in the R command line.
+`read.table` is a generic function to import dataset in text files (e.g. .csv files) into R. We use the argument `header=T` to specify that the first line of the dataset gives the names of the columns. Note that the argument `file` here is a URL, but it could be also a path to a file in our local folder. To see the help of this function, and what other arguments and features are available type `?read.table` in the R command line.
 
 We can use the command `str()` to examine what we have imported
 
@@ -220,7 +236,8 @@ summary(hub.m)
 #> F-statistic: 373.1 on 1 and 23 DF,  p-value: 1.032e-15
 ```
 
-So, based on this data, our estimate of the Hubble constant is 76.58 with a standard error of 3.96.
+So, based on this data, **our estimate of the Hubble constant is 76.58 with a standard error of 3.96.** The standard error - which is the standard deviation of the sampling distribution of our estimates - gives an ideas of the range of values that is compatible with our data and could be used to compute a confidence intervals.
+
 
 ::: {.rmdnote}
 
@@ -251,18 +268,6 @@ age/10^9
 giving an estimate of about 13 billion years.
 
 :::
-
----
-
-$$\\[1in]$$
-
-
-## Other learning resources
-
-There is plenty of resources on the web to learn R. I will recommend a couple that I think are particularly well-done and useful:
-
-- [Software Carpentry tutorials on R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
-- The free book [Learning Statistics with R](https://learningstatisticswithr.com/) by [Danielle Navarro](https://djnavarro.net/)
 
 
 

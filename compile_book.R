@@ -20,3 +20,7 @@ bookdown::clean_book()
 setwd("/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/")
 system("rm *.md")
 system("rm *.tex")
+
+system("git add -A")
+system('git commit -m "minor update (auto)"')
+system("git push origin main")
