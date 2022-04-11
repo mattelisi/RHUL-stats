@@ -199,13 +199,26 @@ Statistical modelling notebook</a>
 <p><span class="math display">\[\\[1in]\]</span></p>
 </div>
 </div>
-<div id="using-r-for-statistical-analyses" class="section level2" number="3.3">
+<div id="resources-for-learning-r" class="section level2" number="3.3">
 <h2>
-<span class="header-section-number">3.3</span> Using R for statistical analyses<a class="anchor" aria-label="anchor" href="#using-r-for-statistical-analyses"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.3</span> Resources for learning R<a class="anchor" aria-label="anchor" href="#resources-for-learning-r"><i class="fas fa-link"></i></a>
 </h2>
-<div id="example-1-how-old-is-the-universe" class="section level3" number="3.3.1">
+<p>There is plenty of resources on the web to learn R. I will recommend a couple that I think are particularly well-done and useful:</p>
+<ul>
+<li><a href="https://swcarpentry.github.io/r-novice-gapminder/">Software Carpentry tutorials on R for Reproducible Scientific Analysis</a></li>
+<li>The free book <a href="https://learningstatisticswithr.com/">Learning Statistics with R</a> by <a href="https://djnavarro.net/">Danielle Navarro</a>
+</li>
+</ul>
+<hr>
+<p><span class="math display">\[\\[1in]\]</span></p>
+</div>
+<div id="examples" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> Examples<a class="anchor" aria-label="anchor" href="#examples"><i class="fas fa-link"></i></a>
+</h2>
+<div id="simple-linear-regression-how-old-is-the-universe" class="section level3" number="3.4.1">
 <h3>
-<span class="header-section-number">3.3.1</span> Example 1: <em>How old is the universe?</em><a class="anchor" aria-label="anchor" href="#example-1-how-old-is-the-universe"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.4.1</span> Simple linear regression: <em>How old is the universe?</em><a class="anchor" aria-label="anchor" href="#simple-linear-regression-how-old-is-the-universe"><i class="fas fa-link"></i></a>
 </h3>
 <p>In this example<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Taken from Simon Wood’s book on GAM&lt;span class="citation"&gt; (Simon Wood, &lt;em&gt;Generalized Additive Models: An Introduction with r&lt;/em&gt;, 2nd ed. (Chapman &amp;amp; Hall/CRC Press, 2017), &lt;a href="https://doi.org/10.1201/9781315370279" role="doc-biblioref"&gt;https://doi.org/10.1201/9781315370279&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;'><sup>2</sup></a> we will see how to import data into R and perform a simple linear regression analysis.</p>
 <p>According to the standard big-bang model, the universe expands uniformly and locally, according to Hubble’s law
@@ -214,10 +227,11 @@ Statistical modelling notebook</a>
 \]</span>
 where <span class="math inline">\(\text{velocity}\)</span> and <span class="math inline">\(\text{distance}\)</span> are the relative velocity and distance of a galaxy, respectively; and <span class="math inline">\(\beta\)</span> is “Hubble’s constant.” Note that this is a simple linear equation, in which <span class="math inline">\(\beta\)</span> indicate how much the variable <span class="math inline">\(\text{velocity}\)</span> changes for each unitary increase in the variable <span class="math inline">\(\text{distance}\)</span>.</p>
 <p>According to this model <span class="math inline">\(\beta^{-1}\)</span> gives the approximate age of the universe, but <span class="math inline">\(\beta\)</span> is unknown and must somehow be estimated from observations of <span class="math inline">\(\text{velocity}\)</span> and <span class="math inline">\(\text{distance}\)</span>, made for a variety of galaxies at different distances from us. Luckily we have available data from the Hubble Space Telescope. Velocities are assessed by measuring the Doppler effect red shift in the spectrum of light that we receive from the Galaxies. Distance is estimated more indirectly, by using the discovery that in certain class of stars (Cepheids), which display fluctuations in diameter and temperature over a stable period, there is a systematic relationship between the period and their luminosity.</p>
-<p>We can load the data in R using the following code</p>
+<p>We can load a dataset of measurements from the Hubble Space Telescope in R using the following code</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt"</span>, header<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p><code>read.table</code> is a generic function to import dataset in text files (e.g. .csv files) into R. We use the argument <code>header=T</code> to specify that the first line of the dataset gives the names of the columns. To see the help of this function, and what other arguments and features are available type <code><a href="https://rdrr.io/r/utils/read.table.html">?read.table</a></code> in the R command line.</p>
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt"</span>, 
+                header<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
+<p><code>read.table</code> is a generic function to import dataset in text files (e.g. .csv files) into R. We use the argument <code>header=T</code> to specify that the first line of the dataset gives the names of the columns. Note that the argument <code>file</code> here is a URL, but it could be also a path to a file in our local folder. To see the help of this function, and what other arguments and features are available type <code><a href="https://rdrr.io/r/utils/read.table.html">?read.table</a></code> in the R command line.</p>
 <p>We can use the command <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> to examine what we have imported</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
@@ -277,7 +291,7 @@ which is essentially a linear regression but without the intercept.</p>
 <span class="co">#&gt; Residual standard error: 258.9 on 23 degrees of freedom</span>
 <span class="co">#&gt; Multiple R-squared:  0.9419, Adjusted R-squared:  0.9394 </span>
 <span class="co">#&gt; F-statistic: 373.1 on 1 and 23 DF,  p-value: 1.032e-15</span></code></pre></div>
-<p>So, based on this data, our estimate of the Hubble constant is 76.58 with a standard error of 3.96.</p>
+<p>So, based on this data, <strong>our estimate of the Hubble constant is 76.58 with a standard error of 3.96.</strong> The standard error - which is the standard deviation of the sampling distribution of our estimates - gives an ideas of the range of values that is compatible with our data and could be used to compute a confidence intervals.</p>
 <div class="rmdnote">
 <p><em>So, how old?</em></p>
 <p>The Hubble constant estimate have units of <span class="math inline">\(\frac{\text{Km}/\text{sec}}{\text{Mega-parsecs}}\)</span>. A Mega-parsecs is <span class="math inline">\(3.09 \times 10^{19} \text{Km}\)</span>, so we divide our estimate of <span class="math inline">\(\hat \beta\)</span> by this amount. The reciprocal of <span class="math inline">\(\hat \beta\)</span> then gives the approximate age of the universe (in seconds). In R we can calculate it (in years) as follow</p>
@@ -300,20 +314,8 @@ which is essentially a linear regression but without the intercept.</p>
 <span class="co">#&gt; [1] 12.79469</span></code></pre></div>
 <p>giving an estimate of about 13 billion years.</p>
 </div>
-<hr>
-<p><span class="math display">\[\\[1in]\]</span></p>
+
 </div>
-</div>
-<div id="other-learning-resources" class="section level2" number="3.4">
-<h2>
-<span class="header-section-number">3.4</span> Other learning resources<a class="anchor" aria-label="anchor" href="#other-learning-resources"><i class="fas fa-link"></i></a>
-</h2>
-<p>There is plenty of resources on the web to learn R. I will recommend a couple that I think are particularly well-done and useful:</p>
-<ul>
-<li><a href="https://swcarpentry.github.io/r-novice-gapminder/">Software Carpentry tutorials on R for Reproducible Scientific Analysis</a></li>
-<li>The free book <a href="https://learningstatisticswithr.com/">Learning Statistics with R</a> by <a href="https://djnavarro.net/">Danielle Navarro</a>
-</li>
-</ul>
 </div>
 </div>
 
@@ -332,10 +334,10 @@ which is essentially a linear regression but without the intercept.</p>
 <li><a class="nav-link" href="#basic-data-types-in-r"><span class="header-section-number">3.2.3</span> Basic data types in R</a></li>
 </ul>
 </li>
+<li><a class="nav-link" href="#resources-for-learning-r"><span class="header-section-number">3.3</span> Resources for learning R</a></li>
 <li>
-<a class="nav-link" href="#using-r-for-statistical-analyses"><span class="header-section-number">3.3</span> Using R for statistical analyses</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#example-1-how-old-is-the-universe"><span class="header-section-number">3.3.1</span> Example 1: How old is the universe?</a></li></ul>
+<a class="nav-link" href="#examples"><span class="header-section-number">3.4</span> Examples</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#simple-linear-regression-how-old-is-the-universe"><span class="header-section-number">3.4.1</span> Simple linear regression: How old is the universe?</a></li></ul>
 </li>
-<li><a class="nav-link" href="#other-learning-resources"><span class="header-section-number">3.4</span> Other learning resources</a></li>
 </ul>
 
       <div class="book-extra">

@@ -11,9 +11,9 @@ first-steps
 arithmetic-with-r
 variable-assignment
 basic-data-types-in-r
-using-r-for-statistical-analyses
-example-1-how-old-is-the-universe
-other-learning-resources
+resources-for-learning-r
+examples
+simple-linear-regression-how-old-is-the-universe
 meta-analysis
 missing-data
 types-of-missing-data
