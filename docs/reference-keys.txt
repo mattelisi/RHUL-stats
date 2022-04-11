@@ -13,8 +13,6 @@ variable-assignment
 basic-data-types-in-r
 using-r-for-statistical-analyses
 example-1-how-old-is-the-universe
-section
-so-how-old
 other-learning-resources
 meta-analysis
 missing-data
