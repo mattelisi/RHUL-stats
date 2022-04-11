@@ -126,7 +126,7 @@ According to the standard big-bang model, the universe expands uniformly and loc
 $$
 y = \beta x
 $$
-where $y$ is the relative velocity of any two galaxies separated by distance $x$, and $\beta$ is "Hubble's constant". Note that this is a simple linear equation, in which $\beta$ indicate how much $y$ changes for each unitary increase in $x$.
+where $y$ and $x$ are the relative velocity and distance of a galaxy, respectively; and $\beta$ is "Hubble's constant". Note that this is a simple linear equation, in which $\beta$ indicate how much $y$ changes for each unitary increase in $x$.
 
 According to this model $\beta^{-1}$ gives the approximate age of the universe, but $\beta$ is unknown and must somehow be estimated from observations of $y$ and $x$, made for a variety of galaxies at different distances from us. Luckily we have available data from the Hubble Space Telescope. Velocities are assessed by measuring the Doppler effect red shift in the spectrum of light that we receive from the Galaxies. Distance is estimated more indirectly, by using the discovery that in certain class of stars (Cepheids), which display fluctuations in diameter and temperature over a stable period, there is a systematic relationship between the period and their luminosity.
 
@@ -135,20 +135,30 @@ We can load the data in R using the following code
 d <- read.table("https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt", header=T)
 ```
 
+`read.table` is a generic function to import dataset in text files (e.g. .csv files) into R. We use the argument `header=T` to specify that the first line of the dataset gives the names of the columns. To see the help of this function, and what other arguments and features are available type `?read.table` in the R command line.
+
 We can use the command `str()` to examine what we have imported
 ```{r}
 str(d)
 ```
+This tells us that our data frame has 3 variables:
 
+- `Galaxy`, the 'names' of the galaxies in the dataset
+- `velocity`, their relative velocity in Km/sec
+- `distance`, their distance expressed in Mega-parsecs^[$1 \text{Mega-parsec} = 3.09 \times 10^{19} \text{Km}$]
 
 We can plot them using the following code:
 ```{r, fig.width=4, fig.height=4.2, fig.align='center'}
-plot(d$x, d$y, xlab="Distance [Mega-parsecs]",ylab="Velocity [Km/sec]", pch=19)
+plot(d$distance, d$velocity, xlab="Distance [Mega-parsecs]",ylab="Velocity [Km/sec]", pch=19)
 ```
 
-It is clear, from the figure, that the observed data do not follow Hubble's law exactly, but given the measurement process, it would be surprising if they did. Given the apparent variability, what can be inferred from these data? In particular: (i) what value of $\beta$ is most consistent with the data? (ii) what range of $\beta$ values is consistent with the data? 
+It is clear, from the figure, that the observed data do not follow Hubble's law exactly, but given the how these measurements were obtained (there is uncertainty about the true values of the distance and velocities) it would be surprising if they did. Given the apparent variability, what can be inferred from these data? 
+In particular:
 
-In order to make inferences we make some assumptions about the nature of the measurement noise. SPecifically, we assume that measurements errors are well-characterized by a Gaussian distribution. This result in the following model: 
+1. what value of $\beta$ is most consistent with the data? 
+2. what range of $\beta$ values is consistent with the data? 
+
+In order to make inferences we make some assumptions about the nature of the measurement noise. Specifically, we assume that measurements errors are well-characterized by a Gaussian distribution. This result in the following model: 
 \begin{align*}
 y &= \beta x + \epsilon \\
 \epsilon &\sim \mathcal{N} \left(0, \sigma_{\epsilon}^2 \right)
@@ -159,11 +169,11 @@ which is essentially a linear regression but without the intercept.
 We can fit the model with the function `lm` in R.
 
 ```{r, fig.width=4, fig.height=4}
-hub.m <- lm(y ~ 0 + x, d)
+hub.m <- lm(velocity ~ 0 + distance, d)
 summary(hub.m)
 ```
 
-Note that 
+So, based on this data, our estimate of the Hubble constant is `r round(hub.m$coefficients, digits=2)` with a standard error of `r round(summary(hub.m)$coefficients[2],digits=2)`.
 
 ### So, how old? 
 
