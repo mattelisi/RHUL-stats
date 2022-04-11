@@ -1,4 +1,4 @@
-"Galaxy" "y" "x"
+"Galaxy" "velocity" "distance"
 "NGC0300" 133 2
 "NGC0925" 664 9.16
 "NGC1326A" 1794 16.14

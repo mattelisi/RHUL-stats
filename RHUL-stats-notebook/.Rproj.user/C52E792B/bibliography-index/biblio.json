@@ -171,6 +171,29 @@
             "type": "book"
         },
         {
+            "URL": "https://doi.org/10.1201/9781315370279",
+            "author": [
+                {
+                    "family": "Wood",
+                    "given": "Simon"
+                }
+            ],
+            "edition": "2nd",
+            "id": "wood_gam",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "keyword": "book stats",
+            "publisher": "Chapman & Hall/CRC Press",
+            "title": "Generalized additive models: An introduction with r",
+            "title-short": "Generalized additive models",
+            "type": "book"
+        },
+        {
             "URL": "https://www.R-project.org/",
             "author": [
                 {
