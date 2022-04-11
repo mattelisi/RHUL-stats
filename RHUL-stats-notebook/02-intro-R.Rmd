@@ -2,6 +2,10 @@
 
 Most of the practical statistical tutorials and recipes in this book use the software R, so this section provides some introduction to R for the uninitiated. 
 
+$$\\[1in]$$
+
+---
+
 ## Installing R
 
 The base R system can be downloaded at the following link, which provides installers for both Windows, Mac and Linux:
@@ -113,6 +117,9 @@ In fact R works with numerous data types, and some of these are not numerical (s
   * Assign `my_character` variable to "universe". (Note that the quotation marks indicate that "universe" is a character.)
   * Assign `my_logical` variable to `FALSE`. (Note that R is case sensitive!)
 
+$$\\[1in]$$
+
+---
 
 ## Using R for statistical analyses
 
@@ -192,6 +199,10 @@ age/(60^2 * 24 * 365)
 giving an estimate of about 13 billion years.
 
 :::
+
+$$\\[1in]$$
+
+---
 
 ## Other learning resources
 
