@@ -5,6 +5,14 @@ question-1
 question-2
 question-4
 respondents-status
+intro-R
+installing-r
+first-steps
+arithmetic-with-r
+variable-assignment
+basic-data-types-in-r
+using-r-for-statistical-analyses
+other-learning-resources
 meta-analysis
 missing-data
 types-of-missing-data
