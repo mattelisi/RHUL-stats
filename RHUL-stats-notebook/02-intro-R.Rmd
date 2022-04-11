@@ -2,9 +2,9 @@
 
 Most of the practical statistical tutorials and recipes in this book use the software R, so this section provides some introduction to R for the uninitiated. 
 
-$$\\[1in]$$
-
 ---
+
+$$\\[1in]$$
 
 ## Installing R
 
@@ -117,9 +117,9 @@ In fact R works with numerous data types, and some of these are not numerical (s
   * Assign `my_character` variable to "universe". (Note that the quotation marks indicate that "universe" is a character.)
   * Assign `my_logical` variable to `FALSE`. (Note that R is case sensitive!)
 
-$$\\[1in]$$
-
 ---
+
+$$\\[1in]$$
 
 ## Using R for statistical analyses
 
@@ -129,11 +129,11 @@ In this example^[Taken from Simon Wood's book on GAM[@wood_gam].] we will see ho
 
 According to the standard big-bang model, the universe expands uniformly and locally, according to Hubble's law
 $$
-y = \beta x
+\text{velocity} = \beta \times \text{distance}
 $$
-where $y$ and $x$ are the relative velocity and distance of a galaxy, respectively; and $\beta$ is "Hubble's constant". Note that this is a simple linear equation, in which $\beta$ indicate how much $y$ changes for each unitary increase in $x$.
+where $\text{velocity}$ and $\text{distance}$ are the relative velocity and distance of a galaxy, respectively; and $\beta$ is "Hubble's constant". Note that this is a simple linear equation, in which $\beta$ indicate how much the variable $\text{velocity}$ changes for each unitary increase in the variable $\text{distance}$.
 
-According to this model $\beta^{-1}$ gives the approximate age of the universe, but $\beta$ is unknown and must somehow be estimated from observations of $y$ and $x$, made for a variety of galaxies at different distances from us. Luckily we have available data from the Hubble Space Telescope. Velocities are assessed by measuring the Doppler effect red shift in the spectrum of light that we receive from the Galaxies. Distance is estimated more indirectly, by using the discovery that in certain class of stars (Cepheids), which display fluctuations in diameter and temperature over a stable period, there is a systematic relationship between the period and their luminosity.
+According to this model $\beta^{-1}$ gives the approximate age of the universe, but $\beta$ is unknown and must somehow be estimated from observations of $\text{velocity}$ and $\text{distance}$, made for a variety of galaxies at different distances from us. Luckily we have available data from the Hubble Space Telescope. Velocities are assessed by measuring the Doppler effect red shift in the spectrum of light that we receive from the Galaxies. Distance is estimated more indirectly, by using the discovery that in certain class of stars (Cepheids), which display fluctuations in diameter and temperature over a stable period, there is a systematic relationship between the period and their luminosity.
 
 We can load the data in R using the following code
 ```{r}
@@ -212,9 +212,10 @@ giving an estimate of about 13 billion years.
 
 :::
 
+---
+
 $$\\[1in]$$
 
----
 
 ## Other learning resources
 
