@@ -24,9 +24,9 @@ R is a programming language and free software environment for statistical comput
 2+2
 ```
 
-Typically the normal workflow involve writing and saving a series of instructions in a script file, which can be executed (either step by step or all at once). This makes statistical analyses transparent and reproducible since everyone in possess of the same data and script should be able to obtain the same results.
+Typically the normal workflow involve writing and saving a series of instructions in a _script_ file (usually saved with the `.R` extension), which can be executed (either step by step or all at once). Since all steps of the analyes are documented in the script, this makes them transparent and reproducible.
 
-In an R script you can use the `#` sign to add comments, so that you and others can understand what the R code is about. Comments are not run as R code, so they will not influence your result. See the next example:
+In an R script you can use the `#` sign to add comments, so that you and others can understand what the R code is about. Commented lines are ignored by R, so they will not influence your result. See the next example:
 ```{r}
 # calculate 3 + 4
 3 + 4
@@ -47,11 +47,6 @@ The last two might need some explaining:
 The ^ operator raises the number to its left to the power of the number to its right: for example `3^2` is 9.
 
 The modulo returns the remainder of the division of the number to the left by the number on its right, for example 5 modulo 3 (or `5 %% 3`) is 2.
-
-**Try on your computer:**
-
-  * Type 2^5 in the editor to calculate 2 to the power of 5.
-  * Type 28 %% 6 to calculate 28 modulo 6.
 
 
 ### Variable assignment
@@ -79,27 +74,20 @@ The variable can then be used in any computation, for example:
 my_var + 2 
 ```
 
-**Try on your computer:**
-
-  * Assigns the value 42 to the variable x in the editor, then print out its value.
-  * Suppose you have a fruit basket with five apples. As a data analyst, you want to store the number of apples in a variable with the name `my_apples`.
-  * You decide to add six oranges to your fruit basket. Create the variable `my_oranges` and assign the value 6 to it. Next, you want to calculate how many pieces of fruit you have in total. Since you have given meaningful names to these values, you can now code this in a clear way by typing `my_apples + my_oranges`
-  * Assign the result of adding `my_apples` and `my_oranges` to a new variable `my_fruit`
-
 
 ### Basic data types in R
 
-Despite common knowledge we just added apples and oranges. The `my_apples` and `my_oranges` variables both contained a number (a numerical value) in the previous exercise. The `+` operator works with numeric variables in R. If you really tried to add "apples" and "oranges", and assigned a _text value_ to the variable my_oranges, you would be trying to assign the addition of a numeric and a character variable to the variable `my_fruit`. This is not possible, and R will give you an error message.
+Variables can be of many types, not just numerical values. For example, they can contain _text_ values (e.g. a string of characters). Arithmetic operators such as `+` do no work with these. If you tried to apply them characters R will give you an error message.
 
 ```{r, error=TRUE}
-# Assign a value to the variable my_apples
-my_apples <- 5 
+# Assign a value to the variable apples
+apples <- 5 
 
 # Assign a text value
-my_oranges <- "six" 
+oranges <- "six" 
 
-#
-my_fruit <- my_apples + my_oranges 
+#  
+apples + oranges 
 ```
 
 
@@ -111,17 +99,121 @@ In fact R works with numerous data types, and some of these are not numerical (s
   * Boolean values (`TRUE` or `FALSE`, abbreviated `T` and `F`) are called logical^[Note that you can add or multiply logical Boolean values: internally `FALSE` are treated as zeroes, and `TRUE` as ones.].
   * Text (or string) values are called characters.
 
-**Try on your computer:**
 
-  * Assign `my_numeric` variable to `42`.
-  * Assign `my_character` variable to "universe". (Note that the quotation marks indicate that "universe" is a character.)
-  * Assign `my_logical` variable to `FALSE`. (Note that R is case sensitive!)
+### Vectors and other data types
+
+Additionally, the simple data types listed above can be combined in more complex 'objects' that can comprise several values. For example, we can obtain a _vector_ by concatenating values using the function `c()`. This can be applied both on numerical or character data types, e.g. 
+
+```{r}
+some_numbers <- c(4,87,10, 0.5, -6)
+some_numbers
+
+my_modules <- c("PS115", "PS509", "PS300", "PS938", "PS9457")
+my_modules
+```
+
+There are some special handy functions to create specific types of vectors, such as _sequences_ (using the function `seq()` or the operator `:`)
+
+```{r}
+x <- seq(from = -10, to = 10, by = 2)
+x
+
+y <- seq(-0, 1, 0.1)
+y
+
+z <- 1:5
+z
+```
+
+
+Another useful type of vector can be obtained by _repetition_ of elements, and this can be numerical, character, or even applied to other vectors
+
+```{r}
+rep(3, 5)
+
+x <- 1:3
+rep(x, 4)
+
+rep(c("leo the cat", "daisy the dog"), 2)
+```
+
+We can combine vectors of different types into a _data frame_, one of the most useful ways of storing data in R. Let's say we have 3 vectors:
+
+```{r}
+# create a numeric vector 
+a <- c(0, NA, 2:4)  # NA means not available
+
+# create a character vector
+b <-  c("PS115", "PS509", "PS300", "PS938", "PS9457")
+
+# create a logical vector
+c <- c(TRUE, FALSE, TRUE, FALSE, FALSE)  # must all be caps!
+```
+
+
+we can combine them into a data.frame using:
+
+```{r}
+# create a data frame with the vectors a, b,and c that we just created
+my_dataframe <- data.frame(a,b,c)
+
+# we could also change the column names (currently they are a, b, c)
+colnames(my_dataframe) <- c("some_numbers", "my_modules", "logical_values")
+
+# now let's have a look at it
+my_dataframe
+```
+
+Although note that in most cases we would probably import a dataframe from an external data file, for example using the functions `read.table` or `read.csv`.
+
+---
+
+### Basic plotting in R
+
+We can create plots using the function `plot()`. For example:
+
+```{r, fig.width=4, fig.height=4.2, fig.align='center'}
+x = 1:10
+y = 3*x - 5
+plot(x, y)
+```
+
+
+
+
+
+### Other operations
+
+#### Random number generation
+
+Generate uniformly distributed random numbers (function `runif()`)
+
+```{r, fig.width=4, fig.height=4.2, fig.align='center'}
+x <- runif(100, min = 0, max = 1)
+hist(x)
+```
+
+
+Generate numbers from a normal distribution
+
+```{r, fig.width=4, fig.height=4.2, fig.align='center'}
+y <- rnorm(100, mean = 0, sd = 1)
+hist(y)
+```
+
+
+### Getting help
+
+R has a lot of functions, and extra packages that can provides even more. It may seem a bit overwhelming, but it is very easy to get help about how to use a function: just type in a question mark, followed by the name of the function. For example, to see the help of the function we used above to generate the histogram, type 
+
+```{r}
+?hist
+```
 
 
 ---
 
 $$\\[1in]$$
-
 
 ## Resources for learning R
 
@@ -129,105 +221,4 @@ There is plenty of resources on the web to learn R. I will recommend a couple th
 
 - [Software Carpentry tutorials on R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder/)
 - The free book [Learning Statistics with R](https://learningstatisticswithr.com/) by [Danielle Navarro](https://djnavarro.net/)
-
-
-
----
-
-$$\\[1in]$$
-
-## Examples
-
-### Simple linear regression: _How old is the universe?_
-
-In this example^[Taken from Simon Wood's book on GAM[@wood_gam].] we will see how to import data into R and perform a simple linear regression analysis. 
-
-According to the standard big-bang model, the universe expands uniformly and locally, according to Hubble's law
-$$
-\text{velocity} = \beta \times \text{distance}
-$$
-where $\text{velocity}$ and $\text{distance}$ are the relative velocity and distance of a galaxy, respectively; and $\beta$ is "Hubble's constant". Note that this is a simple linear equation, in which $\beta$ indicate how much the variable $\text{velocity}$ changes for each unitary increase in the variable $\text{distance}$.
-
-According to this model $\beta^{-1}$ gives the approximate age of the universe, but $\beta$ is unknown and must somehow be estimated from observations of $\text{velocity}$ and $\text{distance}$, made for a variety of galaxies at different distances from us. Luckily we have available data from the Hubble Space Telescope. Velocities are assessed by measuring the Doppler effect red shift in the spectrum of light that we receive from the Galaxies. Distance is estimated more indirectly, by using the discovery that in certain class of stars (Cepheids), which display fluctuations in diameter and temperature over a stable period, there is a systematic relationship between the period and their luminosity.
-
-We can load a dataset of measurements from the Hubble Space Telescope in R using the following code
-```{r}
-d <- read.table(file="https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt", 
-                header=T)
-```
-
-`read.table` is a generic function to import dataset in text files (e.g. .csv files) into R. We use the argument `header=T` to specify that the first line of the dataset gives the names of the columns. Note that the argument `file` here is a URL, but it could be also a path to a file in our local folder. To see the help of this function, and what other arguments and features are available type `?read.table` in the R command line.
-
-We can use the command `str()` to examine what we have imported
-```{r}
-str(d)
-```
-This tells us that our data frame has 3 variables:
-
-- `Galaxy`, the 'names' of the galaxies in the dataset
-- `velocity`, their relative velocity in Km/sec
-- `distance`, their distance expressed in Mega-parsecs^[$1 \text{Mega-parsec} = 3.09 \times 10^{19} \text{Km}$]
-
-We can plot^[See `?plot` for more info about how to customize plots in R.] them using the following code:
-```{r, fig.width=4, fig.height=4.2, fig.align='center'}
-plot(d$distance, # indicate which variable on X axis
-     d$velocity, # indicate which variable on Y axis
-     xlab="Distance [Mega-parsecs]",
-     ylab="Velocity [Km/sec]", 
-     pch=19) # set the type of point
-```
-
-It is clear, from the figure, that the observed data do not follow Hubble's law exactly, but given the how these measurements were obtained (there is uncertainty about the true values of the distance and velocities) it would be surprising if they did. Given the apparent variability, what can be inferred from these data? 
-In particular:
-
-1. what value of $\beta$ is most consistent with the data? 
-2. what range of $\beta$ values is consistent with the data? 
-
-In order to make inferences we make some assumptions about the nature of the measurement noise. Specifically, we assume that measurements errors are well-characterized by a Gaussian distribution. This result in the following model: 
-\begin{align*}
-y &= \beta x + \epsilon \\
-\epsilon &\sim \mathcal{N} \left(0, \sigma_{\epsilon}^2 \right)
-\end{align*}
-which is essentially a linear regression but without the intercept.
-
-
-We can fit the model with the function `lm` in R.
-
-```{r, fig.width=4, fig.height=4}
-hub.m <- lm(velocity ~ 0 + distance, d)
-summary(hub.m)
-```
-
-So, based on this data, **our estimate of the Hubble constant is `r round(hub.m$coefficients, digits=2)` with a standard error of `r round(summary(hub.m)$coefficients[2],digits=2)`.** The standard error - which is the standard deviation of the sampling distribution of our estimates - gives an ideas of the range of values that is compatible with our data and could be used to compute a confidence intervals.
-
-
-::: {.rmdnote}
-
-*So, how old?*
-
-The Hubble constant estimate have units of $\frac{\text{Km}/\text{sec}}{\text{Mega-parsecs}}$. A Mega-parsecs is $3.09 \times 10^{19} \text{Km}$, so we divide our estimate of $\hat \beta$ by this amount. The reciprocal of $\hat \beta$ then gives the approximate age of the universe (in seconds). In R we can calculate it (in years) as follow
-
-```{r}
-# transform in Km
-hubble.const <- coef(hub.m)/(3.09 * 10^(19))
-
-# invert to get age in seconds
-age <- 1/hubble.const
-
-# use unname() to avoid carrying over 
-# the label "distance" from the model
-age <- unname(age)
-
-# transform age in years
-age <- age/(60^2 * 24 * 365)
-
-# age in billion years
-age/10^9
-```
-
-giving an estimate of about 13 billion years.
-
-:::
-
-
 

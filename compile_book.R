@@ -22,5 +22,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "minor update (auto)"')
+system('git commit -m "update (auto)"')
 system("git push origin main")
