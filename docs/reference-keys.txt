@@ -11,9 +11,14 @@ first-steps
 arithmetic-with-r
 variable-assignment
 basic-data-types-in-r
+vectors-and-other-data-types
+basic-plotting-in-r
+other-operations
+random-number-generation
+getting-help
 resources-for-learning-r
-examples
-simple-linear-regression-how-old-is-the-universe
+linear-models
+simple-linear-regression
 meta-analysis
 missing-data
 types-of-missing-data
