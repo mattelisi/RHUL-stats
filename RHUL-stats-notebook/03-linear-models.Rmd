@@ -2,8 +2,9 @@
 
 This section will provide some worked examples of how to do analyses in R.
 
+---
 
-### Simple linear regression
+## Simple linear regression
 
 In this example^[Taken from Simon Wood's book on GAM[@wood_gam].] we will see how to import data into R and perform a simple linear regression analysis. 
 
