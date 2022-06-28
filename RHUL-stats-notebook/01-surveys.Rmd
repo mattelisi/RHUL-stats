@@ -16,7 +16,7 @@ d <- read_csv('../data/survey_march22/stats-survey-rhul_edit.csv')
 
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('models_') & !contains('TEXT')) %>%
+  dplyr::select(starts_with('models_') & !contains('TEXT')) %>%
   mutate(id = 1:nrow(.)) %>%
   pivot_longer(starts_with('models_'),names_to = 'what') %>%
   filter(!is.na(value)) %>%
@@ -67,7 +67,7 @@ Here people indicated their interest for topics related to data analysis.
 ```{r, message=FALSE, echo=FALSE, warning=F,fig.height=4,fig.width=7,fig.align='center'}
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('extra_') & !contains('TEXT')) %>%
+  dplyr::select(starts_with('extra_') & !contains('TEXT')) %>%
   mutate(id = 1:nrow(.)) %>%
   pivot_longer(starts_with('extra_'),names_to = 'what') %>%
   filter(!is.na(value)) %>%
@@ -97,7 +97,7 @@ This question was about likelihood of using different formats of support
 ```{r, message=FALSE, echo=FALSE, warning=F,fig.height=6,fig.width=6,fig.align='center'}
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('format_')) %>%
+  dplyr::select(starts_with('format_')) %>%
   mutate(id = 1:nrow(.)) %>%
   pivot_longer(starts_with('format_'),names_to = 'what') %>%
   mutate(value=factor(value, ordered=T, levels=c("Very unlikely",
