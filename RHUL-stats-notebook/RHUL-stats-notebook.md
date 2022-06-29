@@ -511,16 +511,6 @@ giving an estimate of about 13 billion years.
 # Models for count data {#count-data}
 
 
-```
-#> -- Attaching packages ------------------- tidyverse 1.3.1 --
-#> v ggplot2 3.3.6     v purrr   0.3.4
-#> v tibble  3.1.7     v dplyr   1.0.9
-#> v tidyr   1.2.0     v stringr 1.4.0
-#> v readr   2.1.2     v forcats 0.5.1
-#> -- Conflicts ---------------------- tidyverse_conflicts() --
-#> x dplyr::filter() masks stats::filter()
-#> x dplyr::lag()    masks stats::lag()
-```
 
 
 This section will provide some examples of models that can deal with *count* data. Typically, count data occurs when the dependent variable is the counted number of occurrences of an event - for example the number of patients arriving in an emergency department (A&E) in a given time of the day - e.g. between 10:00 and 11:00. In this case, the dependent variable (the number of patients) has several characteristics that make it unsuitable for analysis with standard linear models such as linear regression: their distribution is discrete, composed only of non-negative integers, and is often positively skewed, with many observations having a value of 0. 
