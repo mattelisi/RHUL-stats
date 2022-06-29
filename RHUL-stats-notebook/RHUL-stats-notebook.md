@@ -510,6 +510,19 @@ giving an estimate of about 13 billion years.
 
 # Models for count data {#count-data}
 
+
+```
+#> -- Attaching packages ------------------- tidyverse 1.3.1 --
+#> v ggplot2 3.3.6     v purrr   0.3.4
+#> v tibble  3.1.7     v dplyr   1.0.9
+#> v tidyr   1.2.0     v stringr 1.4.0
+#> v readr   2.1.2     v forcats 0.5.1
+#> -- Conflicts ---------------------- tidyverse_conflicts() --
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
+```
+
+
 This section will provide some examples of models that can deal with *count* data. Typically, count data occurs when the dependent variable is the counted number of occurrences of an event - for example the number of patients arriving in an emergency department (A&E) in a given time of the day - e.g. between 10:00 and 11:00. In this case, the dependent variable (the number of patients) has several characteristics that make it unsuitable for analysis with standard linear models such as linear regression: their distribution is discrete, composed only of non-negative integers, and is often positively skewed, with many observations having a value of 0. 
 
 Another characteristic is that the variance of the observations (e.g. the variance of the number of counts across observations within the same condition) increases with their expected value (e.g. the average number of counts for that condition)^[This makes sense if you think that when the expected number of counts is very low, say $\approx 1$, there cannot be many observations with very high counts - otherwise their average wouldn't be as low (recall that counts are strictly non-negative). In other words, the variance must be low when the average is also low.].
@@ -563,13 +576,13 @@ segments(x,exp(a+b*x),x,y, lwd=1,lty=3, col="red")
 
 
 
-\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-1-1} \end{center}
+\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-2-1} \end{center}
 
 We can adjust the code above to simulate the same data with some degree of over-dispersion, using a negative binomial distribution, for different values of the precision parameter theta ($\theta$), which regulate the degree of overdispersion. Importantly, these datapoints are simulated assuming the same function fo the average (expected) number of counts (same also as the previous figure), they just differe in the amount of overdispersion relative to a Poissone model. Note that for value arbitrarily large of the precision parameter $\theta \rightarrow \infty$ (bottom-right panel) the negative binomial converges to the Poisson.
 
 
 
-\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-2-1} \end{center}
+\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-3-1} \end{center}
 
 :::
 
@@ -606,15 +619,6 @@ In R we begin by loading the data
 
 
 ```r
-library(tidyverse)
-#> -- Attaching packages ------------------- tidyverse 1.3.1 --
-#> v ggplot2 3.3.6     v purrr   0.3.4
-#> v tibble  3.1.7     v dplyr   1.0.9
-#> v tidyr   1.2.0     v stringr 1.4.0
-#> v readr   2.1.2     v forcats 0.5.1
-#> -- Conflicts ---------------------- tidyverse_conflicts() --
-#> x dplyr::filter() masks stats::filter()
-#> x dplyr::lag()    masks stats::lag()
 d <- read_csv("../data/nb_units.csv", show_col_types = F) # data availabel in the data folder of the repository
 d
 #> # A tibble: 930 x 3
@@ -646,7 +650,7 @@ d %>%
 ```
 
 <table>
-<caption>(\#tab:unnamed-chunk-4)Mean and Variance of weekly units of alcohol reported.</caption>
+<caption>(\#tab:unnamed-chunk-5)Mean and Variance of weekly units of alcohol reported.</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> condition </th>
@@ -687,7 +691,7 @@ d %>%
 
 
 
-\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-5-1} \end{center}
+\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 
 To estimate the negative-binomial model, we can use the function `glm.nb()` from available in the `MASS` package. Our predictor condition is categorical with 3 levels and therefore it is coded internally as a set of 2 dummy variables. We can see how the contrast is set using
@@ -964,11 +968,11 @@ d %>%
 
 \begin{figure}
 
-{\centering \includegraphics{04-count-data_files/figure-latex/unnamed-chunk-17-1} 
+{\centering \includegraphics{04-count-data_files/figure-latex/unnamed-chunk-18-1} 
 
 }
 
-\caption{The black line represent the predicted probability of the data (note that I clipped the x-axis at 40)}(\#fig:unnamed-chunk-17)
+\caption{The black line represent the predicted probability of the data (note that I clipped the x-axis at 40)}(\#fig:unnamed-chunk-18)
 \end{figure}
 
 
@@ -986,7 +990,7 @@ nd %>%
 
 
 
-\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-18-1} \end{center}
+\begin{center}\includegraphics{04-count-data_files/figure-latex/unnamed-chunk-19-1} \end{center}
 
 
 

@@ -1,5 +1,10 @@
 # Models for count data {#count-data}
 
+```{r, echo=FALSE}
+library(tidyverse)
+```
+
+
 This section will provide some examples of models that can deal with *count* data. Typically, count data occurs when the dependent variable is the counted number of occurrences of an event - for example the number of patients arriving in an emergency department (A&E) in a given time of the day - e.g. between 10:00 and 11:00. In this case, the dependent variable (the number of patients) has several characteristics that make it unsuitable for analysis with standard linear models such as linear regression: their distribution is discrete, composed only of non-negative integers, and is often positively skewed, with many observations having a value of 0. 
 
 Another characteristic is that the variance of the observations (e.g. the variance of the number of counts across observations within the same condition) increases with their expected value (e.g. the average number of counts for that condition)^[This makes sense if you think that when the expected number of counts is very low, say $\approx 1$, there cannot be many observations with very high counts - otherwise their average wouldn't be as low (recall that counts are strictly non-negative). In other words, the variance must be low when the average is also low.].
@@ -122,7 +127,6 @@ The goal of the study was to use the anchoring effect to:
 In R we begin by loading the data
 
 ```{r}
-library(tidyverse)
 d <- read_csv("../data/nb_units.csv", show_col_types = F) # data availabel in the data folder of the repository
 d
 ```
