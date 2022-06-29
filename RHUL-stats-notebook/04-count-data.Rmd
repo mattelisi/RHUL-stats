@@ -21,7 +21,10 @@ or alternatively
 $$
 \lambda_i = e^{\beta_0 + \beta_1 x_i}
 $$
-Which suggest that we can use the exponential function (in R the function `exp()`) to calculate the predicted values of the mean and variance of the dependent variable for any values of the predictors.
+Which indicates that we can use the exponential function (in R the function `exp()`) to calculate the predicted values of the mean (more precisely, the expected value, $\mathbb{E}(y)$) and variance ($Var(y)$) of the dependent variable. This relies on the property of the Poisson distribution^[The symbol $\implies$ is used to denote logical implication, e.g. $(A=B)\implies (B=A)$ - symmetry of logical equivalence.]
+$$
+y_i \sim \text{Poisson} \left(\lambda \right) \implies \mathbb{E}(y)=Var(y)=\lambda
+$$
 
 
 However, in practice, data often do not conform to the constraint of having identical mean and variance. Often the observed variance of the count is higher than what predicted according to the Poisson model (we say in this case that the data is _over-dispersed_).
@@ -92,10 +95,19 @@ segments(x,exp(a+b*x),x,yInf, lwd=1,lty=3, col="red")
 
 As mentioned above, data are often overdispersed relative to the Poisson (that is, their variance is larger than the mean). This is an issue because when the data are overdispersed then our results may be largely influences by few extreme datapoints. Moreover, we will have the wrong estimated about the variability of the data. To account for overdispersion we can use the negative binomial which can be seen as a generalization of the Poisson model^[The name _negative binomial_ comes from a sampling procedure that give rise to this distribution: basically the negative binomial gives the probability of the number of successes in a sequence of independent and identically distributed Bernoulli trials before a specified (non-random) number of failures occur (this pre-fixed number of failures is a parameter of the negative binomial under an alternative parametrization of this distribution).].
 
-The negative binomial is very similar to the Poisson, but includes an additional precision (or "reciprocal dispersion") parameter which I referred to as $\theta$^[I choose 'theta' for consistency with the R output but note that this is sometime referred to as $\phi$ in the literature `¯\_(ツ)_/¯` ]. Essentially, whereas for the Poisson we had that $Var(y) = \mathbb{E}(y)$, now we have that
+Formally, the negative binomial model with 1 predictor $x$ can be notated as
+$$
+\begin{align}
+y_i & \sim \text{NegBinomial} \left(\lambda_i, \theta \right)\\
+\log( \lambda_i) & = \beta_0 + \beta_1 x_i
+\end{align}
+$$
+
+The negative binomial is very similar to the Poisson - in particular it still the case that $\mathbb{E}(y)=\lambda$. However, it includes an additional precision (or "reciprocal dispersion") parameter which I referred to as $\theta$^[I choose 'theta' for consistency with the R output but note that this is sometime referred to as $\phi$ in the literature `¯\_(ツ)_/¯` ]. Essentially, whereas for the Poisson we had that $Var(y) = \mathbb{E}(y)$, now we have that
 $$
 Var(y) = \mathbb{E}(y) + \frac{\mathbb{E}(y)^2}{\theta}
 $$
+
 
 ## Examples 
 
@@ -105,7 +117,7 @@ To see how this would work in practice, I use negative binomial to analyse a dat
 
 The goal of the study was to use the anchoring effect to:
 
-> ...to see if we could attenuate under-reporting of alcohol consumption (which is a medical problem). Participants in a high-anchor condition were asked “do you drink more or less than 40 units of alcohol a week”, and were then asked to estimate exactly how many units they’d consumed. Those in a low anchor condition were initially asked “do you drink more or less than 4 units of alcohol a week” before giving their precise estimate, and those in a control condition just gave their precise estimate.
+> _...to see if we could attenuate under-reporting of alcohol consumption (which is a medical problem). Participants in a high-anchor condition were asked “do you drink more or less than 40 units of alcohol a week”, and were then asked to estimate exactly how many units they’d consumed. Those in a low anchor condition were initially asked “do you drink more or less than 4 units of alcohol a week” before giving their precise estimate, and those in a control condition just gave their precise estimate._
 
 In R we begin by loading the data
 
