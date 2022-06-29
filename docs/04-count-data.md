@@ -50,7 +50,7 @@ segments(x,exp(a+b*x),x,y, lwd=1,lty=3, col="red")
 
 <img src="04-count-data_files/figure-html/unnamed-chunk-1-1.png" width="384" style="display: block; margin: auto;" />
 
-We can adjust the code above to simulate the same data with some degree of over-dispersion, using a negative binomial distribution, for different values of the precision parameter theta ($\theta$), which regulate the degree of overdispersion. Note that for value arbitrarily large of the precision parameter $\theta \rightarrow \infty$ the negative binomial converges to the Poisson.
+We can adjust the code above to simulate the same data with some degree of over-dispersion, using a negative binomial distribution, for different values of the precision parameter theta ($\theta$), which regulate the degree of overdispersion. Importantly, these datapoints are simulated assuming the same function fo the average (expected) number of counts (same also as the previous figure), they just differe in the amount of overdispersion relative to a Poissone model. Note that for value arbitrarily large of the precision parameter $\theta \rightarrow \infty$ (bottom-right panel) the negative binomial converges to the Poisson.
 
 
 <img src="04-count-data_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" />
