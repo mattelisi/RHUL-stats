@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2021.6.1)  29 JUN 2022 12:58
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2021.6.1)  29 JUN 2022 13:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -915,18 +915,20 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ]
 Chapter 5.
-[29]
-File: 04-count-data_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type
- pdf)
-<use 04-count-data_files/figure-latex/unnamed-chunk-1-1.pdf>
-[30]
+
+Underfull \vbox (badness 7133) has occurred while \output is active []
+
+[29] [30]
 File: 04-count-data_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type
  pdf)
 <use 04-count-data_files/figure-latex/unnamed-chunk-2-1.pdf>
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1874) has occurred while \output is active []
 
 [31]
+File: 04-count-data_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type
+ pdf)
+<use 04-count-data_files/figure-latex/unnamed-chunk-3-1.pdf>
 
 ! Package amsmath Error: Erroneous nesting of equation structures;
 (amsmath)                trying to recover with `aligned'.
@@ -935,12 +937,12 @@ See the amsmath package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.734 \end{align}
+l.745 \end{align}
                   
 Here is how much of TeX's memory you used:
  19140 strings out of 481804
  339453 string characters out of 5937877
- 769521 words of memory out of 5000000
+ 768521 words of memory out of 5000000
  35833 multiletter control sequences out of 15000+600000
  538861 words of font info for 86 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191

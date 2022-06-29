@@ -1,5 +1,18 @@
 # Models for count data {#count-data}
 
+
+```
+#> ── Attaching packages ─────────────────── tidyverse 1.3.1 ──
+#> ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+#> ✔ tibble  3.1.7     ✔ dplyr   1.0.9
+#> ✔ tidyr   1.2.0     ✔ stringr 1.4.0
+#> ✔ readr   2.1.2     ✔ forcats 0.5.1
+#> ── Conflicts ────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
+```
+
+
 This section will provide some examples of models that can deal with *count* data. Typically, count data occurs when the dependent variable is the counted number of occurrences of an event - for example the number of patients arriving in an emergency department (A&E) in a given time of the day - e.g. between 10:00 and 11:00. In this case, the dependent variable (the number of patients) has several characteristics that make it unsuitable for analysis with standard linear models such as linear regression: their distribution is discrete, composed only of non-negative integers, and is often positively skewed, with many observations having a value of 0. 
 
 Another characteristic is that the variance of the observations (e.g. the variance of the number of counts across observations within the same condition) increases with their expected value (e.g. the average number of counts for that condition)^[This makes sense if you think that when the expected number of counts is very low, say $\approx 1$, there cannot be many observations with very high counts - otherwise their average wouldn't be as low (recall that counts are strictly non-negative). In other words, the variance must be low when the average is also low.].
@@ -51,12 +64,12 @@ lines(x_, exp(a+b*x_))
 segments(x,exp(a+b*x),x,y, lwd=1,lty=3, col="red")
 ```
 
-<img src="04-count-data_files/figure-html/unnamed-chunk-1-1.png" width="384" style="display: block; margin: auto;" />
+<img src="04-count-data_files/figure-html/unnamed-chunk-2-1.png" width="384" style="display: block; margin: auto;" />
 
 We can adjust the code above to simulate the same data with some degree of over-dispersion, using a negative binomial distribution, for different values of the precision parameter theta ($\theta$), which regulate the degree of overdispersion. Importantly, these datapoints are simulated assuming the same function fo the average (expected) number of counts (same also as the previous figure), they just differe in the amount of overdispersion relative to a Poissone model. Note that for value arbitrarily large of the precision parameter $\theta \rightarrow \infty$ (bottom-right panel) the negative binomial converges to the Poisson.
 
 
-<img src="04-count-data_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" />
+<img src="04-count-data_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" />
 
 :::
 
@@ -93,15 +106,6 @@ In R we begin by loading the data
 
 
 ```r
-library(tidyverse)
-#> ── Attaching packages ─────────────────── tidyverse 1.3.1 ──
-#> ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-#> ✔ tibble  3.1.7     ✔ dplyr   1.0.9
-#> ✔ tidyr   1.2.0     ✔ stringr 1.4.0
-#> ✔ readr   2.1.2     ✔ forcats 0.5.1
-#> ── Conflicts ────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
 d <- read_csv("../data/nb_units.csv", show_col_types = F) # data availabel in the data folder of the repository
 d
 #> # A tibble: 930 × 3
@@ -133,7 +137,7 @@ d %>%
 ```
 
 <table>
-<caption>(\#tab:unnamed-chunk-4)Mean and Variance of weekly units of alcohol reported.</caption>
+<caption>(\#tab:unnamed-chunk-5)Mean and Variance of weekly units of alcohol reported.</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> condition </th>
@@ -172,7 +176,7 @@ d %>%
   theme_minimal() 
 ```
 
-<img src="04-count-data_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" />
+<img src="04-count-data_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" />
 
 
 To estimate the negative-binomial model, we can use the function `glm.nb()` from available in the `MASS` package. Our predictor condition is categorical with 3 levels and therefore it is coded internally as a set of 2 dummy variables. We can see how the contrast is set using
@@ -448,8 +452,8 @@ d %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="04-count-data_files/figure-html/unnamed-chunk-17-1.png" alt="The black line represent the predicted probability of the data (note that I clipped the x-axis at 40)" width="480" />
-<p class="caption">(\#fig:unnamed-chunk-17)The black line represent the predicted probability of the data (note that I clipped the x-axis at 40)</p>
+<img src="04-count-data_files/figure-html/unnamed-chunk-18-1.png" alt="The black line represent the predicted probability of the data (note that I clipped the x-axis at 40)" width="480" />
+<p class="caption">(\#fig:unnamed-chunk-18)The black line represent the predicted probability of the data (note that I clipped the x-axis at 40)</p>
 </div>
 
 
@@ -465,7 +469,7 @@ nd %>%
   labs(y="log (probability)")
 ```
 
-<img src="04-count-data_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" />
+<img src="04-count-data_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" />
 
 
 
