@@ -141,10 +141,10 @@ y_i \sim \text{Poisson} \left(\lambda \right) \implies \mathbb{E}(y)=Var(y)=\lam
 <p>As mentioned above, data are often overdispersed relative to the Poisson (that is, their variance is larger than the mean). This is an issue because when the data are overdispersed then our results may be largely influences by few extreme datapoints. Moreover, we will have the wrong estimated about the variability of the data. To account for overdispersion we can use the negative binomial which can be seen as a generalization of the Poisson model<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The name &lt;em&gt;negative binomial&lt;/em&gt; comes from a sampling procedure that give rise to this distribution: basically the negative binomial gives the probability of the number of successes in a sequence of independent and identically distributed Bernoulli trials before a specified (non-random) number of failures occur (this pre-fixed number of failures is a parameter of the negative binomial under an alternative parametrization of this distribution).&lt;/p&gt;"><sup>11</sup></a>.</p>
 <p>Formally, the negative binomial model with 1 predictor <span class="math inline">\(x\)</span> can be notated as
 <span class="math display">\[
-\begin{align}
+\begin{aligned}
 y_i &amp; \sim \text{NegBinomial} \left(\lambda_i, \theta \right)\\
 \log( \lambda_i) &amp; = \beta_0 + \beta_1 x_i
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>The negative binomial is very similar to the Poisson - in particular it still the case that <span class="math inline">\(\mathbb{E}(y)=\lambda\)</span>. However, it includes an additional precision (or “reciprocal dispersion”) parameter which I referred to as <span class="math inline">\(\theta\)</span><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;I choose ‘theta’ for consistency with the R output but note that this is sometime referred to as &lt;span class="math inline"&gt;\(\phi\)&lt;/span&gt; in the literature &lt;code&gt;¯\_(ツ)_/¯&lt;/code&gt; &lt;/p&gt;'><sup>12</sup></a>. Essentially, whereas for the Poisson we had that <span class="math inline">\(Var(y) = \mathbb{E}(y)\)</span>, now we have that
 <span class="math display">\[
