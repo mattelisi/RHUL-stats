@@ -13,10 +13,9 @@ biblio-style: apalike
 csl: chicago-fullnote-bibliography.csl
 ---
 
-![Pop-art brain according to [Dall-E](https://labs.openai.com/s/Zr8sPS7hl9f6hZRKtQhrbTzO).](images/pop_brain.png)
-
-
 # About
+
+![Pop-art brain according to [Dall-E](https://labs.openai.com/s/Zr8sPS7hl9f6hZRKtQhrbTzO).](images/pop_brain.png)
 
 This online book is created and maintained by [Matteo Lisi](https://mlisi.xyz/) and is meant to be a shared resource for staff and students at the [Department of Psychology of Royal Holloway, University of London](https://www.royalholloway.ac.uk/research-and-teaching/departments-and-schools/psychology/). It will contain a miscellanous set of tutorial, examples, case studies, workshops materials and any other useful material related to data analysis and modelling. These will be added and revised over time, based on the most common questions and requests that I receive.
 

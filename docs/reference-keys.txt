@@ -29,6 +29,8 @@ anchoring-and-alcohol-units
 adding-predictors
 plotting-model-fit
 ordinal
+ordered-logistic-regression
+mixed-effects-ordinal-regression
 meta-analysis
 missing-data
 types-of-missing-data
@@ -43,3 +45,6 @@ glm-formulation-of-equal-variance-sdt-models
 bayesian-confidence-in-equal-variance-sdt
 unequal-variance-sdt
 optimal-confidence-in-unequal-variance-sdt
+useful-links-resources
+statistical-theory
+map-of-univariate-statistical-distributions
