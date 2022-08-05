@@ -26,7 +26,7 @@ Technically, these approaches can help determine whether the missingness depends
 
 ## Causal analysis and Bayesian imputation
 
-The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is , treating the missing data as parameter and estimating them). 
+The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is, treating the missing data as parameter and estimating them). 
 
 I plan to create and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of [the excellent book by Richard McElreath _Statistical Rethinking_](https://xcelab.net/rm/statistical-rethinking/)[@statrethinking] which present a very accessible worked example of how to do this in R.
 

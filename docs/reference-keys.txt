@@ -33,3 +33,10 @@ missing-data
 types-of-missing-data
 deciding-whether-the-data-are-mcar
 causal-analysis-and-bayesian-imputation
+SDT
+equal-variance-gaussian-sdt
+optimal-decision-rule
+visualizing-sdr-in-r
+estimating-the-parameters-from-data
+glm-formulation-of-equal-variance-sdt-models
+bayesian-confidence-in-equal-variance-sdt

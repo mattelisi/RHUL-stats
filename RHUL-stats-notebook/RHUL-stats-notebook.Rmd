@@ -85,7 +85,7 @@ d <- read_csv('../data/survey_march22/stats-survey-rhul_edit.csv')
 
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('models_') & !contains('TEXT')) %>%
+  dplyr::select(starts_with('models_') & !contains('TEXT')) %>%
   mutate(id = 1:nrow(.)) %>%
   pivot_longer(starts_with('models_'),names_to = 'what') %>%
   filter(!is.na(value)) %>%
@@ -136,7 +136,7 @@ Here people indicated their interest for topics related to data analysis.
 ```{r, message=FALSE, echo=FALSE, warning=F,fig.height=4,fig.width=7,fig.align='center'}
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('extra_') & !contains('TEXT')) %>%
+  dplyr::select(starts_with('extra_') & !contains('TEXT')) %>%
   mutate(id = 1:nrow(.)) %>%
   pivot_longer(starts_with('extra_'),names_to = 'what') %>%
   filter(!is.na(value)) %>%
@@ -166,7 +166,7 @@ This question was about likelihood of using different formats of support
 ```{r, message=FALSE, echo=FALSE, warning=F,fig.height=6,fig.width=6,fig.align='center'}
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('format_')) %>%
+  dplyr::select(starts_with('format_')) %>%
   mutate(id = 1:nrow(.)) %>%
   pivot_longer(starts_with('format_'),names_to = 'what') %>%
   mutate(value=factor(value, ordered=T, levels=c("Very unlikely",
@@ -582,6 +582,11 @@ options(knitr.table.format = "html")
 ```
 # Models for count data {#count-data}
 
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+
 This section will provide some examples of models that can deal with *count* data. Typically, count data occurs when the dependent variable is the counted number of occurrences of an event - for example the number of patients arriving in an emergency department (A&E) in a given time of the day - e.g. between 10:00 and 11:00. In this case, the dependent variable (the number of patients) has several characteristics that make it unsuitable for analysis with standard linear models such as linear regression: their distribution is discrete, composed only of non-negative integers, and is often positively skewed, with many observations having a value of 0. 
 
 Another characteristic is that the variance of the observations (e.g. the variance of the number of counts across observations within the same condition) increases with their expected value (e.g. the average number of counts for that condition)^[This makes sense if you think that when the expected number of counts is very low, say $\approx 1$, there cannot be many observations with very high counts - otherwise their average wouldn't be as low (recall that counts are strictly non-negative). In other words, the variance must be low when the average is also low.].
@@ -603,7 +608,10 @@ or alternatively
 $$
 \lambda_i = e^{\beta_0 + \beta_1 x_i}
 $$
-Which suggest that we can use the exponential function (in R the function `exp()`) to calculate the predicted values of the mean and variance of the dependent variable for any values of the predictors.
+Which indicates that we can use the exponential function (in R the function `exp()`) to calculate the predicted values of the mean (more precisely, the expected value, $\mathbb{E}(y)$) and variance ($Var(y)$) of the dependent variable. This relies on the property of the Poisson distribution^[The symbol $\implies$ is used to denote logical implication, e.g. $(A=B)\implies (B=A)$ - symmetry of logical equivalence.]
+$$
+y_i \sim \text{Poisson} \left(\lambda \right) \implies \mathbb{E}(y)=Var(y)=\lambda
+$$
 
 
 However, in practice, data often do not conform to the constraint of having identical mean and variance. Often the observed variance of the count is higher than what predicted according to the Poisson model (we say in this case that the data is _over-dispersed_).
@@ -629,10 +637,10 @@ lines(x_, exp(a+b*x_))
 segments(x,exp(a+b*x),x,y, lwd=1,lty=3, col="red")
 ```
 
-We can adjust the code above to simulate the same data with some degree of over-dispersion, using a negative binomial distribution, for different values of the precision parameter theta ($\theta$), which regulate the degree of overdispersion. Note that for value arbitrarily large of the precision parameter $\theta \rightarrow \infty$ the negative binomial converges to the Poisson.
+We can adjust the code above to simulate the same data with some degree of over-dispersion, using a negative binomial distribution, for different values of the precision parameter theta ($\theta$), which regulate the degree of overdispersion. Importantly, these datapoints are simulated assuming the same function fo the average (expected) number of counts (same also as the previous figure), they just differe in the amount of overdispersion relative to a Poissone model. Note that for value arbitrarily large of the precision parameter $\theta \rightarrow \infty$ (bottom-right panel) the negative binomial converges to the Poisson.
 
 
-```{r, fig.width=8, fig.height=8, fig.align='center', echo=FALSE}
+```{r, fig.width=6, fig.height=6, fig.align='center', echo=FALSE}
 set.seed(4)
 n <- 100
 x <- runif(n, -2, 2)
@@ -674,10 +682,19 @@ segments(x,exp(a+b*x),x,yInf, lwd=1,lty=3, col="red")
 
 As mentioned above, data are often overdispersed relative to the Poisson (that is, their variance is larger than the mean). This is an issue because when the data are overdispersed then our results may be largely influences by few extreme datapoints. Moreover, we will have the wrong estimated about the variability of the data. To account for overdispersion we can use the negative binomial which can be seen as a generalization of the Poisson model^[The name _negative binomial_ comes from a sampling procedure that give rise to this distribution: basically the negative binomial gives the probability of the number of successes in a sequence of independent and identically distributed Bernoulli trials before a specified (non-random) number of failures occur (this pre-fixed number of failures is a parameter of the negative binomial under an alternative parametrization of this distribution).].
 
-The negative binomial is very similar to the Poisson, but includes an additional precision (or "reciprocal dispersion") parameter which I referred to as $\theta$^[I choose 'theta' for consistency with the R output but note that this is sometime referred to as $\phi$ in the literature `¯\_(ツ)_/¯` ]. Essentially, whereas for the Poisson we had that $Var(y) = \mathbb{E}(y)$, now we have that
+Formally, the negative binomial model with 1 predictor $x$ can be notated as
+$$
+\begin{align}
+y_i & \sim \text{NegBinomial} \left(\lambda_i, \theta \right)\\
+\log( \lambda_i) & = \beta_0 + \beta_1 x_i
+\end{align}
+$$
+
+The negative binomial is very similar to the Poisson - in particular it still the case that $\mathbb{E}(y)=\lambda$. However, it includes an additional precision (or "reciprocal dispersion") parameter which I referred to as $\theta$^[I choose 'theta' for consistency with the R output but note that this is sometime referred to as $\phi$ in the literature `¯\_(ツ)_/¯` ]. Essentially, whereas for the Poisson we had that $Var(y) = \mathbb{E}(y)$, now we have that
 $$
 Var(y) = \mathbb{E}(y) + \frac{\mathbb{E}(y)^2}{\theta}
 $$
+
 
 ## Examples 
 
@@ -687,13 +704,12 @@ To see how this would work in practice, I use negative binomial to analyse a dat
 
 The goal of the study was to use the anchoring effect to:
 
-> ...to see if we could attenuate under-reporting of alcohol consumption (which is a medical problem). Participants in a high-anchor condition were asked “do you drink more or less than 40 units of alcohol a week”, and were then asked to estimate exactly how many units they’d consumed. Those in a low anchor condition were initially asked “do you drink more or less than 4 units of alcohol a week” before giving their precise estimate, and those in a control condition just gave their precise estimate.
+> _...to see if we could attenuate under-reporting of alcohol consumption (which is a medical problem). Participants in a high-anchor condition were asked “do you drink more or less than 40 units of alcohol a week”, and were then asked to estimate exactly how many units they’d consumed. Those in a low anchor condition were initially asked “do you drink more or less than 4 units of alcohol a week” before giving their precise estimate, and those in a control condition just gave their precise estimate._
 
 In R we begin by loading the data
 
 ```{r}
-library(tidyverse)
-d <- read_csv("https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/nb_units.csv", show_col_types = F)
+d <- read_csv("../data/nb_units.csv", show_col_types = F) # data availabel in the data folder of the repository
 d
 ```
 
@@ -734,6 +750,7 @@ Note also that for this analysis the variable `units` must contain only integer 
 The following command can be used to estimate the model and examine the results
 
 ```{r}
+library(MASS)
 nb01 <- glm.nb(units ~ condition, data = d)
 summary(nb01)
 ```
@@ -937,7 +954,7 @@ Technically, these approaches can help determine whether the missingness depends
 
 ## Causal analysis and Bayesian imputation
 
-The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is , treating the missing data as parameter and estimating them). 
+The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is, treating the missing data as parameter and estimating them). 
 
 I plan to create and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of [the excellent book by Richard McElreath _Statistical Rethinking_](https://xcelab.net/rm/statistical-rethinking/)[@statrethinking] which present a very accessible worked example of how to do this in R.
 
@@ -962,9 +979,303 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache=FALSE)
 options(knitr.table.format = "html") 
 ```
+# Signal Detection Theory {#SDT}
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+Signal Detection Theory, o SDT, is probably the most important and influential framework for modelling perceptual decisions in forced-choice tasks, and has wide applicability also beyond purely perceptual decision tasks. Here I review and derive some fundamental concepts of equal-variance and unequal variance signal detection theory, and present some R code to simulate the confidence of an optimal observer/decision-maker.
+
+## Equal-variance Gaussian SDT
+
+SDT relies on the idea that information available to the observer / decision-maker can be modeled as a single random variable on a latent decision space. SDT is typically (but not only) applied to detection tasks: each trials a stimulus is presented, consisting of some background noise with or without a signal. The observer is tasked with deciding whether the signal was present or absent (thus there are 2 possible responses, _yes_ and _no_). SDT assumes that in each trial the observer makes their decision on the basis of a random variable, call it $X$, which may be drawn from the signal distribution or from the noise distribution.
+
+In the simplest case, the signal distribution is a Gaussian with variance $\sigma^2=1$ and mean $d'>0$.
+
+\begin{align}
+f_S(x)&=\frac{1}{\sigma\sqrt{2 \pi}} e^{-\frac{(x-d')^2}{2 \sigma^2}}\\
+&=\frac{1}{\sqrt{2 \pi}} e^{-\frac{(x-d')^2}{2}}
+\end{align}
+
+
+And the noise distribution is a second normal distribution with mean $0$ and variance $\sigma^2=1$
+
+$$
+f_N(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}
+$$
+
+Note that the _prior probability_ of signal and noise may not be equal. Let's define the probability of a signal-present trial as $p(S)=\alpha$; we have thus that $p(N)=1-p(S)=1-\alpha$.
+
+### Optimal decision rule
+
+The optimal way to decide whether a particular value of $x$ was drawn from a signal or noise distribution is by using a likelihood-ratio, that is one should responde "yes" whenever
+
+\begin{align}
+\frac{f_S(x)\,p(S)}{f_N(x) \, p(N)} & \ge 1 \\
+\frac{f_S(x)\,\alpha}{f_N(x) \, (1-\alpha)} & \ge 1 
+\end{align}
+
+With some algebraic manipulations, it can be shown that the likelihood ratio decision rule amounts to comparing the value of $x$ to a criterion $c$:
+
+
+\begin{align}
+\frac{f_S(x)\alpha}{f_N(x)(1-\alpha)} & \ge 1 \\
+\frac{f_S(x)}{f_N(x)} & \ge \frac{1-\alpha}{\alpha} \\
+\frac{\frac{1}{\sqrt{2 \pi}} e^{-\frac{(x-d')^2}{2}}}{\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}} & \ge \frac{1-\alpha}{\alpha} \\
+\frac{e^{-\frac{(x-d')^2}{2}}}{e^{-\frac{x^2}{2}}} & \ge \frac{1-\alpha}{\alpha} 
+\end{align}
+
+
+taking the log of both sides
+
+
+\begin{align}
+ \log \left(\frac{e^{-\frac{(x-d')^2}{2}}}{e^{-\frac{x^2}{2}}} \right) & \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+  \log \left(e^{-\frac{(x-d')^2}{2}} \right) - \log \left(e^{-\frac{x^2}{2}} \right) & \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+-\frac{(x-d')^2}{2} + \frac{x^2}{2}  & \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+\frac{-x^2 -(d')^2 + 2d' x + x^2 }{2} & \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+\frac{-(d')^2 + 2d'}{2}x & \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+d'x -\frac{(d')^2}{2}& \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+d'x & \ge \log \left(\frac{1-\alpha}{\alpha}\right) + \frac{(d')^2}{2}\\
+x & \ge \frac{1}{d'}\log \left(\frac{1-\alpha}{\alpha}\right)+ \frac{d'}{2}
+\end{align}
+
+
+The optimal criterion is thus found as $c = \frac{1}{d'}\log \left(\frac{1-\alpha}{\alpha}\right)+ \frac{d'}{2}$. Whenever the $x$ exceed the criterion, $x \ge c$, the observer should respond "signal present" and respond "signal absent" otherwise.
+
+It is easy to verify that when the signal and noise trials are equiprobable, that is $p(s) = p(N) \implies \alpha=0.5$, the optimal criterion becomes $c=\frac{d'}{2}$.
+
+
+---
+
+#### Visualizing SDR in R
+
+We use R to verify visually that the optimal criterion (represented by the vertical red line) is located at horizontal coordinates of the crossover point of the two probability densities:
+
+```{r,fig.height=4,fig.width=6,fig.align='center'}
+# settings
+d_prime <- 2
+sigma <- 1   
+alpha <- 0.5
+
+# support of random variable X (for plotting)
+supp_x <- seq(-2,4,length.out=500) 
+
+# calculate optima criterion
+optimal_c <- 1/d_prime * log((1-alpha)/alpha) + d_prime/2
+
+# calculate probability density and scale by prior probability
+fS <- alpha*dnorm(supp_x, mean=d_prime, sd=sigma)
+fN <- (1-alpha)*dnorm(supp_x, mean=0, sd=sigma)
+
+# plot 
+plot(supp_x, fS, type="l",lwd=2,col="black",xlab="X",ylab="p(X)")
+lines(supp_x, fN, lwd=2,col="dark grey")
+abline(v=optimal_c,lwd=1.5,lty=1,col="red")
+legend("topleft",c(expression("f"["S"]),expression("f"["N"])),col=c("black","dark grey"),lwd=2,title = "source:",bty="n")
+```
+
+(Note that the noise distribution, in dark grey, is centered on zero. The signal distribution is centered on $d'$.)
+
+
+What if we have unequal prior probabilities, e.g. $p(S)=\alpha=0.8$ ?
+
+The optimal criterion is always at the crossover point, which however is in a different location since the two distribution are scaled by their prior proability.
+
+```{r,fig.height=4,fig.width=6,fig.align='center'}
+# Set a different prior probability
+alpha <- 0.8
+
+# calculate optima criterion
+optimal_c <- 1/d_prime * log((1-alpha)/alpha) + d_prime/2
+
+# calculate probability density and scale by prior probability
+fS <- alpha*dnorm(supp_x, mean=d_prime, sd=sigma)
+fN <- (1-alpha)*dnorm(supp_x, mean=0, sd=sigma)
+
+# plot 
+plot(supp_x, fS, type="l",lwd=2,col="black",xlab="X",ylab="p(X)")
+lines(supp_x, fN, lwd=2,col="dark grey")
+abline(v=optimal_c,lwd=1.5,lty=1,col="red")
+legend("topleft",c(expression("f"["S"]),expression("f"["N"])),col=c("black","dark grey"),lwd=2,title = "source:",bty="n")
+```
+
+
+---
+
+### Estimating the parameters from data
+
+The parameters can be easily estimated form the proportions of hits, $p_\text{H}$, and false alarms $p_{\text{FA}}$. (Hits are correct 'yes' responses and faalse alarms are incorrect 'yes' responses.)
+
+Consider first that the probability of a false alarm is just the probability of observing $X \ge c$ when $X$ is drawn from the noise distribution $f_N$.
+
+Thus
+
+$$
+p_{\text{FA}} =  1 - \Phi(c)
+$$
+where $\Phi$ is the cumulative distribution function of the standard normal distribution It words, $\Phi(c)$ is the area that lies to the left of $c$ and under a Gaussian function with mean $0$ and variance $1$. 
+
+Similarly when $X$ is drawn from the signal distribution, the probability of a hit response is the probability that a $x$ drawn from the signal distribution $f_S$ is greater than the criterion $c$,
+$$
+p_{\text{H}} =  1 - \Phi(c - d')
+$$
+Thus, if we know the proportion of hits and false alarms, we can estimate $c$ and $d'$ using the inverse of $\Phi$, which can be notated as $\Phi^{-1}$ and its often referred to as the _quantile function_
+
+$$
+c = \Phi^{-1}\left(1 -  p_{\text{FA}}\right) = - \Phi^{-1}\left(p_{\text{FA}}\right) \\
+d' = c - \Phi^{-1}\left(1 -  p_{\text{H}}\right) =\Phi^{-1}\left(p_{\text{H}}\right) - \Phi^{-1}\left(p_{\text{FA}}\right) 
+$$
+
+
+---
+
+### GLM formulation of equal-variance SDT models
+
+Note that the above SDT model could be reformulated a _probit_ generalized linear model. This could be expressed as 
+
+$$
+\Phi^{-1}(p_{\text{yes}}) = \beta_0 + \beta_1 x
+$$
+where $p_{\text{yes}}$ is the probability of the observer responding that the signal was present, and $x$ is a variable that indicates the presence/absence of the signal as 1/0, respectively. The similarity with the SDT model is evident if we consider that, in the GLM, the probability of a hit or a false alarm correspond to $p_{\text{yes}}$ when the signal is present (that is $x=1$) or absent (that is $x=0$), respectively. This allows mapping the signal detection theory parameters, $d'$ and $c$ to the GLM intercept and slope parameters, $\beta_0$ and $\beta_1$
+
+$$
+c = -\Phi^{-1}(p_{\text{FA}}) = - \beta_0
+$$
+and 
+
+$$
+d' = \Phi^{-1}(p_{\text{H}}) - \Phi^{-1}(p_{\text{FA}}) = \beta_0 + \beta_1 -\beta_0 = \beta_1
+$$
+Recognizing this identity makes it easier to use statistical packages such as R to easily analyse complex design with multiple conditions and interaction effects. It also makes it possible to estimate multi-level (or hierarchical, random-effects) SDT models.
+
+
+## Bayesian confidence in equal-variance SDT
+
+Formally, confidence should be the statistical definition of confidence is the Bayesian posterior probability that a decision was correct given the evidence available to the observer.
+
+First some notation. Let'use $S$ to indicate the event that a signal was present (an event is something to which we can assign a probability) and $N$ to indicate the event that only noise was presented. Say the observer respond yes, their confidence should correspond to the posterior probability $p(S\mid x)$, that is the probability that a signal was present given that we observed $x$.
+
+This can be calculated applying Bayes theorem:
+
+
+\begin{align}
+p(S \mid x) & = \frac{p(x \mid S)\times p(S)}{p(x)} \\
+& = \frac{p(x \mid S) p(S)}{p(x \mid S) p(S)+p(x \mid N) p(N)} \\
+& = \frac{p(x \mid S) \alpha}{p(x \mid S) \alpha+p(x \mid N) (1-\alpha)}
+\end{align}
+
+
+This can be simplified further in cases where we have equal probabilities $p(s) = p(N) \implies \alpha=0.5$
+$$
+p(S \mid x)_{\alpha=0.5} =  \frac{p(x \mid S)}{p(x \mid S)+p(x \mid N)}
+$$
+
+Note also that the confidence for the _signal absent_ trials $N$ is calculated in the same way:
+
+$$
+p(N \mid x)_{\alpha=0.5} =  \frac{p(x \mid S)}{p(x \mid N)+p(x \mid N)}
+$$
+
+The question is whether the distribution of confidence in correct and wrong responses is similar for target present and target absent trials. 
+
+Note that in target present trials correct responses are hits, whereas wrong responses are misses; in target absent trials correct responses are correct rejections, and wrong responses are false alarms.
+
+This can be simulated in R as follow
+
+```{r,fig.height=2.5,fig.width=7,fig.align='center'}
+# load ggplot library, it makes it easier to generate plots
+library(ggplot2)
+
+# settings
+d_prime <- 1.5
+sigma <- 1   
+alpha <- 0.5
+
+# calculate optima criterion
+optimal_c <- 1/d_prime * log((1-alpha)/alpha) + d_prime/2
+
+# simulate 2*10^4 trials and calculate the confidence 
+N_trials <- 2*10^3
+tar_pres <- c(rep(0,N_trials/2),rep(1,N_trials/2))
+
+# simulate X by adding Gaussian noise (function rnorm())
+x <- tar_pres*d_prime + rnorm(length(tar_pres), mean=0, sd=1)
+resp_yes <- ifelse(x >= optimal_c,1,0)
+
+# define a custom function to calculate confidence
+confidenceSDT1 <- function(x,resp,d_prime, alpha=0.5){
+  conf <- ifelse(
+    resp==1,
+    dnorm(x,mean=d_prime,sd=1)/(dnorm(x,mean=d_prime,sd=1)+dnorm(x,mean=0,sd=1)),
+    dnorm(x,mean=0,sd=1)/(dnorm(x,mean=d_prime,sd=1)+dnorm(x,mean=0,sd=1))
+  )
+  return(conf)
+}
+
+# calculate confidence
+confidence <- confidenceSDT1(x, resp_yes, d_prime=1.5)
+
+# put into a dataframe for plotting
+d <- data.frame(confidence, x, tar_pres, resp_yes)
+
+# check which simulated responses are correct
+d$correct <- ifelse((d$tar_pres==1 & d$resp_yes==1)|(d$tar_pres==0 & d$resp_yes==0),1,0)
+
+# plot
+d$tar <- ifelse(d$tar_pres==1,"signal present","signal absent")
+d$correct <- ifelse(d$correct==1," correct response","wrong response")
+ggplot(d,aes(x=confidence,group=correct,color=correct,fill=correct))+
+  geom_histogram(position = 'dodge',aes(y=..density..), binwidth=0.05)+
+  facet_grid(.~tar)+
+  scale_color_manual(values=c("dark green","red"),name="")+
+  scale_fill_manual(values=c("dark green","red"),name="")+
+  labs(x="confidence level")+
+  theme_classic()
+```
+
+The distribution of confidence is - as expected - different from correct and wrong response: it is peaked near 1 for correct responses, and peaked near 0.5 for errors. Importantly, the separation between confidence distributions in correct and wrong responses is similar in both signal absent (left panel) and signal present (right panel) trials. 
+
+```{r,fig.height=5,fig.width=5,fig.align='center'}
+# functions to compute true and false positive rates
+TPR <- function(d,th){ sum(d$tar_pres==1 & d$x>th) / sum(d$tar_pres==1)}
+FPR <- function(d,th){ sum(d$tar_pres==0 & d$x>th) / sum(d$tar_pres==0)}
+
+# use all the sorted values are possible threshods
+thresholds <- sort(d$x)
+
+roc <- data.frame(y=sapply(thresholds, function(th){TPR(d[d$resp_yes==1,],th)}), 
+                 x=sapply(thresholds, function(th){FPR(d[d$resp_yes==1,],th)}) )
+
+roc0 <- data.frame(y=sapply(thresholds, function(th){TPR(d[d$resp_yes==0,],th)}), 
+                 x=sapply(thresholds, function(th){FPR(d[d$resp_yes==0,],th)}) )
+
+ggplot(roc,aes(x,y))+geom_point(color="blue")+theme_classic()+labs(y="Type-2 hits", x="Type-2 FA") +geom_abline(intercept=0,slope=1,lty=2)+geom_point(data=roc0,color="dark red")+ggtitle("Equal-variance SDT, Type 2 sensitivity")
+```
+
+The ROC curve derived from confidence ratings discrimate equally well correct vs wrong responses (in the plot, blue is the curve for target present responses).
+
+<!--chapter:end:20-SDT.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+# example R options set globally
+options(width = 60)
+
+# example chunk options set globally
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE
+  )
+
+# misc
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache=FALSE)
+options(knitr.table.format = "html") 
+```
 `r if (knitr::is_html_output()) '
 # References {-}
 '`
 
-<!--chapter:end:10-references.Rmd-->
+<!--chapter:end:999-references.Rmd-->
 
