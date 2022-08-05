@@ -4,19 +4,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title> 7 Missing data | RHUL Psychology Statistical modelling notebook</title>
+<title> 8 Missing data | RHUL Psychology Statistical modelling notebook</title>
 <meta name="author" content="Matteo Lisi">
-<meta name="description" content="7.1 Types of missing data Following the work of Rubin19, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
+<meta name="description" content="8.1 Types of missing data Following the work of Rubin19, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content=" 7 Missing data | RHUL Psychology Statistical modelling notebook">
+<meta property="og:title" content=" 8 Missing data | RHUL Psychology Statistical modelling notebook">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://mlisi.xyz/RHUL-stats/missing-data.html">
-<meta property="og:image" content="https://mlisi.xyz/RHUL-stats/images/bull_picasso.jpg">
-<meta property="og:description" content="7.1 Types of missing data Following the work of Rubin19, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
+<meta property="og:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
+<meta property="og:description" content="8.1 Types of missing data Following the work of Rubin19, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content=" 7 Missing data | RHUL Psychology Statistical modelling notebook">
-<meta name="twitter:description" content="7.1 Types of missing data Following the work of Rubin19, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
-<meta name="twitter:image" content="https://mlisi.xyz/RHUL-stats/images/bull_picasso.jpg">
+<meta name="twitter:title" content=" 8 Missing data | RHUL Psychology Statistical modelling notebook">
+<meta name="twitter:description" content="8.1 Types of missing data Following the work of Rubin19, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
+<meta name="twitter:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -74,9 +74,10 @@ Statistical modelling notebook</a>
 <li><a class="" href="intro-R.html"><span class="header-section-number">3</span> Introduction to R</a></li>
 <li><a class="" href="linear-models.html"><span class="header-section-number">4</span> Linear models</a></li>
 <li><a class="" href="count-data.html"><span class="header-section-number">5</span> Models for count data</a></li>
-<li><a class="" href="meta-analysis.html"><span class="header-section-number">6</span> Meta-analyses</a></li>
-<li><a class="active" href="missing-data.html"><span class="header-section-number">7</span> Missing data</a></li>
-<li><a class="" href="SDT.html"><span class="header-section-number">8</span> Signal Detection Theory</a></li>
+<li><a class="" href="ordinal.html"><span class="header-section-number">6</span> Models for ordinal data</a></li>
+<li><a class="" href="meta-analysis.html"><span class="header-section-number">7</span> Meta-analyses</a></li>
+<li><a class="active" href="missing-data.html"><span class="header-section-number">8</span> Missing data</a></li>
+<li><a class="" href="SDT.html"><span class="header-section-number">9</span> Signal Detection Theory</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -85,13 +86,13 @@ Statistical modelling notebook</a>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="missing-data" class="section level1" number="7">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="missing-data" class="section level1" number="8">
 <h1>
-<span class="header-section-number"> 7</span> Missing data<a class="anchor" aria-label="anchor" href="#missing-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number"> 8</span> Missing data<a class="anchor" aria-label="anchor" href="#missing-data"><i class="fas fa-link"></i></a>
 </h1>
-<div id="types-of-missing-data" class="section level2" number="7.1">
+<div id="types-of-missing-data" class="section level2" number="8.1">
 <h2>
-<span class="header-section-number">7.1</span> Types of missing data<a class="anchor" aria-label="anchor" href="#types-of-missing-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.1</span> Types of missing data<a class="anchor" aria-label="anchor" href="#types-of-missing-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>Following the work of Rubin<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;DONALD B. RUBIN, &lt;span&gt;“&lt;span class="nocase"&gt;Inference and missing data&lt;/span&gt;,”&lt;/span&gt; &lt;em&gt;Biometrika&lt;/em&gt; 63, no. 3 (December 1976): 581–92, &lt;a href="https://doi.org/10.1093/biomet/63.3.581" role="doc-biblioref"&gt;https://doi.org/10.1093/biomet/63.3.581&lt;/a&gt;.&lt;/p&gt;'><sup>19</sup></a></span>, missing data are typically grouped in 3 categories:</p>
 <ul>
@@ -104,16 +105,16 @@ Statistical modelling notebook</a>
 <li><p>Missing not at random (<strong>MNAR</strong>). This means that the probability of being missing varies for reasons that are unknown to us, and may depends on the missing values themselves. Formally this means that <span class="math inline">\(\Pr(R=0|Y_\mathrm{obs},Y_\mathrm{mis},\psi)\)</span> does not simplify in any way. This case is the most hard to handle: a complete case analyses may or may not be biased, but there is no way of knowing it and we may have to find more information about what caused missingness.</p></li>
 </ul>
 </div>
-<div id="deciding-whether-the-data-are-mcar" class="section level2" number="7.2">
+<div id="deciding-whether-the-data-are-mcar" class="section level2" number="8.2">
 <h2>
-<span class="header-section-number">7.2</span> Deciding whether the data are MCAR<a class="anchor" aria-label="anchor" href="#deciding-whether-the-data-are-mcar"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.2</span> Deciding whether the data are MCAR<a class="anchor" aria-label="anchor" href="#deciding-whether-the-data-are-mcar"><i class="fas fa-link"></i></a>
 </h2>
 <p>As MCAR is the only scenario in which it is safe to do a complete case analysis, it would seem useful to have way to test this assumption. Some approaches have been proposed to test whether the data are MCAR, but they are not widely used and it’s not clear how useful they are in practice. For example one could run a logistic regression with “missingness” as dependent variable (e.g. an indicator variable set to 1 if data is missing and 0 otherwise), and all other variables as predictors - if the data are MCAR then none of the predictors should predict missingness. A popular alternative, implemented in several software packages is Little’s test<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Roderick J. A. Little, &lt;span&gt;“A Test of Missing Completely at Random for Multivariate Data with Missing Values,”&lt;/span&gt; &lt;em&gt;Journal of the American Statistical Association&lt;/em&gt; 83, no. 404 (1988): 1198–1202, &lt;a href="http://www.jstor.org/stable/2290157" role="doc-biblioref"&gt;http://www.jstor.org/stable/2290157&lt;/a&gt;.&lt;/p&gt;'><sup>21</sup></a></span>.</p>
 <p>Technically, these approaches can help determine whether the missingness depends on some observed variables (that is, if they are MAR), but strictly speaking cannot exclude missingness due to unobserved variables (MNAR scenario). Nevertheless, if one has good reasons to believe that the data are MCAR, and want to add some statistical test that corroborate this assumption, these could be reasonable tests to do. However, it remains important to also discuss openly possible reasons and mechanisms of missingness, and explain why we deem it a priori plausible that the data are MCAR. In fact, <em>statistical tests alone cannot tell whether data are missing completely at random</em>. The terms MCAR, MAR and MNAR refers to the <em>causal</em> mechanisms that is responsible for missing data and, strictly speaking, causal claims cannot be decided uniquely on the basis of a simple statistical test. If the data “pass” the test it would provide some additional support to the assumption that they are MCAR, but in and of itself the test alone does not fully satisfy the assumptions of MCAR. To see why note that MCAR (as formally defined above) assumes also that there should be no relationship between the missingness on a particular variable and the values of that same variable: but since this is a question about what is missing from the data, it cannot be tested with any quantitative analysis of the available data. Finally, it should be added that as these are null-hypothesis significance test, a failure to reject the null hypothesis does not, in and of itself, provide evidence for the null hypothesis (that the data are MCAR). It may be also that we don’t have enough power to reliably detect the pattern in the missingness.</p>
 </div>
-<div id="causal-analysis-and-bayesian-imputation" class="section level2" number="7.3">
+<div id="causal-analysis-and-bayesian-imputation" class="section level2" number="8.3">
 <h2>
-<span class="header-section-number">7.3</span> Causal analysis and Bayesian imputation<a class="anchor" aria-label="anchor" href="#causal-analysis-and-bayesian-imputation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.3</span> Causal analysis and Bayesian imputation<a class="anchor" aria-label="anchor" href="#causal-analysis-and-bayesian-imputation"><i class="fas fa-link"></i></a>
 </h2>
 <p>The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is, treating the missing data as parameter and estimating them).</p>
 <p>I plan to create and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of <a href="https://xcelab.net/rm/statistical-rethinking/">the excellent book by Richard McElreath <em>Statistical Rethinking</em></a><span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Richard McElreath, &lt;em&gt;Statistical Rethinking, a Course in r and Stan&lt;/em&gt;, 2nd ed. (Chapman &amp;amp; Hall/CRC Press, 2020), &lt;a href="https://xcelab.net/rm/statistical-rethinking/" role="doc-biblioref"&gt;https://xcelab.net/rm/statistical-rethinking/&lt;/a&gt;.&lt;/p&gt;'><sup>22</sup></a></span> which present a very accessible worked example of how to do this in R.</p>
@@ -122,15 +123,15 @@ Statistical modelling notebook</a>
 </div>
 
   <div class="chapter-nav">
-<div class="prev"><a href="meta-analysis.html"><span class="header-section-number">6</span> Meta-analyses</a></div>
-<div class="next"><a href="SDT.html"><span class="header-section-number">8</span> Signal Detection Theory</a></div>
+<div class="prev"><a href="meta-analysis.html"><span class="header-section-number">7</span> Meta-analyses</a></div>
+<div class="next"><a href="SDT.html"><span class="header-section-number">9</span> Signal Detection Theory</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#missing-data"><span class="header-section-number">7</span> Missing data</a></li>
-<li><a class="nav-link" href="#types-of-missing-data"><span class="header-section-number">7.1</span> Types of missing data</a></li>
-<li><a class="nav-link" href="#deciding-whether-the-data-are-mcar"><span class="header-section-number">7.2</span> Deciding whether the data are MCAR</a></li>
-<li><a class="nav-link" href="#causal-analysis-and-bayesian-imputation"><span class="header-section-number">7.3</span> Causal analysis and Bayesian imputation</a></li>
+<li><a class="nav-link" href="#missing-data"><span class="header-section-number">8</span> Missing data</a></li>
+<li><a class="nav-link" href="#types-of-missing-data"><span class="header-section-number">8.1</span> Types of missing data</a></li>
+<li><a class="nav-link" href="#deciding-whether-the-data-are-mcar"><span class="header-section-number">8.2</span> Deciding whether the data are MCAR</a></li>
+<li><a class="nav-link" href="#causal-analysis-and-bayesian-imputation"><span class="header-section-number">8.3</span> Causal analysis and Bayesian imputation</a></li>
 </ul>
 
       <div class="book-extra">

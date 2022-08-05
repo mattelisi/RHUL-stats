@@ -1,0 +1,5 @@
+# Models for ordinal data {#ordinal}
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+```
