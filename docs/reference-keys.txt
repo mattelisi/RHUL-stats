@@ -40,3 +40,5 @@ visualizing-sdr-in-r
 estimating-the-parameters-from-data
 glm-formulation-of-equal-variance-sdt-models
 bayesian-confidence-in-equal-variance-sdt
+unequal-variance-sdt
+optimal-confidence-in-unequal-variance-sdt
