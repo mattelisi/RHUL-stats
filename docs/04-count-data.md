@@ -70,10 +70,10 @@ As mentioned above, data are often overdispersed relative to the Poisson (that i
 
 Formally, the negative binomial model with 1 predictor $x$ can be notated as
 $$
-\begin{align}
+\begin{aligned}
 y_i & \sim \text{NegBinomial} \left(\lambda_i, \theta \right)\\
 \log( \lambda_i) & = \beta_0 + \beta_1 x_i
-\end{align}
+\end{aligned}
 $$
 
 The negative binomial is very similar to the Poisson - in particular it still the case that $\mathbb{E}(y)=\lambda$. However, it includes an additional precision (or "reciprocal dispersion") parameter which I referred to as $\theta$^[I choose 'theta' for consistency with the R output but note that this is sometime referred to as $\phi$ in the literature `¯\_(ツ)_/¯` ]. Essentially, whereas for the Poisson we had that $Var(y) = \mathbb{E}(y)$, now we have that
