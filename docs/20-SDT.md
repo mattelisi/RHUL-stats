@@ -250,7 +250,7 @@ d$correct <- ifelse((d$tar_pres==1 & d$resp_yes==1)|(d$tar_pres==0 & d$resp_yes=
 d$tar <- ifelse(d$tar_pres==1,"signal present","signal absent")
 d$correct <- ifelse(d$correct==1," correct response","wrong response")
 ggplot(d,aes(x=confidence,group=correct,color=correct,fill=correct))+
-  geom_histogram(position = 'dodge',aes(y=..density..), binwidth=0.05)+
+  geom_histogram(position = 'dodge',aes(y=..density..), binwidth=0.05,alpha=0.9)+
   facet_grid(.~tar)+
   scale_color_manual(values=c("dark green","red"),name="")+
   scale_fill_manual(values=c("dark green","red"),name="")+
@@ -407,7 +407,14 @@ d$correct <- ifelse((d$tar_pres==1 & d$resp_yes==1)|(d$tar_pres==0 & d$resp_yes=
 # plot
 d$tar <- ifelse(d$tar_pres==1,"signal present","signal absent")
 d$correct <- ifelse(d$correct==1," correct response","wrong response")
-ggplot(d,aes(x=confidence,group=correct,color=correct,fill=correct))+geom_density(alpha=0.5,bw=0.01)+facet_grid(.~tar)+scale_color_manual(values=c("dark green","red"),name="")+scale_fill_manual(values=c("dark green","red"),name="")+labs(x="confidence level")+theme_classic()+ggtitle("Unequal-variance SDT")
+ggplot(d,aes(x=confidence,group=correct,color=correct,fill=correct))+
+  geom_histogram(position = 'dodge',aes(y=..density..), binwidth=0.05,alpha=0.9)+
+  facet_grid(.~tar)+
+  scale_color_manual(values=c("dark green","red"),name="")+
+  scale_fill_manual(values=c("dark green","red"),name="")+
+  labs(x="confidence level")+
+  theme_classic()+
+  ggtitle("Unequal-variance SDT")
 ```
 
 <img src="20-SDT_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" />
