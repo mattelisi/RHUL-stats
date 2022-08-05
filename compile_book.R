@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "size img"')
+system('git commit -m "misc minor"')
 system("git push origin main")

@@ -68,7 +68,7 @@ It is easy to verify that when the signal and noise trials are equiprobable, tha
 
 ---
 
-#### Visualizing SDR in R
+#### Visualizing signal detection theory in R
 
 We use R to verify visually that the optimal criterion (represented by the vertical red line) is located at horizontal coordinates of the crossover point of the two probability densities:
 
