@@ -6,12 +6,15 @@ site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
 url: https://mlisi.xyz/RHUL-stats/
-cover-image: images/bull_picasso.jpg
+cover-image: images/pop_brain.png
 description: |
   Notebook for stats support activity at RHUL psych department.
 biblio-style: apalike
 csl: chicago-fullnote-bibliography.csl
 ---
+
+![Pop-art brain according to [Dall-E](https://labs.openai.com/s/Zr8sPS7hl9f6hZRKtQhrbTzO).](images/pop_brain.png)
+
 
 # About
 

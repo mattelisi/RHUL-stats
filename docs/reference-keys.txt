@@ -28,6 +28,7 @@ examples
 anchoring-and-alcohol-units
 adding-predictors
 plotting-model-fit
+ordinal
 meta-analysis
 missing-data
 types-of-missing-data
