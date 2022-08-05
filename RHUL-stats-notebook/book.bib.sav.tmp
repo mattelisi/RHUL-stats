@@ -1,0 +1,137 @@
+@Book{harrer2021doing,
+      title     = {Doing Meta-Analysis With {R}: A Hands-On Guide},
+      author    = {Harrer, Mathias and Cuijpers, Pim and Furukawa Toshi A and Ebert, David D},
+      year      = {2021},
+      publisher = {Chapman \& Hall/CRC Press},
+      address   = {Boca Raton, FL and London},
+      isbn      = {9780367610074},
+      edition   = {1st}
+ }
+
+    
+ @misc{williams_rast_bürkner_2018,
+ title={Bayesian Meta-Analysis with Weakly Informative Prior Distributions},
+ url={psyarxiv.com/7tbrm},
+ DOI={10.31234/osf.io/7tbrm},
+ publisher={PsyArXiv},
+ author={Williams, Donald R and Rast, Philippe and Bürkner, Paul - Christian},
+ year={2018},
+ month={Jan}
+}
+
+@article{rubin76,
+    author = {RUBIN, DONALD B.},
+    title = "{Inference and missing data}",
+    journal = {Biometrika},
+    volume = {63},
+    number = {3},
+    pages = {581-592},
+    year = {1976},
+    month = {12},
+    issn = {0006-3444},
+    doi = {10.1093/biomet/63.3.581},
+    url = {https://doi.org/10.1093/biomet/63.3.581},
+    eprint = {https://academic.oup.com/biomet/article-pdf/63/3/581/756166/63-3-581.pdf},
+}
+
+@article{little88,
+ ISSN = {01621459},
+ URL = {http://www.jstor.org/stable/2290157},
+ author = {Roderick J. A. Little},
+ journal = {Journal of the American Statistical Association},
+ number = {404},
+ pages = {1198--1202},
+ publisher = {[American Statistical Association, Taylor & Francis, Ltd.]},
+ title = {A Test of Missing Completely at Random for Multivariate Data with Missing Values},
+ urldate = {2022-04-07},
+ volume = {83},
+ year = {1988}
+}
+
+@book{statrethinking,
+  author = {McElreath, Richard},
+  keywords = {book stats},
+  title = {Statistical Rethinking, A Course in R and Stan},
+  url = {https://xcelab.net/rm/statistical-rethinking/},
+  year = {2020},
+  edition   = {2nd},
+  publisher = {Chapman \& Hall/CRC Press}
+}
+
+@book{vanbuuren_imputation,
+  author = {van Buuren, Stef},
+  keywords = {book stats},
+  title = {Flexible imputation of missing data},
+  url = {https://stefvanbuuren.name/fimd/},
+  year = {2018},
+  edition   = {2nd},
+  publisher = {Chapman \& Hall/CRC Press}
+}
+
+@book{wood_gam,
+  author = {Wood, Simon},
+  keywords = {book stats},
+  title = {Generalized Additive Models: An Introduction with R},
+  url = {https://doi.org/10.1201/9781315370279},
+  year = {2017},
+  edition   = {2nd},
+  publisher = {Chapman \& Hall/CRC Press}
+}
+
+
+@Article{hubble,
+  author  = {Edwin Hubble},
+  journal = {Proceedings of the National Academy of Sciences},
+  title   = {A relation between distance and radial velocity among extra-galactic nebulae},
+  year    = {1929},
+  number  = {3},
+  pages   = {168-173},
+  volume  = {15},
+  doi     = {10.1073/pnas.15.3.168},
+  url     = {https://www.pnas.org/doi/abs/10.1073/pnas.15.3.168},
+}
+
+@Article{Galvin2003,
+  author   = {Galvin, Susan J. and Podd, John V. and Drga, Vit and Whitmore, John},
+  journal  = {Psychonomic Bulletin \& Review},
+  title    = {Type 2 tasks in the theory of signal detectability: {Discrimination} between correct and incorrect decisions},
+  year     = {2003},
+  issn     = {1531-5320},
+  month    = dec,
+  number   = {4},
+  pages    = {843--876},
+  volume   = {10},
+  abstract = {It has been known for over 40 years that there are two fundamentally different kinds of detection tasks in the theory of signal detectability. The Type 1 task is to distinguish between events defined independently of the observer; the Type 2 task is to distinguish between one’s own correct and incorrect decisions about those Type 1 events. For the Type 1 task, the behavior of the detector can be summarized by the traditional receiver operating characteristic (ROC) curve. This curve can be compared with a theoretical ROC curve, which can be generated from overlapping probability functions conditional on the Type 1 events on an appropriate decision axis. We show how to derive the probability functions underlying Type 2 decisions from those for the Type 1 task. ROC curves and the usual measures of performance are readily obtained from those Type 2 functions, and some relationships among various Type 1 and Type 2 performance measures are presented. We discuss the relationshiPbetween Type 1 and Type 2 confidence ratings and caution against the practice of presenting transformed Type 2 ratings as empirical Type 1 ratings.},
+  doi      = {10.3758/BF03196546},
+  url      = {https://doi.org/10.3758/BF03196546},
+}
+
+@Article{Mazor2020,
+  author       = {Mazor, Matan and Friston, Karl J and Fleming, Stephen M},
+  journal      = {eLife},
+  title        = {Distinct neural contributions to metacognition for detecting, but not discriminating visual stimuli},
+  year         = {2020},
+  issn         = {2050-084X},
+  month        = {apr},
+  pages        = {e53900},
+  volume       = {9},
+  abstract     = {Being confident in whether a stimulus is present or absent (a detection judgment) is qualitatively distinct from being confident in the identity of that stimulus (a discrimination judgment). In particular, in detection, evidence can only be available for the presence, not the absence, of a target object. This asymmetry suggests that higher-order cognitive and neural processes may be required for confidence in detection, and more specifically, in judgments about absence. In a within-subject, pre-registered and performance-matched fMRI design, we observed quadratic confidence effects in frontopolar cortex for detection but not discrimination. Furthermore, in the right temporoparietal junction, confidence effects were enhanced for judgments of target absence compared to judgments of target presence. We interpret these findings as reflecting qualitative differences between a neural basis for metacognitive evaluation of detection and discrimination, potentially in line with counterfactual or higher-order models of confidence formation in detection.},
+  article_type = {journal},
+  citation     = {eLife 2020;9:e53900},
+  doi          = {10.7554/eLife.53900},
+  editor       = {Kahnt, Thorsten and Gold, Joshua I and Graziano, Michael},
+  keywords     = {metacognition, self-monitoring, decision-making, confidence, signal detection theory},
+  pub_date     = {2020-04-20},
+  publisher    = {eLife Sciences Publications, Ltd},
+  url          = {https://doi.org/10.7554/eLife.53900},
+}
+
+@Article{Liddell2018,
+  author   = {Torrin M. Liddell and John K. Kruschke},
+  journal  = {Journal of Experimental Social Psychology},
+  title    = {Analyzing ordinal data with metric models: What could possibly go wrong?},
+  year     = {2018},
+  issn     = {0022-1031},
+  pages    = {328-348},
+  volume   = {79},
+  abstract = {We surveyed all articles in the Journal of Personality and Social Psychology (JPSP), Psychological Science (PS), and the Journal of Experimental Psychology: General (JEP:G) that mentioned the term “Likert,” and found that 100% of the articles that analyzed ordinal data did so using a metric model. We present novel evidence that analyzing ordinal data as if they were metric can systematically lead to errors. We demonstrate false alarms (i.e., detecting an effect where none exists, Type I errors) and failures to detect effects (i.e., loss of power, Type II errors). We demonstrate systematic inversions of effects, for which treating ordinal data as metric indicates the opposite ordering of means than the true ordering of means. We show the same problems — false alarms, misses, and inversions — for interactions in factorial designs and for trend analyses in regression. We demonstrate that averaging across multiple ordinal measurements does not solve or even ameliorate these problems. A central contribution is a graphical explanation of how and when the misrepresentations occur. Moreover, we point out that there is no sure-fire way to detect these problems by treating the ordinal values as metric, and instead we advocate use of ordered-probit models (or similar) because they will better describe the data. Finally, although frequentist approaches to some ordered-probit models are available, we use Bayesian methods because of their flexibility in specifying models and their richness and accuracy in providing parameter estimates. An R script is provided for runni
