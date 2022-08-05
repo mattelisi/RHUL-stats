@@ -10,9 +10,9 @@ setwd("/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/RHUL-stats-notebook")
 bookdown::render_book("index.Rmd", "bookdown::bs4_book",
                       output_dir = "../docs",
                       new_session = TRUE)
-bookdown::render_book("index.Rmd", "bookdown::pdf_book",
-                      output_dir = "../",
-                      new_session = TRUE)
+# bookdown::render_book("index.Rmd", "bookdown::pdf_book",
+#                       output_dir = "../",
+#                       new_session = TRUE)
 
 options(bookdown.clean_book = TRUE)
 bookdown::clean_book()
