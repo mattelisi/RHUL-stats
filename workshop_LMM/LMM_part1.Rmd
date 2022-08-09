@@ -1,0 +1,311 @@
+---
+title: "Linear mixed-effects models (LMM)"
+subtitle: "(Part 1)"
+author: "Matteo Lisi"
+date: " "
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [xaringan-themer.css, custom/style.css]
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+      ration: 16:9
+    seal: false
+---
+class: title-slide, center, inverse
+
+# `r rmarkdown::metadata$title`
+
+# `r rmarkdown::metadata$subtitle`
+
+## `r rmarkdown::metadata$author`
+
+### `r rmarkdown::metadata$date`
+
+
+```{r setup, include=FALSE}
+
+# slides & formatting
+options(htmltools.dir.version = FALSE)
+options(crayon.enabled = TRUE)
+
+xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons"))
+
+# css: [rladies-fonts, default, custom/style.css]
+library(xaringanthemer)
+style_solarized_light(colors = c(
+  red = "#f34213",
+  purple = "#3e2f5b",
+  orange = "#ff8811",
+  green = "#136f63",
+  white = "#FFFFFF",
+  blue = " #0000FF"
+))
+
+# R stuff
+library(lme4)
+library(ggplot2)
+nice_theme <- theme_xaringan()+theme(text=element_text(size=9),panel.border=element_blank(),strip.text=element_text(size=rel(0.8)),axis.text=element_text(size=8),panel.grid.minor=element_blank(),axis.line=element_line(size=.4), axis.title=element_text(size=11), legend.title=element_text(size=11))
+theme_set(nice_theme)
+```
+
+
+---
+class: inverse
+
+# Linear mixed-effects model
+
+- Also referred to as multilevel or hierarchical models. The key idea is that these models have multiple levels or _random_ variation.
+--
+
+
+- Useful when our data is clustered in _"observational units"_: e.g. when we have multiple observations per participant (longitudinal & within-subjects designs)
+--
+
+
+- We can have multiple nested observational units (e.g. child, class, school)
+--
+
+
+- These observational units are typically random samples from a larger population on which we would like to make inferences.
+
+---
+
+### Example 1: `sleepstudy`
+
+`sleepstudy` is a dataset in the `lme4` package, with reaction times data from 18 subjects that were restricted to 3 hours of sleep for 10 days.
+
+```{r}
+library(lme4)
+head(sleepstudy)
+```
+
+---
+
+### Example 1: `sleepstudy`
+
+`sleepstudy` is a dataset in the `lme4` package, with reaction times data from 18 subjects that were restricted to 3 hours of sleep for 10 days.
+
+```{r, echo=F}
+DT::datatable(
+  sleepstudy,
+  fillContainer = FALSE, options = list(pageLength = 8)
+)
+```
+
+
+---
+
+```{r sleep1, fig.height=4, dev='svg', message=F}
+ggplot(sleepstudy, aes(x=Days,y=Reaction))+
+  facet_wrap(~Subject,ncol=9)+
+  geom_line(size=0.4)+
+  geom_point()+
+  scale_x_continuous(breaks=seq(0,10,2))+
+  labs(x="Days of sleep deprivation",y="Mean reaction times [ms]")
+```
+
+
+---
+class: inverse
+
+Possible approaches to modelling these data:
+
+- **Complete pooling**: fit a single line for the combined dataset, ignoring it comes from different participants (_wrong_). 
+
+--
+
+- **No pooling**: fit a line for each participant, then do a t-test or calculate confidence interval from these independent individual estimates.
+
+--
+
+- **Partial pooling**: fit a line for each participant whilst taking into account that they come from the same population and thus share some similarities.
+
+---
+class: inverse
+
+### Complete pooling
+
+Simple linear regression
+
+$$\begin{align} y_i & = \beta_0 + \beta_1 x_i + \epsilon_i \\
+\epsilon_i &\sim \mathcal{N}(0, \sigma^2)\end{align}$$
+
+- $y_i$ .orange[response time]
+- $x_i$ .orange[n. days sleep deprivation]
+- $\beta_0$ .orange[intercept]
+- $\beta_1$ .orange[slope]
+- $\epsilon$ .orange[residual errors]
+- $\sigma^2$ .orange[variance of residual errors]
+
+---
+
+### Complete pooling
+
+In R
+
+```{r}
+m.0 <- lm(Reaction ~ Days, data=sleepstudy)
+summary(m.0)
+```
+
+
+---
+
+### Complete pooling
+
+
+```{r, fig.height=4, dev='svg', message=F, echo=F}
+sleepstudy$complete <- predict(m.0)
+
+palette_lines <- viridisLite::viridis(3, alpha = 1, begin = 0.15, end = 0.9, direction = -1)
+
+ggplot(sleepstudy, aes(x=Days,y=Reaction))+
+  facet_wrap(~Subject,ncol=9)+
+  geom_line(aes(y=complete),size=0.8, color=palette_lines[1])+
+  geom_point()+
+  nice_theme+
+  scale_x_continuous(breaks=seq(0,10,2))+
+  labs(x="Days of sleep deprivation",y="Mean reaction times [ms]")
+```
+
+
+---
+
+Problems with complete pooling
+
+```{r, fig.height=4, dev='svg', message=F, echo=F}
+set.seed(2)
+n <- 12
+n_obs <- 30
+Z <- MASS::mvrnorm(n,mu=c(0,0), Sigma=matrix(c(1,-0.75,-0.75,1),ncol=2))
+beta_1 <- rnorm(n, mean=0.7, sd=0.2)
+sigma_y <- 0.35
+sigma_x <- 0.5
+simd <- expand.grid(obs=1:n_obs, id=1:n)
+simd$x <- NA
+simd$y <- NA
+for(i in unique(simd$id)){
+  simd$x[simd$id==i] <- Z[i,1] + rnorm(n_obs,0,sigma_x)
+  simd$y[simd$id==i] <- Z[i,2] + simd$x[simd$id==i]*beta_1[i] - Z[i,1] + rnorm(n_obs,0,sigma_y)
+}
+simd$id <- paste("sj",simd$id,sep="")
+
+ggplot(simd, aes(x=x, y=y, color=id))+
+  geom_point()+
+  scale_color_manual(values=rep("black",n))+
+  geom_smooth(method="lm",se=F,aes(group=1))
+
+```
+
+---
+
+Problems with complete pooling
+
+```{r, fig.height=4, dev='svg', message=F, echo=F}
+ggplot(simd, aes(x=x, y=y, color=id))+
+  geom_point()+
+  scale_color_viridis_d()+
+  geom_smooth(method="lm",se=F) + 
+  geom_smooth(method="lm",se=F,aes(group=1))
+
+```
+
+--
+
+An example of [Simpson's paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox) - usually indicates that a lurking third variable influences both the predictor and the dependent variable.
+
+
+---
+
+### No pooling
+
+--
+
+
+```{r, fig.height=4, dev='svg', message=F, echo=F}
+d0 <- sleepstudy
+d0$prediction <- predict(m.0)
+d0$pooling <- "complete"
+
+
+# estimate individual regressions
+m.list <- lmList(Reaction ~ Days | Subject, data=sleepstudy)
+d1 <- sleepstudy
+d1$prediction <- predict(m.list)
+d1$pooling <- "no"
+
+d <- rbind(d0,d1)
+
+
+ggplot(d, aes(x=Days,y=Reaction))+
+  facet_wrap(~Subject,ncol=9)+
+  geom_line(aes(y=prediction, color=pooling),size=0.8)+
+  scale_color_manual(values=palette_lines[1:2]) +
+  geom_point()+
+  scale_x_continuous(breaks=seq(0,10,2))+
+  labs(x="Days of sleep deprivation",y="Mean reaction times [ms]")
+```
+
+
+---
+class: inverse
+
+### No pooling
+
+
+Two-steps approach to make inference about population:
+--
+
+1. Fit individual regression
+--
+
+
+2. Run statistical tests on individual parameters (e.g. t-test on individual slope estimates)
+
+
+---
+class: inverse
+
+### No pooling: limitations
+
+
+Step 2 assumes individual comes from the same statistical population (thus have some similarity). 
+--
+
+
+Step 1, however, treat individuals as independent, assumes that nothing learned about any one individual can informs estimates for other individuals. 
+
+--
+
+_No-pooling approach is sub-optimal when data is unbalanced or in the presence of missing data (e.g. longitudinal design in which due to attrition we have only 1 datapoint for some participants)._
+
+---
+
+### Partial pooling
+
+--
+
+
+```{r, fig.height=4, dev='svg', message=F, echo=F}
+
+m.lmm <- lmer(Reaction ~ Days + (Days|Subject), data=sleepstudy)
+d2 <- sleepstudy
+d2$prediction <- predict(m.lmm)
+d2$pooling <- "partial (LMM)"
+
+d <- rbind(d0,d1, d2)
+
+ggplot(d, aes(x=Days,y=Reaction))+
+  facet_wrap(~Subject,ncol=9)+
+  geom_line(aes(y=prediction, color=pooling),size=0.8)+
+  scale_color_manual(values=palette_lines) +
+  geom_point()+
+  scale_x_continuous(breaks=seq(0,10,2))+
+  labs(x="Days of sleep deprivation",y="Mean reaction times [ms]")
+
+```
+
