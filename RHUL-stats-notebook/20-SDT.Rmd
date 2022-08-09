@@ -172,9 +172,9 @@ Recognizing this identity makes it easier to use statistical packages such as R 
 
 ## Bayesian confidence in equal-variance SDT
 
-Formally, confidence should be the statistical definition of confidence is the Bayesian posterior probability that a decision was correct given the evidence available to the observer.
+Formally, confidence should be the Bayesian (that is, subjective) posterior probability that a decision was correct given the evidence available to the observer.
 
-First some notation. Let'use $S$ to indicate the event that a signal was present (an event is something to which we can assign a probability) and $N$ to indicate the event that only noise was presented. Say the observer respond yes, their confidence should correspond to the posterior probability $p(S\mid x)$, that is the probability that a signal was present given that we observed $x$.
+First some notation. Let's use $S$ to indicate the event that a signal was present (an event is something to which we can assign a probability) and $N$ to indicate the event that only noise was presented. Say the observer respond yes, their confidence should correspond to the posterior probability $p(S\mid x)$, that is the probability that a signal was present given that we observed $x$.
 
 This can be calculated applying Bayes theorem:
 
