@@ -2,13 +2,16 @@
 
 ```{r share-again, echo=FALSE}
 xaringanExtra::use_share_again()
+```
+
+```{r style-share-again, echo=FALSE}
 xaringanExtra::style_share_again(
   share_buttons = c("twitter", "linkedin", "pocket")
 )
 ```
 
-## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
+## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
 Part 1 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
 

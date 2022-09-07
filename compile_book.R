@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "OK gave up and moved slides to mmlisi.xyz"')
+system('git commit -m "share again not working?"')
 system("git push origin main")
