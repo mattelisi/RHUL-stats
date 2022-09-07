@@ -16,7 +16,9 @@
 
 ## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
-Part 1 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
+Either click on the links or click on the embedded slides and press 'F' to go full screen. Advance through slides with arrow keys, and press 'O' for an overview of all slides.
+
+**Part 1** ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
 
 
 ```{=html}
@@ -26,7 +28,7 @@ Part 1 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
 </div>
 ```
 
-Part 2 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part2.html))
+**Part 2** ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part2.html))
 
 
 ```{=html}
@@ -36,6 +38,6 @@ Part 2 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part2.html))
 </div>
 ```
 
-Practicals:
+**Practicals**
 
 [Exercises with solution (link)](https://mlisi.xyz/files/workshops/LMM101/exercises/exercises_questions.html)
