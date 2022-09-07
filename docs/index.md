@@ -1,7 +1,7 @@
 --- 
 title: "RHUL Psychology\nStatistical modelling notebook"
 author: "Matteo Lisi"
-date: "2022-08-05"
+date: "2022-08-09"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -25,7 +25,7 @@ $$\\[1in]$$
 
 <sub>
 This is a work in progress and may contain imprecisions and typos. If you spot any please let me know at matteo.lisi [at] rhul.ac.uk.
-The materials that will be included builds upon and draw from existing literature on statistics and modelling. I will endeavor to properly cite existing books and papers; but if any author feels that I have not given them fair acknowledgement, please let me know and I will make amend. 
+The materials that will be included builds upon and draw from existing literature on statistics and modelling. I will endeavor to properly cite existing books and papers; but if any author feels that I have not given them fair acknowledgement, please let me know and I will make amend. This book is licenbsed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 </sub>
 
 

@@ -108,7 +108,7 @@ summary(model)
 #> data:    dat
 #> 
 #>  link  threshold nobs logLik  AIC    niter    max.grad
-#>  logit flexible  200  -175.75 365.49 291(919) 6.57e-05
+#>  logit flexible  200  -175.75 365.49 291(919) 6.56e-05
 #>  cond.H 
 #>  8.6e+02
 #> 
@@ -120,7 +120,7 @@ summary(model)
 #> Coefficients:
 #>    Estimate Std. Error z value Pr(>|z|)    
 #> x1  0.55685    0.07516   7.409 1.27e-13 ***
-#> d1  2.29521    0.36658   6.261 3.82e-10 ***
+#> d1  2.29521    0.36659   6.261 3.82e-10 ***
 #> ---
 #> Signif. codes:  
 #> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
