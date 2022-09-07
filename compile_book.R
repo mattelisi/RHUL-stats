@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "added workshop LMM with links"')
+system('git commit -m "LMM links fixed (hopefully)"')
 system("git push origin main")
