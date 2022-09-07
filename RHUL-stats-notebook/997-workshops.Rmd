@@ -10,25 +10,25 @@ xaringanExtra::style_share_again(
 ## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
 
-Part 1 ([link](workshops/LMM101/LMM_part1.html))
+Part 1 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
 
 ```{r, echo=FALSE}
 xaringanExtra::embed_xaringan(
-  url = "static/LMM101/LMM_part1.html",
+  url = "https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html",
   ratio = "16:9"
 )
 
 ```
 
-Part 2 ([link](workshops/LMM101/LMM_part2.html))
+Part 2 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part2.html))
 
 ```{r, echo=FALSE}
 xaringanExtra::embed_xaringan(
-  url = "static/LMM101/LMM_part2.html",
+  url = "https://mlisi.xyz/files/workshops/LMM101/LMM_part2.html",
   ratio = "16:9"
 )
 ```
 
 Practicals:
 
-[Exercises with solution (link)](static/LMM101/exercises/exercises_questions.html)
+[Exercises with solution (link)](https://mlisi.xyz/files/workshops/LMM101/exercises/exercises_questions.html)
