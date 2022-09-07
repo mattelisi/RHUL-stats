@@ -14,7 +14,7 @@ Part 1 ([link](workshops/LMM101/LMM_part1.html))
 
 ```{r, echo=FALSE}
 xaringanExtra::embed_xaringan(
-  url = "workshops/LMM101/LMM_part1.html",
+  url = "static/LMM101/LMM_part1.html",
   ratio = "16:9"
 )
 
@@ -24,11 +24,11 @@ Part 2 ([link](workshops/LMM101/LMM_part2.html))
 
 ```{r, echo=FALSE}
 xaringanExtra::embed_xaringan(
-  url = "workshops/LMM101/LMM_part2.html",
+  url = "static/LMM101/LMM_part2.html",
   ratio = "16:9"
 )
 ```
 
 Practicals:
 
-[Exercises with solution (link)](workshops/LMM101/exercises/exercises_questions.html)
+[Exercises with solution (link)](static/LMM101/exercises/exercises_questions.html)
