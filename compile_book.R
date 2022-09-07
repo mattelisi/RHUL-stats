@@ -11,9 +11,9 @@ bookdown::render_book("index.Rmd", "bookdown::bs4_book",
                       output_dir = "../docs",
                       new_session = TRUE)
 
-bookdown::render_book("index.Rmd", "bookdown::pdf_book",
-                      output_dir = "../",
-                      new_session = TRUE)
+# bookdown::render_book("index.Rmd", "bookdown::pdf_book",
+#                       output_dir = "../",
+#                       new_session = TRUE)
 
 options(bookdown.clean_book = TRUE)
 bookdown::clean_book()
@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "trying : xaringanExtra::embed_xaringan()"')
+system('git commit -m "added R/build.R & moved to static folder"')
 system("git push origin main")
