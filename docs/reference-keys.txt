@@ -45,6 +45,8 @@ glm-formulation-of-equal-variance-sdt-models
 bayesian-confidence-in-equal-variance-sdt
 unequal-variance-sdt
 optimal-confidence-in-unequal-variance-sdt
+workshops
+linear-multilevel-models-lmm-workshop-9th-sept-2022
 useful-links-resources
 statistical-theory
 map-of-univariate-statistical-distributions
