@@ -13,10 +13,9 @@ xaringanExtra::style_share_again(
 Part 1 ([link](workshops/LMM101/LMM_part1.html))
 
 ```{r, echo=FALSE}
-knitr::include_url('../workshops/LMM101/LMM_part1.html')
 xaringanExtra::embed_xaringan(
   url = "workshops/LMM101/LMM_part1.html",
-  ratio = "4:3"
+  ratio = "16:9"
 )
 
 ```
@@ -26,7 +25,7 @@ Part 2 ([link](workshops/LMM101/LMM_part2.html))
 ```{r, echo=FALSE}
 xaringanExtra::embed_xaringan(
   url = "workshops/LMM101/LMM_part2.html",
-  ratio = "4:3"
+  ratio = "16:9"
 )
 ```
 

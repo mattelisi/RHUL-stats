@@ -17,14 +17,9 @@
 Part 1 ([link](workshops/LMM101/LMM_part1.html))
 
 
-```
-#> PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
-```
-
-<iframe src="../workshops/LMM101/LMM_part1.html" width="100%" height="400px" data-external="1"></iframe>
 ```{=html}
 <div class="shareagain" style="min-width:300px;margin:1em auto;" data-exeternal="1">
-<iframe src="workshops/LMM101/LMM_part1.html" width="400" height="300" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<iframe src="workshops/LMM101/LMM_part1.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
 <script>fitvids('.shareagain', {players: 'iframe'});</script>
 </div>
 ```
@@ -34,7 +29,7 @@ Part 2 ([link](workshops/LMM101/LMM_part2.html))
 
 ```{=html}
 <div class="shareagain" style="min-width:300px;margin:1em auto;" data-exeternal="1">
-<iframe src="workshops/LMM101/LMM_part2.html" width="400" height="300" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<iframe src="workshops/LMM101/LMM_part2.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
 <script>fitvids('.shareagain', {players: 'iframe'});</script>
 </div>
 ```
