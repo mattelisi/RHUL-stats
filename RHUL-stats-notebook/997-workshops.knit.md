@@ -1,6 +1,8 @@
 # Workshops
 
 
+
+
 ```{=html}
 <style>.shareagain-bar {
 --shareagain-foreground: rgb(255, 255, 255);
@@ -11,8 +13,8 @@
 }</style>
 ```
 
-## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
+## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
 Part 1 ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
 
