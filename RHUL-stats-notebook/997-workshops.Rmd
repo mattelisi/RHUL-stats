@@ -1,18 +1,33 @@
 # Workshops
 
+```{r share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(
+  share_buttons = c("twitter", "linkedin", "pocket")
+)
+```
+
 ## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
 
 Part 1 ([link](workshops/LMM101/LMM_part1.html))
 
-```{r}
+```{r, echo=FALSE}
 knitr::include_url('../workshops/LMM101/LMM_part1.html')
+xaringanExtra::embed_xaringan(
+  url = "workshops/LMM101/LMM_part1.html",
+  ratio = "4:3"
+)
+
 ```
 
 Part 2 ([link](workshops/LMM101/LMM_part2.html))
 
-```{r}
-knitr::include_url('workshops/LMM101/LMM_part2.html')
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "workshops/LMM101/LMM_part2.html",
+  ratio = "4:3"
+)
 ```
 
 Practicals:

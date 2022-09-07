@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "LMM links fixed (hopefully)"')
+system('git commit -m "trying : xaringanExtra::embed_xaringan()"')
 system("git push origin main")

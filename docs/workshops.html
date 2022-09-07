@@ -6,21 +6,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title> 10 Workshops | RHUL Psychology Statistical modelling notebook</title>
 <meta name="author" content="Matteo Lisi">
-<meta name="description" content="10.1 Linear multilevel models (LMM) workshop (9th Sept 2022) Part 1 (link) knitr::include_url('../workshops/LMM101/LMM_part1.html')  Part 2 (link)...">
+<meta name="description" content=".shareagain-bar { --shareagain-foreground: rgb(255, 255, 255); --shareagain-background: rgba(0, 0, 0, 0.5); --shareagain-facebook: none; --shareagain-pinterest: none; --shareagain-reddit: none; }...">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
 <meta property="og:title" content=" 10 Workshops | RHUL Psychology Statistical modelling notebook">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://mlisi.xyz/RHUL-stats/workshops.html">
 <meta property="og:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
-<meta property="og:description" content="10.1 Linear multilevel models (LMM) workshop (9th Sept 2022) Part 1 (link) knitr::include_url('../workshops/LMM101/LMM_part1.html')  Part 2 (link)...">
+<meta property="og:description" content=".shareagain-bar { --shareagain-foreground: rgb(255, 255, 255); --shareagain-background: rgba(0, 0, 0, 0.5); --shareagain-facebook: none; --shareagain-pinterest: none; --shareagain-reddit: none; }...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content=" 10 Workshops | RHUL Psychology Statistical modelling notebook">
-<meta name="twitter:description" content="10.1 Linear multilevel models (LMM) workshop (9th Sept 2022) Part 1 (link) knitr::include_url('../workshops/LMM101/LMM_part1.html')  Part 2 (link)...">
+<meta name="twitter:description" content=".shareagain-bar { --shareagain-foreground: rgb(255, 255, 255); --shareagain-background: rgba(0, 0, 0, 0.5); --shareagain-facebook: none; --shareagain-pinterest: none; --shareagain-reddit: none; }...">
 <meta name="twitter:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/clipboard-2.0.6/clipboard.min.js"></script><link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet">
+<script src="libs/shareon-1.4.1/shareon.min.js"></script><link href="libs/xaringanExtra-shareagain-0.2.6/shareagain.css" rel="stylesheet">
+<script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script><script src="libs/fitvids-2.1.1/fitvids.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
@@ -92,20 +94,29 @@ Statistical modelling notebook</a>
 <h1>
 <span class="header-section-number"> 10</span> Workshops<a class="anchor" aria-label="anchor" href="#workshops"><i class="fas fa-link"></i></a>
 </h1>
+<style>.shareagain-bar {
+--shareagain-foreground: rgb(255, 255, 255);
+--shareagain-background: rgba(0, 0, 0, 0.5);
+--shareagain-facebook: none;
+--shareagain-pinterest: none;
+--shareagain-reddit: none;
+}</style>
 <div id="linear-multilevel-models-lmm-workshop-9th-sept-2022" class="section level2" number="10.1">
 <h2>
 <span class="header-section-number">10.1</span> Linear multilevel models (LMM) workshop (9th Sept 2022)<a class="anchor" aria-label="anchor" href="#linear-multilevel-models-lmm-workshop-9th-sept-2022"><i class="fas fa-link"></i></a>
 </h2>
 <p>Part 1 (<a href="workshops/LMM101/LMM_part1.html">link</a>)</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_url.html">include_url</a></span><span class="op">(</span><span class="st">'../workshops/LMM101/LMM_part1.html'</span><span class="op">)</span></span></code></pre></div>
 <iframe src="../workshops/LMM101/LMM_part1.html" width="672" height="400px" data-external="1">
 </iframe>
+<div class="shareagain" style="min-width:300px;margin:1em auto;" data-exeternal="1">
+<iframe src="workshops/LMM101/LMM_part1.html" width="400" height="300" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
 <p>Part 2 (<a href="workshops/LMM101/LMM_part2.html">link</a>)</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_url.html">include_url</a></span><span class="op">(</span><span class="st">'workshops/LMM101/LMM_part2.html'</span><span class="op">)</span></span></code></pre></div>
-<iframe src="workshops/LMM101/LMM_part2.html" width="672" height="400px" data-external="1">
-</iframe>
+<div class="shareagain" style="min-width:300px;margin:1em auto;" data-exeternal="1">
+<iframe src="workshops/LMM101/LMM_part2.html" width="400" height="300" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
 <p>Practicals:</p>
 <p><a href="workshops/LMM101/exercises/exercises_questions.html">Exercises with solution (link)</a></p>
 
