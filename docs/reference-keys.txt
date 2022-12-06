@@ -47,6 +47,7 @@ unequal-variance-sdt
 optimal-confidence-in-unequal-variance-sdt
 workshops
 linear-multilevel-models-lmm-workshop-9th-sept-2022
+lecture-basic-numerical-skills-in-neuroscience
 useful-links-resources
 statistical-theory
 map-of-univariate-statistical-distributions

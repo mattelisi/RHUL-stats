@@ -10,10 +10,12 @@ xaringanExtra::style_share_again(
 )
 ```
 
+Either click on the links or click on the embedded slides and press 'F' to go full screen. Advance through slides with arrow keys, and press 'O' for an overview of all slides.
+
 
 ## Linear multilevel models (LMM) workshop (9th Sept 2022)
 
-Either click on the links or click on the embedded slides and press 'F' to go full screen. Advance through slides with arrow keys, and press 'O' for an overview of all slides.
+
 
 **Part 1** ([link](https://mlisi.xyz/files/workshops/LMM101/LMM_part1.html))
 
@@ -37,3 +39,27 @@ xaringanExtra::embed_xaringan(
 **Practicals**
 
 [Exercises with solution (link)](https://mlisi.xyz/files/workshops/LMM101/exercises/exercises_questions.html)
+
+
+## Lecture basic numerical skills in neuroscience
+
+Lecture for MSc module PS5210 (7th December 2022)
+
+**Part 1** ([link](https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills.html))
+
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills.html",
+  ratio = "16:9"
+)
+
+```
+
+**Part 2** ([link](https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html))
+
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html",
+  ratio = "16:9"
+)
+```
