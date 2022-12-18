@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "gave up on share again ¯_(ツ)_/¯"')
+system('git commit -m "numerical skills slides added"')
 system("git push origin main")
