@@ -64,13 +64,13 @@ Lecture for MSc module PS5210 (7th December 2022)
 
 22nd February 2023
 
-([link](https://mlisi.xyz/files/workshops/workshops/meta_analyses/meta_analyses_slides.html))
+([link](https://mlisi.xyz/files/workshops/meta_analyses/meta_analyses_slides.html))
 
 
 
 ```{=html}
 <div class="shareagain" style="min-width:300px;margin:1em auto;" data-exeternal="1">
-<iframe src="https://mlisi.xyz/files/workshops/workshops/meta_analyses/meta_analyses_slides.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<iframe src="https://mlisi.xyz/files/workshops/meta_analyses/meta_analyses_slides.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
 <script>fitvids('.shareagain', {players: 'iframe'});</script>
 </div>
 ```
