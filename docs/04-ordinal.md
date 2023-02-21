@@ -191,6 +191,9 @@ ggplot(pred_d1,aes(x=response, y=prop_obs))+
   facet_grid(.~d1)+
   geom_line(data=pred_d1, aes(y=prob), size=2)+
   labs(y="probability")
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2
+#> 3.4.0.
+#> ℹ Please use `linewidth` instead.
 ```
 
 <img src="04-ordinal_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" />

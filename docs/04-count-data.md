@@ -439,6 +439,12 @@ d %>%
   facet_grid(condition~.) +
   theme_minimal() +
   coord_cartesian(xlim=c(0,40))
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2
+#> 3.4.0.
+#> ℹ Please use `linewidth` instead.
+#> Warning: The dot-dot notation (`..density..`) was deprecated in
+#> ggplot2 3.4.0.
+#> ℹ Please use `after_stat(density)` instead.
 ```
 
 <div class="figure" style="text-align: center">

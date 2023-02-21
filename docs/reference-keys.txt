@@ -48,6 +48,7 @@ optimal-confidence-in-unequal-variance-sdt
 workshops
 linear-multilevel-models-lmm-workshop-9th-sept-2022
 introduction-to-linear-algebra
+introduction-to-meta-analyses-in-r
 useful-links-resources
 statistical-theory
 map-of-univariate-statistical-distributions

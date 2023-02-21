@@ -53,3 +53,18 @@ xaringanExtra::embed_xaringan(
   ratio = "16:9"
 )
 ```
+
+
+## Introduction to meta-analyses in R
+
+22nd February 2023
+
+([link](https://mlisi.xyz/files/workshops/workshops/meta_analyses/meta_analyses_slides.html))
+
+
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mlisi.xyz/files/workshops/workshops/meta_analyses/meta_analyses_slides.html",
+  ratio = "16:9"
+)
+```
