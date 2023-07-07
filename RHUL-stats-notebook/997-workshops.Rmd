@@ -1,4 +1,4 @@
-# Workshops
+# Workshops  {#workshops}
 
 ```{r share-again, echo=FALSE}
 xaringanExtra::use_share_again()

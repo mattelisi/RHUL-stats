@@ -1,7 +1,7 @@
 --- 
 title: "RHUL Psychology\nStatistical modelling notebook"
 author: "Matteo Lisi"
-date: "2023-02-21"
+date: "2023-07-07"
 site: bookdown::bookdown_site
 documentclass: book
 always_allow_html: true
