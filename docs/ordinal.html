@@ -168,7 +168,7 @@ is the linear part of the model (a linear combination of the <span class="math i
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">dat</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">response</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">d1</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="07-ordinal_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="RHUL-stats-notebook_files/figure-html/unnamed-chunk-59-1.png" width="576" style="display: block; margin: auto;"></div>
 <p>We use the <code><a href="https://rdrr.io/pkg/ordinal/man/clmm.html">clmm()</a></code> function in the package <code>ordinal</code> to estimate the model. The syntax is similar to what we would use for a linear mixed effect model. Note that in the output the <code>Threshold coefficients</code> are the latent cutpoints <span class="math inline">\(c_1, \ldots, c_{4}\)</span></p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ordinal/man/clmm.html">clmm</a></span><span class="op">(</span><span class="va">response</span> <span class="op">~</span> <span class="va">x1</span> <span class="op">+</span> <span class="va">d1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">id</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
@@ -257,14 +257,8 @@ is the linear part of the model (a linear combination of the <span class="math i
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">pred_d1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin<span class="op">=</span><span class="va">CI_lb</span>, ymax<span class="op">=</span><span class="va">CI_ub</span><span class="op">)</span>,width<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">.</span><span class="op">~</span><span class="va">d1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">pred_d1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">prob</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y<span class="op">=</span><span class="st">"probability"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2</span></span>
-<span><span class="co">#&gt; 3.4.0.</span></span>
-<span><span class="co">#&gt; ℹ Please use `linewidth` instead.</span></span>
-<span><span class="co">#&gt; This warning is displayed once every 8 hours.</span></span>
-<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where</span></span>
-<span><span class="co">#&gt; this warning was generated.</span></span></code></pre></div>
-<div class="inline-figure"><img src="07-ordinal_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;"></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y<span class="op">=</span><span class="st">"probability"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="RHUL-stats-notebook_files/figure-html/unnamed-chunk-61-1.png" width="576" style="display: block; margin: auto;"></div>
 <p>We can repeat the same process also for calculating predictions for individual participants</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># split by ID</span></span>
@@ -301,7 +295,7 @@ is the linear part of the model (a linear combination of the <span class="math i
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">id</span><span class="op">~</span><span class="va">d1</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">prob</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y<span class="op">=</span><span class="st">"probability"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="07-ordinal_files/figure-html/unnamed-chunk-7-1.png" width="384" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="RHUL-stats-notebook_files/figure-html/unnamed-chunk-62-1.png" width="384" style="display: block; margin: auto;"></div>
 
 </div>
 </div>
