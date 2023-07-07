@@ -19,6 +19,11 @@ other-operations
 random-number-generation
 getting-help
 resources-for-learning-r
+correlation
+comparing-correlations
+polychoric-and-polyserial-correlations
+partial-correlations
+partial-correlations-using-schur-complement
 linear-models
 simple-linear-regression
 count-data

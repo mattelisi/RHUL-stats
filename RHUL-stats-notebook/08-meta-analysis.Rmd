@@ -6,3 +6,7 @@ A comprehensive, hands-on guide on how to use this package is provided in the bo
 
 An alternative to the `metafor` package is to Bayesian multilevel modelling (also discussed in the book by Harrer and colleagues). A more technical discussion of Bayesian multilevel modelling for meta-analyes is provided in [this paper](https://psyarxiv.com/7tbrm/) by Williams, Rast and Bürkner [@williams_rast_bürkner_2018].
 
+
+**Note: the slides of a workshop on meta-analyses using `metafor` package are included in the workshop section of this website \@ref(workshops)**
+
+
