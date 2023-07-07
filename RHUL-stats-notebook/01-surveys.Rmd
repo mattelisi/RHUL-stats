@@ -45,7 +45,7 @@ There were some additional suggestions.
 ```{r echo=FALSE}
 d %>%
   filter(Finished==TRUE) %>%
-  select(starts_with('models_') & contains('TEXT')) %>%
+  dplyr::select(starts_with('models_') & contains('TEXT')) %>%
   filter(!is.na(models_17_TEXT)) %>%
   pull(models_17_TEXT) 
 
