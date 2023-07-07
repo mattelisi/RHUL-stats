@@ -102,11 +102,12 @@ Occasionally, we may need to calculate partial polychoric correlations (e.g. par
 
 The approach works as follow. Say we have computed a matrix of partial polychoric correlations using the `polycor` package; in particular $\Sigma$ is the correlation matrix between the variables of interests. We further have also a set of variables we want to account for (let's call these 'confounders'), and we calculate the matrix of the correlations between them, let's call this $C$. Finally, we also have a matrix of correlations between the variables of interest and the confounders $B$.
 
-The partial correlation matrix can be computed as the Schur complement of $\Sigma$ when this is included in the block matrix $M$, defined as $M = \begin{bmatrix} \Sigma & B \\ B^T & C \end{bmatrix}$. Note that this simply correspods to the full correlations matrix taking into account all variables (variables of interest and confounders).
+The partial correlation matrix can be computed as the Schur complement of $C$ in the block matrix $M$, defined as $M = \begin{bmatrix} \Sigma & B \\ B^T & C \end{bmatrix}$. Note that the matrix $M$ simply corresponds to the 'full' correlation matrix - the the matrix including correlations between _all_ variables (variables of interest and confounders).
 
-The conditional correlation matrix can be then computed as 
+In practice, the Schur complement (partial correlation matrix) is computed as 
 
-$$\Sigma \mid C = \Sigma - BC^{-1}B^T.$$ 
+
+$$\text{Partial Correlation Matrix} = \Sigma - BC^{-1}B^T.$$ 
 Here is a simple function in R that can calculate the partial correlation matrix when some or all the variables are ordinal:
 
 ```{r}
