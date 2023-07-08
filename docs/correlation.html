@@ -99,7 +99,7 @@ Statistical modelling notebook</a>
 <p><span class="math display">\[
 r_{x,y} = \frac{\text{cov}(x,y)}{\sigma_x \sigma_y}
 \]</span></p>
-<p>The normalization is achieved by dividing the covariance by the maximum possible covariance that can be attained when the variables are perfectly correlated, represented by the product of their standard deviations. This normalization constrains the Pearson correlation coefficient to a range between 0 and 1,.</p>
+<p>The normalization is achieved by dividing the covariance by the maximum possible covariance that can be attained when the variables are perfectly correlated, represented by the product of their standard deviations. This normalization constrains the Pearson correlation coefficient to a range between -1 and 1.</p>
 <p>In R, simple correlation analyses can be run using the function <code>cor.test</code>.</p>
 <p>In this chapter we will consider some more complex examples and issues that may occur when doing correlation analyses.</p>
 <hr>
@@ -180,15 +180,16 @@ Z=\frac{\log(1+r)−\log(1−r)}{2}
 <span class="header-section-number">4.3.1</span> Partial correlations using Schur complement<a class="anchor" aria-label="anchor" href="#partial-correlations-using-schur-complement"><i class="fas fa-link"></i></a>
 </h3>
 <p>Occasionally, we may need to calculate partial polychoric correlations (e.g. partial correlations between ordinal variables). To the best of my knowledge there isn’t a simple package that allows to compute these. However, we can use an approach known as <a href="https://en.wikipedia.org/wiki/Schur_complement">Schur complement</a>.</p>
-<p>The approach works as follow. Say we have computed a matrix of partial polychoric correlations using the <code>polycor</code> package; in particular <span class="math inline">\(\Sigma\)</span> is the correlation matrix between the variables of interests. We further have also a set of variables we want to account for (let’s call these ‘confounders’), and we calculate the matrix of the correlations between them, let’s call this <span class="math inline">\(C\)</span>. Finally, we also have a matrix of correlations between the variables of interest and the confounders <span class="math inline">\(B\)</span>.</p>
+<p>The approach works as follow. Say we have computed a matrix of partial polychoric correlations using the <code>polycor</code> package; in particular <span class="math inline">\(\Sigma\)</span> is the correlation matrix between the variables of interests. We further have also a set of variables we want to account for (let’s call these ‘confounders’), and we calculate the matrix of the correlations between them, let’s call this <span class="math inline">\(C\)</span>. Finally, we also have a matrix of correlations between the variables of interest and the confounders, here notated as <span class="math inline">\(B\)</span>.</p>
 <p>The partial correlation matrix can be computed as the Schur complement of <span class="math inline">\(C\)</span> in the block matrix <span class="math inline">\(M\)</span>, defined as <span class="math inline">\(M = \begin{bmatrix} \Sigma &amp; B \\ B^T &amp; C \end{bmatrix}\)</span>. Note that the matrix <span class="math inline">\(M\)</span> simply corresponds to the ‘full’ correlation matrix - the the matrix including correlations between <em>all</em> variables (variables of interest and confounders).</p>
 <p>In practice, the Schur complement (partial correlation matrix) is computed as</p>
-<p><span class="math display">\[\text{Partial Correlation Matrix} = \Sigma - BC^{-1}B^T.\]</span>
-Here is a simple function in R that can calculate the partial correlation matrix when some or all the variables are ordinal:</p>
+<p><span class="math display">\[\text{Partial Correlation Matrix} = \Sigma - BC^{-1}B^T.\]</span></p>
+<p>Here is a simple function in R that can calculate the partial correlation matrix when some or all the variables are ordinal:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">partial_polychoric</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dX</span>, <span class="va">dC</span>, <span class="va">useML</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># dX is a dataframe containing variables of interest</span></span>
 <span>  <span class="co"># dC is a dataframe containing confounding variables that needs to be partialled out</span></span>
+<span>  <span class="co"># ML estimation is recommended, but may be slow with very large datasets</span></span>
 <span>  <span class="va">combined_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">dX</span>, <span class="va">dC</span><span class="op">)</span></span>
 <span>  <span class="va">combined_polychoric_matrix</span> <span class="op">&lt;-</span> <span class="fu">hetcor</span><span class="op">(</span><span class="va">combined_data</span>, </span>
 <span>                                       parallel<span class="op">=</span><span class="cn">TRUE</span>,</span>
@@ -223,7 +224,7 @@ Here is a simple function in R that can calculate the partial correlation matrix
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">A_shuffle</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="co"># Compute 1000 matrix from permutations of the datasets</span></span>
+<span><span class="co"># Use replicate() to compute 1000 matrix from permutations of the datasets</span></span>
 <span><span class="va">n_permutations</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">permuted_partial_polychoric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="va">n_permutations</span>, <span class="op">{</span></span>
 <span>  <span class="va">permuted_dX</span> <span class="op">&lt;-</span> <span class="fu">shuffle_df</span><span class="op">(</span><span class="va">dX</span><span class="op">)</span></span>
@@ -275,7 +276,7 @@ Here is a simple function in R that can calculate the partial correlation matrix
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>RHUL Psychology
-Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-07-07.</p>
+Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-07-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

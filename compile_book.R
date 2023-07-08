@@ -23,5 +23,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "updated also PDF"')
+system('git commit -m "minor corrections"')
 system("git push origin main")

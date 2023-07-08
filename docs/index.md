@@ -1,7 +1,7 @@
 --- 
 title: "RHUL Psychology\nStatistical modelling notebook"
 author: "Matteo Lisi"
-date: "2023-07-07"
+date: "2023-07-08"
 site: bookdown::bookdown_site
 documentclass: book
 always_allow_html: true
@@ -16,9 +16,9 @@ csl: chicago-fullnote-bibliography.csl
 
 # About
 
-![Pop-art brain according to [Dall-E](https://labs.openai.com/s/Zr8sPS7hl9f6hZRKtQhrbTzO).](images/pop_brain.png){width=75%}
+![Pop-art brain, to [Dall-E](https://labs.openai.com/s/Zr8sPS7hl9f6hZRKtQhrbTzO).](images/pop_brain.png){width=75%}
 
-This online book is created and maintained by [Matteo Lisi](https://mlisi.xyz/) and is meant to be a shared resource for staff and students at the [Department of Psychology of Royal Holloway, University of London](https://www.royalholloway.ac.uk/research-and-teaching/departments-and-schools/psychology/). It will contain a miscellanous set of tutorial, examples, case studies, workshops materials and any other useful material related to data analysis and modelling. These will be added and revised over time, based on the most common questions and requests that I receive.
+This online book is created and maintained by [Matteo Lisi](https://mlisi.xyz/) and is meant to be a shared resource for staff and students at the [Department of Psychology of Royal Holloway, University of London](https://www.royalholloway.ac.uk/research-and-teaching/departments-and-schools/psychology/). It contains a miscellanous set of tutorial, examples, case studies, workshops materials and any other useful material related to data analysis and modelling. These will be added and revised over time, based on the most common questions and requests that I receive.
 
 $$\\[1in]$$
 

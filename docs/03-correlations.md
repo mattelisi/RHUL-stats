@@ -6,7 +6,7 @@ $$
 r_{x,y} = \frac{\text{cov}(x,y)}{\sigma_x \sigma_y}
 $$
 
-The normalization is achieved by dividing the covariance by the maximum possible covariance that can be attained when the variables are perfectly correlated, represented by the product of their standard deviations. This normalization constrains the Pearson correlation coefficient to a range between 0 and 1,.
+The normalization is achieved by dividing the covariance by the maximum possible covariance that can be attained when the variables are perfectly correlated, represented by the product of their standard deviations. This normalization constrains the Pearson correlation coefficient to a range between -1 and 1.
 
 In R, simple correlation analyses can be run using the function `cor.test`.
 
@@ -102,14 +102,14 @@ In R, and for simple Pearson's correlation coefficients, we can use the packages
 
 Occasionally, we may need to calculate partial polychoric correlations (e.g. partial correlations between ordinal variables). To the best of my knowledge there isn't a simple package that allows to compute these. However, we can use an approach known as [Schur complement](https://en.wikipedia.org/wiki/Schur_complement).
 
-The approach works as follow. Say we have computed a matrix of partial polychoric correlations using the `polycor` package; in particular $\Sigma$ is the correlation matrix between the variables of interests. We further have also a set of variables we want to account for (let's call these 'confounders'), and we calculate the matrix of the correlations between them, let's call this $C$. Finally, we also have a matrix of correlations between the variables of interest and the confounders $B$.
+The approach works as follow. Say we have computed a matrix of partial polychoric correlations using the `polycor` package; in particular $\Sigma$ is the correlation matrix between the variables of interests. We further have also a set of variables we want to account for (let's call these 'confounders'), and we calculate the matrix of the correlations between them, let's call this $C$. Finally, we also have a matrix of correlations between the variables of interest and the confounders, here notated as $B$.
 
 The partial correlation matrix can be computed as the Schur complement of $C$ in the block matrix $M$, defined as $M = \begin{bmatrix} \Sigma & B \\ B^T & C \end{bmatrix}$. Note that the matrix $M$ simply corresponds to the 'full' correlation matrix - the the matrix including correlations between _all_ variables (variables of interest and confounders).
 
 In practice, the Schur complement (partial correlation matrix) is computed as 
 
-
 $$\text{Partial Correlation Matrix} = \Sigma - BC^{-1}B^T.$$ 
+
 Here is a simple function in R that can calculate the partial correlation matrix when some or all the variables are ordinal:
 
 
@@ -117,6 +117,7 @@ Here is a simple function in R that can calculate the partial correlation matrix
 partial_polychoric <- function(dX, dC, useML = TRUE) {
   # dX is a dataframe containing variables of interest
   # dC is a dataframe containing confounding variables that needs to be partialled out
+  # ML estimation is recommended, but may be slow with very large datasets
   combined_data <- cbind(dX, dC)
   combined_polychoric_matrix <- hetcor(combined_data, 
                                        parallel=TRUE,
@@ -157,7 +158,7 @@ shuffle_df <- function(A) {
   return(A_shuffle)
 }
 
-# Compute 1000 matrix from permutations of the datasets
+# Use replicate() to compute 1000 matrix from permutations of the datasets
 n_permutations <- 1000
 permuted_partial_polychoric <- replicate(n_permutations, {
   permuted_dX <- shuffle_df(dX)
