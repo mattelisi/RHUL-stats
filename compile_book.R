@@ -3,9 +3,9 @@
 rm(list=ls())
 setwd("/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/RHUL-stats-notebook")
 
-bookdown::serve_book(dir="/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/RHUL-stats-notebook",
-                     output_dir = "../docs")
-# servr::daemon_stop(1)
+# bookdown::serve_book(dir="/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/RHUL-stats-notebook",
+#                      output_dir = "../docs")
+# # servr::daemon_stop(1)
 
 bookdown::render_book("index.Rmd", "bookdown::bs4_book",
                       output_dir = "../docs",

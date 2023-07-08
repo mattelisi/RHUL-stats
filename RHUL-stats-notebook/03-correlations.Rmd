@@ -1,6 +1,6 @@
 # Correlations {#correlation}
 
-Readers are likely familiar with the Pearson correlation coefficient and its significance test. The Pearson correlation coefficient measures the strength of association between two variables, denoted as $x$ and $y$, and is essentially a normalized measure of their covariance. It is calculated by dividing the covariance of $x$ and $y$ by the product of their standard deviations:
+Readers of this page will likely already familiar with the Pearson correlation coefficient and its significance test. The Pearson correlation coefficient measures the strength of association between two variables, denoted as $x$ and $y$, and is essentially a normalized measure of their covariance. It is calculated by dividing the covariance of $x$ and $y$ by the product of their standard deviations:
 
 $$
 r_{x,y} = \frac{\text{cov}(x,y)}{\sigma_x \sigma_y}
