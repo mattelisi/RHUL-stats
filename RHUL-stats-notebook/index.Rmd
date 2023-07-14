@@ -16,9 +16,9 @@ csl: chicago-fullnote-bibliography.csl
 
 # About
 
-![Pop-art brain, [Dall-E](https://labs.openai.com/s/Zr8sPS7hl9f6hZRKtQhrbTzO).](images/pop_brain.png){width=75%}
+This online resource is created and maintained by [Matteo Lisi](https://mlisi.xyz/) and is designed as a collective repository for the staff and students of the [Department of Psychology of Royal Holloway, University of London](https://www.royalholloway.ac.uk/research-and-teaching/departments-and-schools/psychology/). It contains a miscellaneous collection of tutorials, examples, case studies, workshop materials, and a variety of additional content focusing on data analysis and modelling. These materials will be updated and expanded regularly in response to the most frequent questions and requests received.
 
-This online book is created and maintained by [Matteo Lisi](https://mlisi.xyz/) and is meant to be a shared resource for staff and students at the [Department of Psychology of Royal Holloway, University of London](https://www.royalholloway.ac.uk/research-and-teaching/departments-and-schools/psychology/). It contains a miscellanous set of tutorial, examples, case studies, workshops materials and any other useful material related to data analysis and modelling. These will be added and revised over time, based on the most common questions and requests that I receive.
+A pdf version is available at this [link](https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/RHUL-stats-notebook.pdf).
 
 $$\\[1in]$$
 
