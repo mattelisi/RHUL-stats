@@ -7,7 +7,7 @@
 <title> 3 Introduction to R | RHUL Psychology Statistical modelling notebook</title>
 <meta name="author" content="Matteo Lisi">
 <meta name="description" content="Most of the practical statistical tutorials and recipes in this book use the software R, so this section provides some introduction to R for the uninitiated. \[\\[1in]\]  3.1 Installing R The base...">
-<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content=" 3 Introduction to R | RHUL Psychology Statistical modelling notebook">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://mlisi.xyz/RHUL-stats/intro-R.html">
@@ -19,34 +19,12 @@
 <meta name="twitter:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.2/transition.js"></script><script src="libs/bs3compat-0.4.2/tabs.js"></script><script src="libs/bs3compat-0.4.2/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/clipboard-2.0.6/clipboard.min.js"></script><link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet">
 <script src="libs/shareon-1.4.1/shareon.min.js"></script><link href="libs/xaringanExtra-shareagain-0.2.6/shareagain.css" rel="stylesheet">
 <script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script><script src="libs/fitvids-2.1.1/fitvids.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  </style>
-<style type="text/css">
-    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-        }
-    .hanging div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }
   </style>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -91,14 +69,14 @@ Statistical modelling notebook</a>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="intro-R" class="section level1" number="3">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="intro-R" class="section level1">
 <h1>
 <span class="header-section-number"> 3</span> Introduction to R<a class="anchor" aria-label="anchor" href="#intro-R"><i class="fas fa-link"></i></a>
 </h1>
 <p>Most of the practical statistical tutorials and recipes in this book use the software R, so this section provides some introduction to R for the uninitiated.</p>
 <hr>
 <p><span class="math display">\[\\[1in]\]</span></p>
-<div id="installing-r" class="section level2" number="3.1">
+<div id="installing-r" class="section level2">
 <h2>
 <span class="header-section-number">3.1</span> Installing R<a class="anchor" aria-label="anchor" href="#installing-r"><i class="fas fa-link"></i></a>
 </h2>
@@ -107,7 +85,7 @@ Statistical modelling notebook</a>
 <p>In addition to the base R system, it is useful to have also R-studio, which is an IDE (Integrated Development Environment) for R, and provides both an editor, a graphical interface and much more. It can be downloaded from:</p>
 <p><a href="https://www.rstudio.com/products/rstudio/download/">https://www.rstudio.com/products/rstudio/download/</a></p>
 </div>
-<div id="first-steps" class="section level2" number="3.2">
+<div id="first-steps" class="section level2">
 <h2>
 <span class="header-section-number">3.2</span> First steps<a class="anchor" aria-label="anchor" href="#first-steps"><i class="fas fa-link"></i></a>
 </h2>
@@ -121,7 +99,7 @@ Statistical modelling notebook</a>
 <code class="sourceCode R"><span><span class="co"># calculate 3 + 4</span></span>
 <span><span class="fl">3</span> <span class="op">+</span> <span class="fl">4</span></span>
 <span><span class="co">#&gt; [1] 7</span></span></code></pre></div>
-<div id="arithmetic-with-r" class="section level3" number="3.2.1">
+<div id="arithmetic-with-r" class="section level3">
 <h3>
 <span class="header-section-number">3.2.1</span> Arithmetic with R<a class="anchor" aria-label="anchor" href="#arithmetic-with-r"><i class="fas fa-link"></i></a>
 </h3>
@@ -144,7 +122,7 @@ Statistical modelling notebook</a>
 <p>The ^ operator raises the number to its left to the power of the number to its right: for example <code>3^2</code> is 9.</p>
 <p>The modulo returns the remainder of the division of the number to the left by the number on its right, for example 5 modulo 3 (or <code>5 %% 3</code>) is 2.</p>
 </div>
-<div id="variable-assignment" class="section level3" number="3.2.2">
+<div id="variable-assignment" class="section level3">
 <h3>
 <span class="header-section-number">3.2.2</span> Variable assignment<a class="anchor" aria-label="anchor" href="#variable-assignment"><i class="fas fa-link"></i></a>
 </h3>
@@ -162,7 +140,7 @@ Statistical modelling notebook</a>
 <code class="sourceCode R"><span><span class="va">my_var</span> <span class="op">+</span> <span class="fl">2</span> </span>
 <span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
 </div>
-<div id="basic-data-types-in-r" class="section level3" number="3.2.3">
+<div id="basic-data-types-in-r" class="section level3">
 <h3>
 <span class="header-section-number">3.2.3</span> Basic data types in R<a class="anchor" aria-label="anchor" href="#basic-data-types-in-r"><i class="fas fa-link"></i></a>
 </h3>
@@ -185,7 +163,7 @@ Statistical modelling notebook</a>
 <li>Text (or string) values are called characters.</li>
 </ul>
 </div>
-<div id="vectors-and-other-data-types" class="section level3" number="3.2.4">
+<div id="vectors-and-other-data-types" class="section level3">
 <h3>
 <span class="header-section-number">3.2.4</span> Vectors and other data types<a class="anchor" aria-label="anchor" href="#vectors-and-other-data-types"><i class="fas fa-link"></i></a>
 </h3>
@@ -252,7 +230,7 @@ Statistical modelling notebook</a>
 <p>Although note that in most cases we would probably import a dataframe from an external data file, for example using the functions <code>read.table</code> or <code>read.csv</code>.</p>
 <hr>
 </div>
-<div id="basic-plotting-in-r" class="section level3" number="3.2.5">
+<div id="basic-plotting-in-r" class="section level3">
 <h3>
 <span class="header-section-number">3.2.5</span> Basic plotting in R<a class="anchor" aria-label="anchor" href="#basic-plotting-in-r"><i class="fas fa-link"></i></a>
 </h3>
@@ -263,11 +241,11 @@ Statistical modelling notebook</a>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="02-intro-R_files/figure-html/unnamed-chunk-12-1.png" width="384" style="display: block; margin: auto;"></div>
 </div>
-<div id="other-operations" class="section level3" number="3.2.6">
+<div id="other-operations" class="section level3">
 <h3>
 <span class="header-section-number">3.2.6</span> Other operations<a class="anchor" aria-label="anchor" href="#other-operations"><i class="fas fa-link"></i></a>
 </h3>
-<div id="random-number-generation" class="section level4" number="3.2.6.1">
+<div id="random-number-generation" class="section level4">
 <h4>
 <span class="header-section-number">3.2.6.1</span> Random number generation<a class="anchor" aria-label="anchor" href="#random-number-generation"><i class="fas fa-link"></i></a>
 </h4>
@@ -283,7 +261,7 @@ Statistical modelling notebook</a>
 <div class="inline-figure"><img src="02-intro-R_files/figure-html/unnamed-chunk-14-1.png" width="384" style="display: block; margin: auto;"></div>
 </div>
 </div>
-<div id="getting-help" class="section level3" number="3.2.7">
+<div id="getting-help" class="section level3">
 <h3>
 <span class="header-section-number">3.2.7</span> Getting help<a class="anchor" aria-label="anchor" href="#getting-help"><i class="fas fa-link"></i></a>
 </h3>
@@ -294,7 +272,7 @@ Statistical modelling notebook</a>
 <p><span class="math display">\[\\[1in]\]</span></p>
 </div>
 </div>
-<div id="resources-for-learning-r" class="section level2" number="3.3">
+<div id="resources-for-learning-r" class="section level2">
 <h2>
 <span class="header-section-number">3.3</span> Resources for learning R<a class="anchor" aria-label="anchor" href="#resources-for-learning-r"><i class="fas fa-link"></i></a>
 </h2>
@@ -345,7 +323,7 @@ Statistical modelling notebook</a>
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>RHUL Psychology
-Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-07-14.</p>
+Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-11-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

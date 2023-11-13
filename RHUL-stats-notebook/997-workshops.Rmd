@@ -45,19 +45,6 @@ xaringanExtra::embed_xaringan(
 [Exercises with solution (link)](https://mlisi.xyz/files/workshops/LMM101/exercises/exercises_questions.html)
 
 
-## Introduction to linear algebra
-
-Lecture for MSc module PS5210 (7th December 2022)
-
-**Part 2** ([link](https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html))
-
-```{r, echo=FALSE}
-xaringanExtra::embed_xaringan(
-  url = "https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html",
-  ratio = "16:9"
-)
-```
-
 
 ## Introduction to meta-analyses in R
 
@@ -72,3 +59,33 @@ xaringanExtra::embed_xaringan(
   ratio = "16:9"
 )
 ```
+
+
+## Power analyses via data simulation
+
+15th November 2023
+
+([link](https://mlisi.xyz/files/workshops/power_analyses/power_analyses.html))
+
+
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mlisi.xyz/files/workshops/power_analyses/power_analyses.html",
+  ratio = "16:9"
+)
+```
+
+
+## Introduction to linear algebra
+
+Lecture for MSc module PS5210 (7th December 2022)
+
+**Part 2** ([link](https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html))
+
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html",
+  ratio = "16:9"
+)
+```
+
