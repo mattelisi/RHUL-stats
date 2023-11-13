@@ -256,12 +256,10 @@ ggplot(d,aes(x=confidence,group=correct,color=correct,fill=correct))+
   scale_fill_manual(values=c("dark green","red"),name="")+
   labs(x="confidence level")+
   theme_classic()
-#> Warning: The dot-dot notation (`..density..`) was deprecated in
-#> ggplot2 3.4.0.
+#> Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
 #> ℹ Please use `after_stat(density)` instead.
 #> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where
-#> this warning was generated.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 <img src="20-SDT_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />

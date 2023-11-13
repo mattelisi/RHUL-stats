@@ -154,6 +154,8 @@ d %>%
 </tbody>
 </table>
 
+
+
 We can use ggplot2 library to visualize the distributions of reported units in each condition. We can see tha the distribution are skewed and contains many 0, which would make them unsuitable for an analysis with a linear regression model.
 
 
@@ -333,6 +335,7 @@ tab_model(nb01)
 </table>
 
 
+
 #### Adding predictors
 
 The dataset include also information about the gender of the participants. We may hypothesize that male participants drink more than female ones^[For the sake of the example we use only 2 gender categories, but in a real study we should be mindful to include more options for non-binary / third gender participants, as McKay's students did in the real study.]. Does taking this into account improve the accuracy of our modelling?
@@ -431,18 +434,14 @@ d %>%
   facet_grid(condition~.) +
   theme_minimal() +
   coord_cartesian(xlim=c(0,40))
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2
-#> 3.4.0.
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 #> ℹ Please use `linewidth` instead.
 #> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where
-#> this warning was generated.
-#> Warning: The dot-dot notation (`..density..`) was deprecated in
-#> ggplot2 3.4.0.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+#> Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
 #> ℹ Please use `after_stat(density)` instead.
 #> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where
-#> this warning was generated.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 <div class="figure" style="text-align: center">
