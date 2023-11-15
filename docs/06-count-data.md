@@ -434,14 +434,18 @@ d %>%
   facet_grid(condition~.) +
   theme_minimal() +
   coord_cartesian(xlim=c(0,40))
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2
+#> 3.4.0.
 #> ℹ Please use `linewidth` instead.
 #> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-#> Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where
+#> this warning was generated.
+#> Warning: The dot-dot notation (`..density..`) was deprecated in
+#> ggplot2 3.4.0.
 #> ℹ Please use `after_stat(density)` instead.
 #> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where
+#> this warning was generated.
 ```
 
 <div class="figure" style="text-align: center">

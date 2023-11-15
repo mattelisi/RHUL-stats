@@ -7,7 +7,7 @@
 <title> 10 Signal Detection Theory | RHUL Psychology Statistical modelling notebook</title>
 <meta name="author" content="Matteo Lisi">
 <meta name="description" content="Signal Detection Theory (hereafter abbreviated as SDT) is probably the most important and influential framework for modelling perceptual decisions in forced-choice tasks, and has wide...">
-<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
 <meta property="og:title" content=" 10 Signal Detection Theory | RHUL Psychology Statistical modelling notebook">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://mlisi.xyz/RHUL-stats/SDT.html">
@@ -25,6 +25,28 @@
 <script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script><script src="libs/fitvids-2.1.1/fitvids.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -69,12 +91,12 @@ Statistical modelling notebook</a>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="SDT" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="SDT" class="section level1" number="10">
 <h1>
 <span class="header-section-number"> 10</span> Signal Detection Theory<a class="anchor" aria-label="anchor" href="#SDT"><i class="fas fa-link"></i></a>
 </h1>
 <p>Signal Detection Theory (hereafter abbreviated as SDT) is probably the most important and influential framework for modelling perceptual decisions in forced-choice tasks, and has wide applicability also beyond purely perceptual decision tasks. Here I review and derive some fundamental concepts of equal-variance and unequal variance signal detection theory, and present some R code to simulate the confidence of an optimal observer/decision-maker.</p>
-<div id="equal-variance-gaussian-sdt" class="section level2">
+<div id="equal-variance-gaussian-sdt" class="section level2" number="10.1">
 <h2>
 <span class="header-section-number">10.1</span> Equal-variance Gaussian SDT<a class="anchor" aria-label="anchor" href="#equal-variance-gaussian-sdt"><i class="fas fa-link"></i></a>
 </h2>
@@ -91,7 +113,7 @@ f_S(x)&amp;=\frac{1}{\sigma\sqrt{2 \pi}} e^{-\frac{(x-d')^2}{2 \sigma^2}}\\
 f_N(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}
 \]</span></p>
 <p>Note that the <em>prior probability</em> of signal and noise may not be equal. Let’s define the probability of a signal-present trial as <span class="math inline">\(p(S)=\alpha\)</span>; we have thus that <span class="math inline">\(p(N)=1-p(S)=1-\alpha\)</span>.</p>
-<div id="optimal-decision-rule" class="section level3">
+<div id="optimal-decision-rule" class="section level3" number="10.1.1">
 <h3>
 <span class="header-section-number">10.1.1</span> Optimal decision rule<a class="anchor" aria-label="anchor" href="#optimal-decision-rule"><i class="fas fa-link"></i></a>
 </h3>
@@ -99,7 +121,7 @@ f_N(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}
 <p><span class="math display">\[
 \begin{aligned}
 \frac{f_S(x)\,p(S)}{f_N(x) \, p(N)} &amp; \ge 1 \\
-\frac{f_S(x)\,\alpha}{f_N(x) \, (1-\alpha)} &amp; \ge 1 
+\frac{f_S(x)\,\alpha}{f_N(x) \, (1-\alpha)} &amp; \ge 1
 \end{aligned}
 \]</span></p>
 <p>With some algebraic manipulations, it can be shown that the likelihood ratio decision rule amounts to comparing the value of <span class="math inline">\(x\)</span> to a criterion <span class="math inline">\(c\)</span>:</p>
@@ -108,13 +130,13 @@ f_N(x)=\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}
 \frac{f_S(x)\alpha}{f_N(x)(1-\alpha)} &amp; \ge 1 \\
 \frac{f_S(x)}{f_N(x)} &amp; \ge \frac{1-\alpha}{\alpha} \\
 \frac{\frac{1}{\sqrt{2 \pi}} e^{-\frac{(x-d')^2}{2}}}{\frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}} &amp; \ge \frac{1-\alpha}{\alpha} \\
-\frac{e^{-\frac{(x-d')^2}{2}}}{e^{-\frac{x^2}{2}}} &amp; \ge \frac{1-\alpha}{\alpha} 
+\frac{e^{-\frac{(x-d')^2}{2}}}{e^{-\frac{x^2}{2}}} &amp; \ge \frac{1-\alpha}{\alpha}
 \end{aligned}
 \]</span></p>
 <p>taking the log of both sides</p>
 <p><span class="math display">\[
 \begin{aligned}
- \log \left(\frac{e^{-\frac{(x-d')^2}{2}}}{e^{-\frac{x^2}{2}}} \right) &amp; \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
+\log \left(\frac{e^{-\frac{(x-d')^2}{2}}}{e^{-\frac{x^2}{2}}} \right) &amp; \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
   \log \left(e^{-\frac{(x-d')^2}{2}} \right) - \log \left(e^{-\frac{x^2}{2}} \right) &amp; \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
 -\frac{(x-d')^2}{2} + \frac{x^2}{2}  &amp; \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
 \frac{-x^2 -(d')^2 + 2d' x + x^2 }{2} &amp; \ge \log \left(\frac{1-\alpha}{\alpha}\right) \\
@@ -127,7 +149,7 @@ x &amp; \ge \frac{1}{d'}\log \left(\frac{1-\alpha}{\alpha}\right)+ \frac{d'}{2}
 <p>The optimal criterion is thus found as <span class="math inline">\(c = \frac{1}{d'}\log \left(\frac{1-\alpha}{\alpha}\right)+ \frac{d'}{2}\)</span>. Whenever the <span class="math inline">\(x\)</span> exceed the criterion, <span class="math inline">\(x \ge c\)</span>, the observer should respond “signal present” and respond “signal absent” otherwise.</p>
 <p>It is easy to verify that when the signal and noise trials are equiprobable, that is <span class="math inline">\(p(s) = p(N) \implies \alpha=0.5\)</span>, the optimal criterion becomes <span class="math inline">\(c=\frac{d'}{2}\)</span>.</p>
 <hr>
-<div id="visualizing-signal-detection-theory-in-r" class="section level4">
+<div id="visualizing-signal-detection-theory-in-r" class="section level4" number="10.1.1.1">
 <h4>
 <span class="header-section-number">10.1.1.1</span> Visualizing signal detection theory in R<a class="anchor" aria-label="anchor" href="#visualizing-signal-detection-theory-in-r"><i class="fas fa-link"></i></a>
 </h4>
@@ -177,7 +199,7 @@ x &amp; \ge \frac{1}{d'}\log \left(\frac{1-\alpha}{\alpha}\right)+ \frac{d'}{2}
 <hr>
 </div>
 </div>
-<div id="estimating-the-parameters-from-data" class="section level3">
+<div id="estimating-the-parameters-from-data" class="section level3" number="10.1.2">
 <h3>
 <span class="header-section-number">10.1.2</span> Estimating the parameters from data<a class="anchor" aria-label="anchor" href="#estimating-the-parameters-from-data"><i class="fas fa-link"></i></a>
 </h3>
@@ -195,11 +217,11 @@ p_{\text{H}} =  1 - \Phi(c - d')
 Thus, if we know the proportion of hits and false alarms, we can estimate <span class="math inline">\(c\)</span> and <span class="math inline">\(d'\)</span> using the inverse of <span class="math inline">\(\Phi\)</span>, which can be notated as <span class="math inline">\(\Phi^{-1}\)</span> and its often referred to as the <em>quantile function</em></p>
 <p><span class="math display">\[
 c = \Phi^{-1}\left(1 -  p_{\text{FA}}\right) = - \Phi^{-1}\left(p_{\text{FA}}\right) \\
-d' = c - \Phi^{-1}\left(1 -  p_{\text{H}}\right) =\Phi^{-1}\left(p_{\text{H}}\right) - \Phi^{-1}\left(p_{\text{FA}}\right) 
+d' = c - \Phi^{-1}\left(1 -  p_{\text{H}}\right) =\Phi^{-1}\left(p_{\text{H}}\right) - \Phi^{-1}\left(p_{\text{FA}}\right)
 \]</span></p>
 <hr>
 </div>
-<div id="glm-formulation-of-equal-variance-sdt-models" class="section level3">
+<div id="glm-formulation-of-equal-variance-sdt-models" class="section level3" number="10.1.3">
 <h3>
 <span class="header-section-number">10.1.3</span> GLM formulation of equal-variance SDT models<a class="anchor" aria-label="anchor" href="#glm-formulation-of-equal-variance-sdt-models"><i class="fas fa-link"></i></a>
 </h3>
@@ -218,7 +240,7 @@ d' = \Phi^{-1}(p_{\text{H}}) - \Phi^{-1}(p_{\text{FA}}) = \beta_0 + \beta_1 -\be
 Recognizing this identity makes it easier to use statistical packages such as R to easily analyse complex design with multiple conditions and interaction effects. It also makes it possible to estimate multi-level (or hierarchical, random-effects) SDT models.</p>
 </div>
 </div>
-<div id="bayesian-confidence-in-equal-variance-sdt" class="section level2">
+<div id="bayesian-confidence-in-equal-variance-sdt" class="section level2" number="10.2">
 <h2>
 <span class="header-section-number">10.2</span> Bayesian confidence in equal-variance SDT<a class="anchor" aria-label="anchor" href="#bayesian-confidence-in-equal-variance-sdt"><i class="fas fa-link"></i></a>
 </h2>
@@ -290,13 +312,15 @@ p(N \mid x)_{\alpha=0.5} =  \frac{p(x \mid S)}{p(x \mid N)+p(x \mid N)}
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dark green"</span>,<span class="st">"red"</span><span class="op">)</span>,name<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"confidence level"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; Warning: The dot-dot notation (`..density..`) was deprecated in</span></span>
+<span><span class="co">#&gt; ggplot2 3.4.0.</span></span>
 <span><span class="co">#&gt; ℹ Please use `after_stat(density)` instead.</span></span>
 <span><span class="co">#&gt; This warning is displayed once every 8 hours.</span></span>
-<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span></code></pre></div>
+<span><span class="co">#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where</span></span>
+<span><span class="co">#&gt; this warning was generated.</span></span></code></pre></div>
 <div class="inline-figure"><img src="20-SDT_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></div>
 <p>The distribution of confidence is - as expected - different from correct and wrong response: it is peaked near 1 for correct responses, and peaked near 0.5 for errors. Importantly, the separation between confidence distributions in correct and wrong responses is similar in both signal absent (left panel) and signal present (right panel) trials. This suggest that metacognitive sensitivity - the ability to discriminate between correct and incorrect responses - should not change across signal present and signal absent answers. This can be visualized with Type-2 ROC (Receiver Operating Characteristic) curves, which are obtained by plotting the proportion of “type-2 hits” as a function of the “type-2 false alarms” - these are the fraction of correct and wrong responses that are classified as correct for each possible
-threshold setting on the confidence distribution. The term “Type-2” is used to indicate that is a metacognitive task - a decision about a decision<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Susan J. Galvin et al., “Type 2 Tasks in the Theory of Signal Detectability: Discrimination Between Correct and Incorrect Decisions,” &lt;em&gt;Psychonomic Bulletin &amp;amp; Review&lt;/em&gt; 10, no. 4 (December 2003): 843–76, &lt;a href="https://doi.org/10.3758/BF03196546"&gt;https://doi.org/10.3758/BF03196546&lt;/a&gt;.&lt;/p&gt;'><sup>25</sup></a></span>.</p>
+threshold setting on the confidence distribution. The term “Type-2” is used to indicate that is a metacognitive task - a decision about a decision<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Susan J. Galvin et al., &lt;span&gt;“Type 2 Tasks in the Theory of Signal Detectability: &lt;span&gt;Discrimination&lt;/span&gt; Between Correct and Incorrect Decisions,”&lt;/span&gt; &lt;em&gt;Psychonomic Bulletin &amp;amp; Review&lt;/em&gt; 10, no. 4 (December 2003): 843–76, &lt;a href="https://doi.org/10.3758/BF03196546"&gt;https://doi.org/10.3758/BF03196546&lt;/a&gt;.&lt;/p&gt;'><sup>25</sup></a></span>.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># functions to compute true and false positive rates</span></span>
 <span><span class="va">TPR</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">d</span>,<span class="va">th</span><span class="op">)</span><span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">tar_pres</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">d</span><span class="op">$</span><span class="va">x</span><span class="op">&gt;</span><span class="va">th</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">tar_pres</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">}</span></span>
@@ -313,10 +337,10 @@ threshold setting on the confidence distribution. The term “Type-2” is used 
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">roc</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>y<span class="op">=</span><span class="st">"Type-2 hits"</span>, x<span class="op">=</span><span class="st">"Type-2 FA"</span><span class="op">)</span> <span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>intercept<span class="op">=</span><span class="fl">0</span>,slope<span class="op">=</span><span class="fl">1</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">roc0</span>,color<span class="op">=</span><span class="st">"dark red"</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Equal-variance SDT, Type 2 sensitivity"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="20-SDT_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;"></div>
-<p>The ROC curve derived from confidence ratings discriminate equally well correct vs wrong responses (in the plot, blue is the curve for target present responses) - thus indicating similar metacognitive or “type-2” sensitivity. However, empiricaly it has been found that metacognitive sensitivite seems to be worse for signal absent responses - e.g. see.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Matan Mazor, Karl J Friston, and Stephen M Fleming, “Distinct Neural Contributions to Metacognition for Detecting, but Not Discriminating Visual Stimuli,” ed. Thorsten Kahnt, Joshua I Gold, and Michael Graziano, &lt;em&gt;eLife&lt;/em&gt; 9 (April 2020): e53900, &lt;a href="https://doi.org/10.7554/eLife.53900"&gt;https://doi.org/10.7554/eLife.53900&lt;/a&gt;.&lt;/p&gt;'><sup>26</sup></a></span> As we see below, this finding can be accomodated by relaxing the assumption that signal and noise distribution have the same standard deviation, and assuming instead that the standard deviation of the signal present distribution is larger.</p>
+<p>The ROC curve derived from confidence ratings discriminate equally well correct vs wrong responses (in the plot, blue is the curve for target present responses) - thus indicating similar metacognitive or “type-2” sensitivity. However, empiricaly it has been found that metacognitive sensitivite seems to be worse for signal absent responses - e.g. see.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Matan Mazor, Karl J Friston, and Stephen M Fleming, &lt;span&gt;“Distinct Neural Contributions to Metacognition for Detecting, but Not Discriminating Visual Stimuli,”&lt;/span&gt; ed. Thorsten Kahnt, Joshua I Gold, and Michael Graziano, &lt;em&gt;eLife&lt;/em&gt; 9 (April 2020): e53900, &lt;a href="https://doi.org/10.7554/eLife.53900"&gt;https://doi.org/10.7554/eLife.53900&lt;/a&gt;.&lt;/p&gt;'><sup>26</sup></a></span> As we see below, this finding can be accomodated by relaxing the assumption that signal and noise distribution have the same standard deviation, and assuming instead that the standard deviation of the signal present distribution is larger.</p>
 <hr>
 </div>
-<div id="unequal-variance-sdt" class="section level2">
+<div id="unequal-variance-sdt" class="section level2" number="10.3">
 <h2>
 <span class="header-section-number">10.3</span> Unequal-variance SDT<a class="anchor" aria-label="anchor" href="#unequal-variance-sdt"><i class="fas fa-link"></i></a>
 </h2>
@@ -385,7 +409,7 @@ As a result, the log-likelihood ratio crosses zero in 2 points, thus yielding 2 
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">Xi</span>,<span class="va">fS</span>,lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v<span class="op">=</span><span class="va">UE_c</span>,col<span class="op">=</span><span class="st">"red"</span>,lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="20-SDT_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;"></div>
-<div id="optimal-confidence-in-unequal-variance-sdt" class="section level3">
+<div id="optimal-confidence-in-unequal-variance-sdt" class="section level3" number="10.3.1">
 <h3>
 <span class="header-section-number">10.3.1</span> Optimal confidence in unequal-variance SDT<a class="anchor" aria-label="anchor" href="#optimal-confidence-in-unequal-variance-sdt"><i class="fas fa-link"></i></a>
 </h3>
@@ -488,7 +512,7 @@ As a result, the log-likelihood ratio crosses zero in 2 points, thus yielding 2 
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>RHUL Psychology
-Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-11-13.</p>
+Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-11-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

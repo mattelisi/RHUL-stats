@@ -74,7 +74,8 @@ Either click on the links or click on the embedded slides and press 'F' to go fu
 
 15th November 2023
 
-([link](https://mlisi.xyz/files/workshops/power_analyses/power_analyses.html))
+Links: ([slides](https://mlisi.xyz/files/workshops/power_analyses/power_analyses.html)), 
+([script](https://mlisi.xyz/files/workshops/power_analyses/power_analysis_workshop_script.R))
 
 
 

@@ -7,7 +7,7 @@
 <title> 9 Missing data | RHUL Psychology Statistical modelling notebook</title>
 <meta name="author" content="Matteo Lisi">
 <meta name="description" content="9.1 Types of missing data Following the work of Rubin21, missing data are typically grouped in 3 categories: Missing completely at random (MCAR). This assumes that the probability of being missing...">
-<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
 <meta property="og:title" content=" 9 Missing data | RHUL Psychology Statistical modelling notebook">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://mlisi.xyz/RHUL-stats/missing-data.html">
@@ -25,6 +25,28 @@
 <script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script><script src="libs/fitvids-2.1.1/fitvids.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -69,15 +91,15 @@ Statistical modelling notebook</a>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="missing-data" class="section level1">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="missing-data" class="section level1" number="9">
 <h1>
 <span class="header-section-number"> 9</span> Missing data<a class="anchor" aria-label="anchor" href="#missing-data"><i class="fas fa-link"></i></a>
 </h1>
-<div id="types-of-missing-data" class="section level2">
+<div id="types-of-missing-data" class="section level2" number="9.1">
 <h2>
 <span class="header-section-number">9.1</span> Types of missing data<a class="anchor" aria-label="anchor" href="#types-of-missing-data"><i class="fas fa-link"></i></a>
 </h2>
-<p>Following the work of Rubin<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;DONALD B. RUBIN, “Inference and missing data,” &lt;em&gt;Biometrika&lt;/em&gt; 63, no. 3 (December 1976): 581–92, &lt;a href="https://doi.org/10.1093/biomet/63.3.581"&gt;https://doi.org/10.1093/biomet/63.3.581&lt;/a&gt;.&lt;/p&gt;'><sup>21</sup></a></span>, missing data are typically grouped in 3 categories:</p>
+<p>Following the work of Rubin<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;DONALD B. RUBIN, &lt;span&gt;“&lt;span class="nocase"&gt;Inference and missing data&lt;/span&gt;,”&lt;/span&gt; &lt;em&gt;Biometrika&lt;/em&gt; 63, no. 3 (December 1976): 581–92, &lt;a href="https://doi.org/10.1093/biomet/63.3.581"&gt;https://doi.org/10.1093/biomet/63.3.581&lt;/a&gt;.&lt;/p&gt;'><sup>21</sup></a></span>, missing data are typically grouped in 3 categories:</p>
 <ul>
 <li><p>Missing completely at random (<strong>MCAR</strong>). This assumes that the probability of being missing is the same for all cases; this implies that the mechanisms that causes missingness is not related in any way to the data. For example, say, there’s a known unpredictable error on the server side that prevented recording some responses for some respondents to a survey. As the missingness is entirely independent on the respondents’ characteristics, this would be MCAR. When the data are MCAR we can ignore a lot of the complexities and just do a <em>complete-case</em> analysis (that is, simply exclude incomplete observations from the dataset). A part from possible loss of information, doing a complete case analysis should not introduce bias in the results. In practice, however, it is difficult to establish whether the data are truly MCAR. Ideally, to argue that data are MCAR, one should have a good idea of the mechanisms that caused missigness (more on this below). Formally, data is MCAR if <span class="math display">\[
 \Pr(R=0|Y_\mathrm{obs},Y_\mathrm{mis},\psi) = \Pr(R=0|\psi)
@@ -88,19 +110,19 @@ Statistical modelling notebook</a>
 <li><p>Missing not at random (<strong>MNAR</strong>). This means that the probability of being missing varies for reasons that are unknown to us, and may depends on the missing values themselves. Formally this means that <span class="math inline">\(\Pr(R=0|Y_\mathrm{obs},Y_\mathrm{mis},\psi)\)</span> does not simplify in any way. This case is the most hard to handle: a complete case analyses may or may not be biased, but there is no way of knowing it and we may have to find more information about what caused missingness.</p></li>
 </ul>
 </div>
-<div id="deciding-whether-the-data-are-mcar" class="section level2">
+<div id="deciding-whether-the-data-are-mcar" class="section level2" number="9.2">
 <h2>
 <span class="header-section-number">9.2</span> Deciding whether the data are MCAR<a class="anchor" aria-label="anchor" href="#deciding-whether-the-data-are-mcar"><i class="fas fa-link"></i></a>
 </h2>
-<p>As MCAR is the only scenario in which it is safe to do a complete case analysis, it would seem useful to have way to test this assumption. Some approaches have been proposed to test whether the data are MCAR, but they are not widely used and it’s not clear how useful they are in practice. For example one could run a logistic regression with “missingness” as dependent variable (e.g. an indicator variable set to 1 if data is missing and 0 otherwise), and all other variables as predictors - if the data are MCAR then none of the predictors should predict missingness. A popular alternative, implemented in several software packages is Little’s test<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Roderick J. A. Little, “A Test of Missing Completely at Random for Multivariate Data with Missing Values,” &lt;em&gt;Journal of the American Statistical Association&lt;/em&gt; 83, no. 404 (1988): 1198–1202, &lt;a href="http://www.jstor.org/stable/2290157"&gt;http://www.jstor.org/stable/2290157&lt;/a&gt;.&lt;/p&gt;'><sup>23</sup></a></span>.</p>
+<p>As MCAR is the only scenario in which it is safe to do a complete case analysis, it would seem useful to have way to test this assumption. Some approaches have been proposed to test whether the data are MCAR, but they are not widely used and it’s not clear how useful they are in practice. For example one could run a logistic regression with “missingness” as dependent variable (e.g. an indicator variable set to 1 if data is missing and 0 otherwise), and all other variables as predictors - if the data are MCAR then none of the predictors should predict missingness. A popular alternative, implemented in several software packages is Little’s test<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Roderick J. A. Little, &lt;span&gt;“A Test of Missing Completely at Random for Multivariate Data with Missing Values,”&lt;/span&gt; &lt;em&gt;Journal of the American Statistical Association&lt;/em&gt; 83, no. 404 (1988): 1198–1202, &lt;a href="http://www.jstor.org/stable/2290157"&gt;http://www.jstor.org/stable/2290157&lt;/a&gt;.&lt;/p&gt;'><sup>23</sup></a></span>.</p>
 <p>Technically, these approaches can help determine whether the missingness depends on some observed variables (that is, if they are MAR), but strictly speaking cannot exclude missingness due to unobserved variables (MNAR scenario). Nevertheless, if one has good reasons to believe that the data are MCAR, and want to add some statistical test that corroborate this assumption, these could be reasonable tests to do. However, it remains important to also discuss openly possible reasons and mechanisms of missingness, and explain why we deem it a priori plausible that the data are MCAR. In fact, <em>statistical tests alone cannot tell whether data are missing completely at random</em>. The terms MCAR, MAR and MNAR refers to the <em>causal</em> mechanisms that is responsible for missing data and, strictly speaking, causal claims cannot be decided uniquely on the basis of a simple statistical test. If the data “pass” the test it would provide some additional support to the assumption that they are MCAR, but in and of itself the test alone does not fully satisfy the assumptions of MCAR. To see why note that MCAR (as formally defined above) assumes also that there should be no relationship between the missingness on a particular variable and the values of that same variable: but since this is a question about what is missing from the data, it cannot be tested with any quantitative analysis of the available data. Finally, it should be added that as these are null-hypothesis significance test, a failure to reject the null hypothesis does not, in and of itself, provide evidence for the null hypothesis (that the data are MCAR). It may be also that we don’t have enough power to reliably detect the pattern in the missingness.</p>
 </div>
-<div id="causal-analysis-and-bayesian-imputation" class="section level2">
+<div id="causal-analysis-and-bayesian-imputation" class="section level2" number="9.3">
 <h2>
 <span class="header-section-number">9.3</span> Causal analysis and Bayesian imputation<a class="anchor" aria-label="anchor" href="#causal-analysis-and-bayesian-imputation"><i class="fas fa-link"></i></a>
 </h2>
 <p>The best and most principled approach to deal with missingness (at least in my opinion) is to think hard about the causal mechanisms that may determine missingness, and use our assumption about the causal mechanisms to perform a full Bayesian imputation (that is, treating the missing data as parameter and estimating them).</p>
-<p>I plan to create and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of <a href="https://xcelab.net/rm/statistical-rethinking/">the excellent book by Richard McElreath <em>Statistical Rethinking</em></a><span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Richard McElreath, &lt;em&gt;Statistical Rethinking, a Course in R and Stan&lt;/em&gt;, 2nd ed. (Chapman &amp;amp; Hall/CRC Press, 2020), &lt;a href="https://xcelab.net/rm/statistical-rethinking/"&gt;https://xcelab.net/rm/statistical-rethinking/&lt;/a&gt;.&lt;/p&gt;'><sup>24</sup></a></span> which present a very accessible worked example of how to do this in R.</p>
+<p>I plan to create and include here a worked example of how to do this; in the meantime interested readers are referred to Chapter 15 (in particular section 15.2) of <a href="https://xcelab.net/rm/statistical-rethinking/">the excellent book by Richard McElreath <em>Statistical Rethinking</em></a><span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Richard McElreath, &lt;em&gt;Statistical Rethinking, a Course in r and Stan&lt;/em&gt;, 2nd ed. (Chapman &amp;amp; Hall/CRC Press, 2020), &lt;a href="https://xcelab.net/rm/statistical-rethinking/"&gt;https://xcelab.net/rm/statistical-rethinking/&lt;/a&gt;.&lt;/p&gt;'><sup>24</sup></a></span> which present a very accessible worked example of how to do this in R.</p>
 
 </div>
 </div>
@@ -133,7 +155,7 @@ Statistical modelling notebook</a>
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>RHUL Psychology
-Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-11-13.</p>
+Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2023-11-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
