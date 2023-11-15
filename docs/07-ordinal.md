@@ -108,7 +108,7 @@ summary(model)
 #> data:    dat
 #> 
 #>  link  threshold nobs logLik  AIC    niter    max.grad
-#>  logit flexible  200  -175.75 365.49 291(919) 6.57e-05
+#>  logit flexible  200  -175.75 365.49 291(919) 6.56e-05
 #>  cond.H 
 #>  8.6e+02
 #> 
@@ -120,7 +120,7 @@ summary(model)
 #> Coefficients:
 #>    Estimate Std. Error z value Pr(>|z|)    
 #> x1  0.55685    0.07516   7.409 1.27e-13 ***
-#> d1  2.29521    0.36658   6.261 3.82e-10 ***
+#> d1  2.29521    0.36659   6.261 3.82e-10 ***
 #> ---
 #> Signif. codes:  
 #> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -191,10 +191,12 @@ ggplot(pred_d1,aes(x=response, y=prop_obs))+
   facet_grid(.~d1)+
   geom_line(data=pred_d1, aes(y=prob), size=2)+
   labs(y="probability")
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2
+#> 3.4.0.
 #> ℹ Please use `linewidth` instead.
 #> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where
+#> this warning was generated.
 ```
 
 <img src="07-ordinal_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" />
