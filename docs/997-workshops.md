@@ -88,9 +88,29 @@ Links: ([slides](https://mlisi.xyz/files/workshops/power_analyses/power_analyses
 
 
 
+
+## Introduction to Bayesian data analysis using R and Stan
+
+29th November 2023
+
+Links: ([slides](https://mlisi.xyz/files/workshops/intro_bayes/intro-Bayes.html)), 
+
+See this Github repository for code and data: [https://github.com/mattelisi/intro-Bayes](https://github.com/mattelisi/intro-Bayes).
+
+
+```{=html}
+<div class="shareagain" style="min-width:300px;margin:1em auto;" data-exeternal="1">
+<iframe src="https://mlisi.xyz/files/workshops/intro_bayes/intro-Bayes.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
+```
+
+
+
+
 ## Introduction to linear algebra
 
-Lecture for MSc module PS5210 (7th December 2022)
+Lecture for MSc module PS5210 (version from: 7th December 2022)
 
 **Part 2** ([link](https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html))
 
