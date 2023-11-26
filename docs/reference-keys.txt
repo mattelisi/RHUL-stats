@@ -54,6 +54,7 @@ workshops
 linear-multilevel-models-lmm-workshop-9th-sept-2022
 introduction-to-meta-analyses-in-r
 power-analyses-via-data-simulation
+introduction-to-bayesian-data-analysis-using-r-and-stan
 introduction-to-linear-algebra
 useful-links-resources
 statistical-theory

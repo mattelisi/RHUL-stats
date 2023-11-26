@@ -77,9 +77,27 @@ xaringanExtra::embed_xaringan(
 ```
 
 
+
+## Introduction to Bayesian data analysis using R and Stan
+
+29th November 2023
+
+Links: ([slides](https://mlisi.xyz/files/workshops/intro_bayes/intro-Bayes.html)), 
+
+See this Github repository for code and data: [https://github.com/mattelisi/intro-Bayes](https://github.com/mattelisi/intro-Bayes).
+
+```{r, echo=FALSE}
+xaringanExtra::embed_xaringan(
+  url = "https://mlisi.xyz/files/workshops/intro_bayes/intro-Bayes.html",
+  ratio = "16:9"
+)
+```
+
+
+
 ## Introduction to linear algebra
 
-Lecture for MSc module PS5210 (7th December 2022)
+Lecture for MSc module PS5210 (version from: 7th December 2022)
 
 **Part 2** ([link](https://mlisi.xyz/files/workshops/numerical_skills_lecture/slides_numerical_skills_part2.html))
 
