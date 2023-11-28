@@ -93,9 +93,9 @@ Links: ([slides](https://mlisi.xyz/files/workshops/power_analyses/power_analyses
 
 29th November 2023
 
-Links: ([slides](https://mlisi.xyz/files/workshops/intro_bayes/intro-Bayes.html)), 
+Link: ([slides](https://mlisi.xyz/files/workshops/intro_bayes/intro-Bayes.html)), 
 
-See this Github repository for code and data: [https://github.com/mattelisi/intro-Bayes](https://github.com/mattelisi/intro-Bayes).
+See this Github repository for code examples and datasets: [https://github.com/mattelisi/intro-Bayes](https://github.com/mattelisi/intro-Bayes).
 
 
 ```{=html}
