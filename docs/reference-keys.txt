@@ -50,6 +50,12 @@ glm-formulation-of-equal-variance-sdt-models
 bayesian-confidence-in-equal-variance-sdt
 unequal-variance-sdt
 optimal-confidence-in-unequal-variance-sdt
+fitting-zipfs-law-to-word-frequency-data
+background
+data-preparation
+estimation
+results
+visualization
 workshops
 linear-multilevel-models-lmm-workshop-9th-sept-2022
 introduction-to-meta-analyses-in-r
