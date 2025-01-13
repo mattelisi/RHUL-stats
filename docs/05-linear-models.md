@@ -18,7 +18,7 @@ According to this model $\beta^{-1}$ gives the approximate age of the universe, 
 
 We can load a dataset of measurements from the Hubble Space Telescope in R using the following code
 
-```r
+``` r
 d <- read.table(file="https://raw.githubusercontent.com/mattelisi/RHUL-stats/main/data/hubble.txt", 
                 header=T)
 ```
@@ -27,7 +27,7 @@ d <- read.table(file="https://raw.githubusercontent.com/mattelisi/RHUL-stats/mai
 
 We can use the command `str()` to examine what we have imported
 
-```r
+``` r
 str(d)
 #> 'data.frame':	24 obs. of  3 variables:
 #>  $ Galaxy  : chr  "NGC0300" "NGC0925" "NGC1326A" "NGC1365" ...
@@ -42,7 +42,7 @@ This tells us that our data frame has 3 variables:
 
 We can plot^[See `?plot` for more info about how to customize plots in R.] them using the following code:
 
-```r
+``` r
 plot(d$distance, # indicate which variable on X axis
      d$velocity, # indicate which variable on Y axis
      xlab="Distance [Mega-parsecs]",
@@ -69,7 +69,7 @@ which is essentially a linear regression but without the intercept: that is, whe
 We can fit the model with the function `lm` in R. Note that to tell R that I don't want to fit the intercept, I include in the formula the term `0 + ` - this essentially tells R that the intercept term is set to zero^[A similar results would have been obtained using the notation `velocity ~ -1 + distance`.]
 
 
-```r
+``` r
 hub.m <- lm(velocity ~ 0 + distance, d)
 summary(hub.m)
 #> 
@@ -102,7 +102,7 @@ So, based on this data, **our estimate of the Hubble constant is 76.58 with a st
 The Hubble constant estimate have units of $\frac{\text{Km}/\text{sec}}{\text{Mega-parsecs}}$. A Mega-parsecs is $3.09 \times 10^{19} \text{Km}$, so we divide our estimate of $\hat \beta$ by this amount. The reciprocal of $\hat \beta$ then gives the approximate age of the universe (in seconds). In R we can calculate it (in years) as follow
 
 
-```r
+``` r
 # transform in Km
 hubble.const <- coef(hub.m)/(3.09 * 10^(19))
 

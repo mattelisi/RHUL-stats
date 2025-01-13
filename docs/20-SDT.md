@@ -73,7 +73,7 @@ It is easy to verify that when the signal and noise trials are equiprobable, tha
 We use R to verify visually that the optimal criterion (represented by the vertical red line) is located at horizontal coordinates of the crossover point of the two probability densities:
 
 
-```r
+``` r
 # settings
 d_prime <- 2
 sigma <- 1   
@@ -106,7 +106,7 @@ What if we have unequal prior probabilities, e.g. $p(S)=\alpha=0.8$ ?
 The optimal criterion is always at the crossover point, which however is in a different location since the two distribution are scaled by their prior proability.
 
 
-```r
+``` r
 # Set a different prior probability
 alpha <- 0.8
 
@@ -207,7 +207,7 @@ $$
 One question we may ask at this point is how the distribution of confidence levels of the observers changes in correct vs wrong responses, and also in signal absent vs signal present responses. The simplest way to get at this is by simulation - see the following R code
 
 
-```r
+``` r
 # load ggplot library for plotting
 library(ggplot2)
 
@@ -270,7 +270,7 @@ The distribution of confidence is - as expected - different from correct and wro
 threshold setting on the confidence distribution. The term "Type-2" is used to indicate that is a metacognitive task - a decision about a decision[@Galvin2003]. 
 
 
-```r
+``` r
 # functions to compute true and false positive rates
 TPR <- function(d,th){ sum(d$tar_pres==1 & d$x>th) / sum(d$tar_pres==1)}
 FPR <- function(d,th){ sum(d$tar_pres==0 & d$x>th) / sum(d$tar_pres==0)}
@@ -314,7 +314,7 @@ $$
 As a result, the log-likelihood ratio crosses zero in 2 points, thus yielding 2 decision criteria - see next figure.
 
 
-```r
+``` r
 # settings
 d_prime <- 3
 sigmaS <- 2  
@@ -365,7 +365,7 @@ abline(v=UE_c,col="red",lwd=2)
 The reason why there are two criteria may be seen more clearly if we plot the logarithm of the probability density, as this makes it evident that there are two regions, to the left and the right of the noise distribution, in which the probability of signal present is larger than that of no-signal (i.e noise only).
 
 
-```r
+``` r
 # plot unequal variance and criterion
 Xi <- seq(-6,10,length.out=500)
 fS = dnorm(Xi,mean=d_prime,sd=sigmaS)
@@ -382,7 +382,7 @@ abline(v=UE_c,col="red",lwd=2)
 The confidence can be computed in the same way (applying Bayes rule).
 
 
-```r
+``` r
 # now apply decision rule
 if(length(UE_c)==1){
   resp_yes <- ifelse(x > UE_c,1,0)
@@ -428,7 +428,7 @@ ggplot(d,aes(x=confidence,group=correct,color=correct,fill=correct))+
 As can be seen from the ROC curve, confidence levels (even estimated optimally using Bayes rule) reveals an asymmetry (again, target present responses are represented by the blue curve). That is, the unequal-variance signal detection theory model predict worse metacognitive sensitivity for "signal absent" responses.
 
 
-```r
+``` r
 # functions to compute true and false positive rates
 TPR <- function(d,th){ sum(d$tar_pres==1 & d$x>th) / sum(d$tar_pres==1)}
 FPR <- function(d,th){ sum(d$tar_pres==0 & d$x>th) / sum(d$tar_pres==0)}

@@ -34,7 +34,7 @@ This is the general approach and the formalism used - below I present few exampl
 R libraries used in this example
 
 
-```r
+``` r
 library(ggplot2)
 library(ordinal)
 library(tidyverse)
@@ -44,7 +44,7 @@ library(DescTools)
 In addition to the above libraries, here I will create a handy R function that gives the probabilities of the categorical responses given a mean value of the latent quantity (indicated with $\mu$ above) and a set of cutpoints $c_1, \ldots, c_{k+1}$. This will be used both for simulating the data and for plotting the fit of the model.
 
 
-```r
+``` r
 ordered_logistic <- function(eta, cutpoints){
   cutpoints <- c(cutpoints, Inf)
   k <- length(cutpoints)
@@ -62,7 +62,7 @@ For this example we simulate some data. We have two predictors: `x1`, a continuo
 
 
 
-```r
+``` r
 set.seed(5)
 N <- 200
 N_id <- 10
@@ -88,7 +88,7 @@ str(dat)
 The dependent variable is categorical with 5 levels - here is a plot of the number of responses per category in the two conditions. We are interested in testing whether the distribution differ across the conditions.
 
 
-```r
+``` r
 ggplot(dat,aes(x=response))+
   geom_bar()+
   facet_grid(.~d1)
@@ -99,7 +99,7 @@ ggplot(dat,aes(x=response))+
 We use the `clmm()` function in the package `ordinal` to estimate the model. The syntax is similar to what we would use for a linear mixed effect model. Note that in the output the `Threshold coefficients` are the latent cutpoints $c_1, \ldots, c_{4}$
 
 
-```r
+``` r
 model <- clmm(response ~ x1 + d1 + (1|id), data = dat)
 summary(model)
 #> Cumulative Link Mixed Model fitted with the Laplace approximation
@@ -108,7 +108,7 @@ summary(model)
 #> data:    dat
 #> 
 #>  link  threshold nobs logLik  AIC    niter    max.grad
-#>  logit flexible  200  -175.75 365.49 291(919) 6.56e-05
+#>  logit flexible  200  -175.75 365.49 291(919) 6.57e-05
 #>  cond.H 
 #>  8.6e+02
 #> 
@@ -120,7 +120,7 @@ summary(model)
 #> Coefficients:
 #>    Estimate Std. Error z value Pr(>|z|)    
 #> x1  0.55685    0.07516   7.409 1.27e-13 ***
-#> d1  2.29521    0.36659   6.261 3.82e-10 ***
+#> d1  2.29521    0.36658   6.261 3.82e-10 ***
 #> ---
 #> Signif. codes:  
 #> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -136,7 +136,7 @@ summary(model)
 There is no function that can out-of the box calculate the predictions of the model for us, so this will need some coding. I also use the library `DescTools` to calculate simultaneous multinomial confidence intervals. In the resulting plot the black line are model fit, and bar the observed responses.
 
 
-```r
+``` r
 # pre-allocate a matrix to store model predictions
 # note that these are a vector of 5 probabilities for each trial
 pred_mat <- matrix(NA, nrow=N, ncol=length(unique( dat$response)))
@@ -175,6 +175,9 @@ pred_dat %>%
     response=as.numeric(response_category)) -> pred_d1
 #> `summarise()` has grouped output by 'd1'. You can override
 #> using the `.groups` argument.
+```
+
+``` r
 
 # cimpute the multinomial interval
 pred_d1$CI_lb <- MultinomCI(pred_d1$n)[,"lwr.ci"] *2 
@@ -204,7 +207,7 @@ ggplot(pred_d1,aes(x=response, y=prop_obs))+
 We can repeat the same process also for calculating predictions for individual participants
 
 
-```r
+``` r
 # split by ID
 pred_dat %>%
   pivot_longer(cols=starts_with("resp_"), 
@@ -219,6 +222,9 @@ pred_dat %>%
          response=as.numeric(response_category))  -> pred_d1
 #> `summarise()` has grouped output by 'id', 'd1'. You can
 #> override using the `.groups` argument.
+```
+
+``` r
 
 # calculate multinomial CI
 # we do a loop over all participants and conditions

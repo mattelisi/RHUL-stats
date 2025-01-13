@@ -22,22 +22,25 @@ where \(s\) is a positive parameter that shifts the rank.
 We use the word frequency data from "Moby Dick" available in the `languageR` package. First, we load and clean the data:
 
 
-```r
+``` r
 # Clean environment and set working directory
 rm(list=ls())
 
 # Load necessary libraries
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.1.2     ✔ readr     2.1.4
-#> ✔ forcats   1.0.0     ✔ stringr   1.5.0
-#> ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
-#> ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+#> ✔ dplyr     1.1.4     ✔ readr     2.1.5
+#> ✔ forcats   1.0.0     ✔ stringr   1.5.1
+#> ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+#> ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 #> ✔ purrr     1.0.2     
 #> ── Conflicts ────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+``` r
 library(languageR)
 
 # Load and prepare Moby Dick word frequency data
@@ -61,7 +64,7 @@ head(word_freq_df)
 We then rank the words by frequency 
 
 
-```r
+``` r
 ranked_words <- word_freq_df %>%
   arrange(desc(frequency)) %>%
   mutate(word = factor(word, levels = word),
@@ -73,7 +76,7 @@ ranked_words <- word_freq_df %>%
 We define custom functions for the binomial split, the negative log-likelihood, and the Zipf–Mandelbrot law probability mass function:
 
 
-```r
+``` r
 # Binomial split - randomly split the corpus to ensure independence of rank and frequencies estimates
 binomial_split <- function(data, p=0.5){
   f1 <- rep(NA, nrow(data))
@@ -114,7 +117,7 @@ dzipf <- function(rank, params, N){
 We then fit the model using the `optim` function:
 
 
-```r
+``` r
 # Initial parameter values for optimization
 init_params <- c(s = 1, a = 1)
 
@@ -134,7 +137,7 @@ fit_zipf <- optim(par = init_params,
 Here are the estimated values of the parameters \(s\) and \(a\)
 
 
-```r
+``` r
 print(fit_zipf$par)
 #>        s        a 
 #> 1.817667 1.072602
@@ -143,7 +146,7 @@ print(fit_zipf$par)
 We can get standard errors of the parameters estimates from the Hessian matrix:
 
 
-```r
+``` r
 sqrt(diag(solve(fit_zipf$hessian)))
 #>           s           a 
 #> 0.032707787 0.001272293
@@ -157,7 +160,7 @@ Note that these standard errors do not take into account the additional sampling
 Finally, we can visualize the fitted model against the actual data in the classical rank-frequency plot:
 
 
-```r
+``` r
 #computed predicted probabilities
 ranked_words$probability_predicted <- dzipf(rank=ranked_words$rank, 
                                         params=fit_zipf$par,
