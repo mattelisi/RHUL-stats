@@ -19,11 +19,11 @@ bookdown::render_book("index.Rmd", "bookdown::pdf_book",
 options(bookdown.clean_book = TRUE)
 bookdown::clean_book()
 
-# setwd("/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/")
-setwd("~/git_local/RHUL-stats/")
+setwd("/mnt/sda2/matteoHDD/git_local_HDD/RHUL-stats/")
+# setwd("~/git_local/RHUL-stats/")
 system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "added causal woorkshop law"')
+system('git commit -m "added causal woorkshop"')
 system("git push origin main")
