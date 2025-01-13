@@ -95,6 +95,21 @@ xaringanExtra::embed_xaringan(
 
 
 
+## Introduction to causal reasoning with graphical models
+
+15th January 2025
+
+https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html
+
+
+Link: ([slides](https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html)), 
+
+
+{{< revealjs file="https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html" height="500px" class="ratio ratio-16x9" >}}
+
+
+
+
 ## Introduction to linear algebra
 
 Lecture for MSc module PS5210 (version from: 7th December 2022)

@@ -39,7 +39,7 @@ However, in practice, data often do not conform to the constraint of having iden
 The type of data expected under a Poisson model is illustrated in the figure below, which shows 100 datapoints simulated from the model $y_i \sim \text{Poisson} \left(e^{1 + 2x_i }\right)$. The vertical deviations of the datapoints from the line are consistent with the property of the Poisson distribution that the variance of hte count has the same value as their expected value, formally, $Var(y) = \mathbb{E}(y)$).
 
 
-```r
+``` r
 set.seed(2)
 n <- 100
 x <- runif(n, -1.3, 1.3)
@@ -95,7 +95,7 @@ The goal of the study was to use the anchoring effect to:
 In R we begin by loading the data
 
 
-```r
+``` r
 d <- read_csv("../data/nb_units.csv", show_col_types = F) # data availabel in the data folder of the repository
 d
 #> # A tibble: 930 × 3
@@ -117,7 +117,7 @@ d
 We can calculate the mean and variance of the number of units reported in each conditions. This reveal that the variance across participants in the number of units reported is many times higher than the mean in the number of reported units.
 
 
-```r
+``` r
 d %>%
   group_by(condition) %>%
   summarise(Mean = mean(units),
@@ -160,7 +160,7 @@ We can use ggplot2 library to visualize the distributions of reported units in e
 
 
 
-```r
+``` r
 d %>%
   ggplot(aes(x=units, fill=condition)) +
   geom_histogram(binwidth=1)+
@@ -174,7 +174,7 @@ d %>%
 To estimate the negative-binomial model, we can use the function `glm.nb()` from available in the `MASS` package. Our predictor condition is categorical with 3 levels and therefore it is coded internally as a set of 2 dummy variables. We can see how the contrast is set using
 
 
-```r
+``` r
 d$condition <- factor(d$condition) # tell R that this is a categorical factor
 contrasts(d$condition)
 #>         high low
@@ -190,13 +190,16 @@ Note also that for this analysis the variable `units` must contain only integer 
 The following command can be used to estimate the model and examine the results
 
 
-```r
+``` r
 library(MASS)
 #> 
 #> Attaching package: 'MASS'
 #> The following object is masked from 'package:dplyr':
 #> 
 #>     select
+```
+
+``` r
 nb01 <- glm.nb(units ~ condition, data = d)
 summary(nb01)
 #> 
@@ -233,7 +236,7 @@ We can see from output that the condition `high` anchoring elicited reports with
 We can use the model to make a more precise statement about the size of the difference. We can use the value of the coefficients to calculate the predicted values of counts. The exact values of the coefficients can be accessed from the fitted model using the `$` operator
 
 
-```r
+``` r
 nb01$coefficients
 #>   (Intercept) conditionhigh  conditionlow 
 #>    2.01856406    0.46365080    0.07563937
@@ -249,7 +252,7 @@ where I have used the notation $D_\text{high}$ and $D_\text{low}$ to indicate th
 $\beta_0$ is a common notation for the intercept parameter - in this case it gives the expected number of alcohol units in the control condition (because for observations in the control condition we have that $D_\text{high}= D_\text{low}=0$). Thus our model predict an average number of counts in the control condition of 
 
 
-```r
+``` r
 exp(nb01$coefficients["(Intercept)"]) # equivalent to exp(nb01$coefficients[1])
 #> (Intercept) 
 #>    7.527508
@@ -261,7 +264,7 @@ exp(nb01$coefficients["(Intercept)"]) # equivalent to exp(nb01$coefficients[1])
 Furthermore, our models tells us also that the number of reported alcohol units increase multiplicatively in the `high` condition by a factor of 
 
 
-```r
+``` r
 exp(nb01$coefficients["conditionhigh"])
 #> conditionhigh 
 #>      1.589868
@@ -270,7 +273,7 @@ exp(nb01$coefficients["conditionhigh"])
 In fact the predicted number of counts in the `high` condition can be derived from the model as 
 
 
-```r
+``` r
 exp(nb01$coefficients["(Intercept)"])  * exp(nb01$coefficients["conditionhigh"]) 
 #> (Intercept) 
 #>    11.96774
@@ -279,7 +282,7 @@ exp(nb01$coefficients["(Intercept)"])  * exp(nb01$coefficients["conditionhigh"])
 or equivalently 
  
 
-```r
+``` r
 exp(nb01$coefficients["(Intercept)"] + nb01$coefficients["conditionhigh"]) 
 #> (Intercept) 
 #>    11.96774
@@ -288,9 +291,12 @@ exp(nb01$coefficients["(Intercept)"] + nb01$coefficients["conditionhigh"])
 Finally, note that we can use the `sjPlot` library to prepare a fancy version of the model output, and we can see that the multiplicative factor that describe the increase in reported units is called here an _incidence ratio_^[Although honestly I am not sure how common is this terminology].
 
 
-```r
+``` r
 library(sjPlot)
 #> Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+```
+
+``` r
 tab_model(nb01)
 ```
 
@@ -345,7 +351,7 @@ The dataset include also information about the gender of the participants. We ma
 First, let's fit an additional model with the extra predictor `gender`
 
 
-```r
+``` r
 nb02 <- glm.nb(units ~ condition + gender, data = d)
 summary(nb02)
 #> 
@@ -381,7 +387,7 @@ summary(nb02)
 This indicate that indeed male participants report on average 
 
 
-```r
+``` r
 exp(nb02$coefficients["genderMale"])
 #> genderMale 
 #>    2.48363
@@ -392,7 +398,7 @@ times more units of alcohol per week than females.
 We can already see that the difference due to gender is significant, but nevertheless let's compare them using a likelihood ratio test.
 
 
-```r
+``` r
 anova(nb01, nb02)
 #> Likelihood ratio tests of Negative Binomial Models
 #> 
@@ -413,7 +419,7 @@ Here the value of the likelihood ratio statistic is NA, 70.88 and under the null
 It's not straightforward to visualize the model fit to the data - the code below give one possibility:
 
 
-```r
+``` r
 # here I make a new data matric for claculating the prediction of the model
 nd <- expand.grid(condition=unique(d$condition), 
                   units = 0:max(d$units),
@@ -457,7 +463,7 @@ d %>%
 Admittedly the probability of the data under the model (the black lines) looks quite similar across the three panels, however, the model does assign higher probability to higher count values in the `high` condition compared to the other ones - we can see this by putting them together in the same panel, and by plotting the logarithm of the probability instead of the probability itself. These changes in the probability of the data may not seems large when looked at in this way, but they amount to quite substantial changes in the average number of counts - recall that in the `high` condition participants reported on average nearly 1.6 times the number of alcohol units than in the control condition. 
 
 
-```r
+``` r
 nd %>%
   ggplot(aes(x=units, y=log(pred_density), color=condition))+
   geom_line(size=0.6)+
