@@ -25,5 +25,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "hopefullly fixed embedding of causal slides"')
+system('git commit -m "hopefullly fixed embedding of causal slides size"')
 system("git push origin main")
