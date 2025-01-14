@@ -117,7 +117,7 @@ Link: ([slides](https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html)
 <div>
 
 ```{=html}
-  <iframe class="slide-deck" src="https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html" style="width: 100%;"></iframe>
+  <iframe class="slide-deck" src="https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html" style="width: 100%; ; height: 600px; border: none;"></iframe>
 ```
 </div>
 
