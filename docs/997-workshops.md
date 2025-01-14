@@ -115,10 +115,14 @@ See this Github repository for code examples and datasets: [https://github.com/m
 Link: ([slides](https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html)), 
 
 <div>
+
 ```{=html}
-<iframe class="slide-deck" src="https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html"></iframe>
+  <iframe class="slide-deck" src="https://mlisi.xyz/files/workshops/causal/RHUL_causal_intro.html" style="width: 100%;"></iframe>
 ```
 </div>
+
+
+
 
 
 ## Introduction to linear algebra

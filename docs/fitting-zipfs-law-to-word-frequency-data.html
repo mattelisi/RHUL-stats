@@ -224,7 +224,7 @@ Statistical modelling notebook</a>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">fit_zipf</span><span class="op">$</span><span class="va">hessian</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           s           a </span></span>
-<span><span class="co">#&gt; 0.032707790 0.001272293</span></span></code></pre></div>
+<span><span class="co">#&gt; 0.032707787 0.001272293</span></span></code></pre></div>
 <p>Note that these standard errors do not take into account the additional sampling variability due to the binomial split. In order to take this into account we can re-estimate the model for multiple random splits, and examine how much parameters vary across spits.</p>
 </div>
 <div id="visualization" class="section level2" number="11.5">
