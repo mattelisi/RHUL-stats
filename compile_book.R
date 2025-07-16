@@ -25,5 +25,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "adding bayes multilevel worked example (police stops in NYC)"')
+system('git commit -m "adding bayes multilevel worked example (police stops in NYC) - now without big files"')
 system("git push origin main")

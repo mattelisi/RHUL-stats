@@ -5,7 +5,7 @@
 
 
 
-In this section, we analyze an example dataset of police stop-and-frisk data, referred to in `police_BDA3rd_p435.pdf` available at (this repository)[https://github.com/mattelisi/teaching_material/tree/master/multilevel].  
+In this section, we analyze an example dataset of police stop-and-frisk data, referred to in `police_BDA3rd_p435.pdf` available at [this repository](https://github.com/mattelisi/teaching_material/tree/master/multilevel).  
 The data contains counts of stops by precinct, ethnicity, and crime type, along with population and DCJS arrests.  
 We’ll fit an **overdispersed Poisson** regression with random intercepts by precinct and an observation-level random effect, following Gelman & Hill’s approach.
 

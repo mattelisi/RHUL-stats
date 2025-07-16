@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title> 10 Multilevel Bayesian models | RHUL Psychology Statistical modelling notebook</title>
 <meta name="author" content="Matteo Lisi">
-<meta name="description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at (this...">
+<meta name="description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at this...">
 <meta name="generator" content="bookdown 0.40 with bs4_book()">
 <meta property="og:title" content=" 10 Multilevel Bayesian models | RHUL Psychology Statistical modelling notebook">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://mlisi.xyz/RHUL-stats/bayes-multilevel.html">
 <meta property="og:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
-<meta property="og:description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at (this...">
+<meta property="og:description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at this...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content=" 10 Multilevel Bayesian models | RHUL Psychology Statistical modelling notebook">
-<meta name="twitter:description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at (this...">
+<meta name="twitter:description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at this...">
 <meta name="twitter:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -102,7 +102,7 @@ Statistical modelling notebook</a>
 <h2>
 <span class="header-section-number">10.1</span> Overdispersed poisson GLMM example: police stops in NYC<a class="anchor" aria-label="anchor" href="#overdispersed-poisson-glmm-example-police-stops-in-nyc"><i class="fas fa-link"></i></a>
 </h2>
-<p>In this section, we analyze an example dataset of police stop-and-frisk data, referred to in <code>police_BDA3rd_p435.pdf</code> available at (this repository)[<a href="https://github.com/mattelisi/teaching_material/tree/master/multilevel" class="uri">https://github.com/mattelisi/teaching_material/tree/master/multilevel</a>].<br>
+<p>In this section, we analyze an example dataset of police stop-and-frisk data, referred to in <code>police_BDA3rd_p435.pdf</code> available at <a href="https://github.com/mattelisi/teaching_material/tree/master/multilevel">this repository</a>.<br>
 The data contains counts of stops by precinct, ethnicity, and crime type, along with population and DCJS arrests.<br>
 We’ll fit an <strong>overdispersed Poisson</strong> regression with random intercepts by precinct and an observation-level random effect, following Gelman &amp; Hill’s approach.</p>
 <div id="load-and-explore-the-data" class="section level3" number="10.1.1">

@@ -149,7 +149,7 @@ We can get standard errors of the parameters estimates from the Hessian matrix:
 ``` r
 sqrt(diag(solve(fit_zipf$hessian)))
 #>           s           a 
-#> 0.032707790 0.001272293
+#> 0.032707787 0.001272293
 ```
 
 Note that these standard errors do not take into account the additional sampling variability due to the binomial split. In order to take this into account we can re-estimate the model for multiple random splits, and examine how much parameters vary across spits.
