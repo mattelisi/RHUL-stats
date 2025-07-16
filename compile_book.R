@@ -25,5 +25,5 @@ system("rm *.md")
 system("rm *.tex")
 
 system("git add -A")
-system('git commit -m "hopefullly fixed embedding of causal slides size"')
+system('git commit -m "adding bayes multilevel worked example (police stops in NYC)"')
 system("git push origin main")

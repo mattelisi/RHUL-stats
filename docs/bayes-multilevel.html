@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title> 10 Multilevel Bayesian models | RHUL Psychology Statistical modelling notebook</title>
+<meta name="author" content="Matteo Lisi">
+<meta name="description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at (this...">
+<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta property="og:title" content=" 10 Multilevel Bayesian models | RHUL Psychology Statistical modelling notebook">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://mlisi.xyz/RHUL-stats/bayes-multilevel.html">
+<meta property="og:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
+<meta property="og:description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at (this...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=" 10 Multilevel Bayesian models | RHUL Psychology Statistical modelling notebook">
+<meta name="twitter:description" content="10.1 Overdispersed poisson GLMM example: police stops in NYC In this section, we analyze an example dataset of police stop-and-frisk data, referred to in police_BDA3rd_p435.pdf available at (this...">
+<meta name="twitter:image" content="https://mlisi.xyz/RHUL-stats/images/pop_brain.png">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/clipboard-2.0.6/clipboard.min.js"></script><link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet">
+<script src="libs/shareon-1.4.1/shareon.min.js"></script><link href="libs/xaringanExtra-shareagain-0.2.6/shareagain.css" rel="stylesheet">
+<script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script><script src="libs/fitvids-2.1.1/fitvids.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+          margin-bottom: 0em;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">RHUL Psychology
+Statistical modelling notebook</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
+<li><a class="" href="surveys.html"><span class="header-section-number">2</span> Departmental survey about statistical methods</a></li>
+<li><a class="" href="intro-R.html"><span class="header-section-number">3</span> Introduction to R</a></li>
+<li><a class="" href="correlation.html"><span class="header-section-number">4</span> Correlations</a></li>
+<li><a class="" href="linear-models.html"><span class="header-section-number">5</span> Linear models</a></li>
+<li><a class="" href="count-data.html"><span class="header-section-number">6</span> Models for count data</a></li>
+<li><a class="" href="ordinal.html"><span class="header-section-number">7</span> Models for ordinal data</a></li>
+<li><a class="" href="meta-analysis.html"><span class="header-section-number">8</span> Meta-analyses</a></li>
+<li><a class="" href="missing-data.html"><span class="header-section-number">9</span> Missing data</a></li>
+<li><a class="active" href="bayes-multilevel.html"><span class="header-section-number">10</span> Multilevel Bayesian models</a></li>
+<li><a class="" href="SDT.html"><span class="header-section-number">11</span> Signal Detection Theory</a></li>
+<li><a class="" href="fitting-zipfs-law-to-word-frequency-data.html"><span class="header-section-number">12</span> Fitting Zipf’s law to word frequency data</a></li>
+<li><a class="" href="workshops.html"><span class="header-section-number">13</span> Workshops</a></li>
+<li><a class="" href="useful-links-resources.html"><span class="header-section-number">14</span> Useful links &amp; resources</a></li>
+<li><a class="" href="references-1.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/mattelisi/RHUL-stats">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="bayes-multilevel" class="section level1" number="10">
+<h1>
+<span class="header-section-number"> 10</span> Multilevel Bayesian models<a class="anchor" aria-label="anchor" href="#bayes-multilevel"><i class="fas fa-link"></i></a>
+</h1>
+<div id="overdispersed-poisson-glmm-example-police-stops-in-nyc" class="section level2" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> Overdispersed poisson GLMM example: police stops in NYC<a class="anchor" aria-label="anchor" href="#overdispersed-poisson-glmm-example-police-stops-in-nyc"><i class="fas fa-link"></i></a>
+</h2>
+<p>In this section, we analyze an example dataset of police stop-and-frisk data, referred to in <code>police_BDA3rd_p435.pdf</code> available at (this repository)[<a href="https://github.com/mattelisi/teaching_material/tree/master/multilevel" class="uri">https://github.com/mattelisi/teaching_material/tree/master/multilevel</a>].<br>
+The data contains counts of stops by precinct, ethnicity, and crime type, along with population and DCJS arrests.<br>
+We’ll fit an <strong>overdispersed Poisson</strong> regression with random intercepts by precinct and an observation-level random effect, following Gelman &amp; Hill’s approach.</p>
+<div id="load-and-explore-the-data" class="section level3" number="10.1.1">
+<h3>
+<span class="header-section-number">10.1.1</span> 1. Load and Explore the Data<a class="anchor" aria-label="anchor" href="#load-and-explore-the-data"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Read the data from a text file</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_delim</a></span><span class="op">(</span><span class="st">"../data/police_stops.txt"</span>, delim <span class="op">=</span> <span class="st">" "</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Examine the structure</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="co">#&gt; spc_tbl_ [900 × 6] (S3: spec_tbl_df/tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ stops       : num [1:900] 75 36 74 17 37 39 23 3 26 32 ...</span></span>
+<span><span class="co">#&gt;  $ pop         : num [1:900] 1720 1720 1720 1720 1368 ...</span></span>
+<span><span class="co">#&gt;  $ past.arrests: num [1:900] 191 57 599 133 62 27 149 57 135 16 ...</span></span>
+<span><span class="co">#&gt;  $ precinct    : num [1:900] 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ eth         : num [1:900] 1 1 1 1 2 2 2 2 3 3 ...</span></span>
+<span><span class="co">#&gt;  $ crime       : num [1:900] 1 2 3 4 1 2 3 4 1 2 ...</span></span>
+<span><span class="co">#&gt;  - attr(*, "spec")=</span></span>
+<span><span class="co">#&gt;   .. cols(</span></span>
+<span><span class="co">#&gt;   ..   stops = col_double(),</span></span>
+<span><span class="co">#&gt;   ..   pop = col_double(),</span></span>
+<span><span class="co">#&gt;   ..   past.arrests = col_double(),</span></span>
+<span><span class="co">#&gt;   ..   precinct = col_double(),</span></span>
+<span><span class="co">#&gt;   ..   eth = col_double(),</span></span>
+<span><span class="co">#&gt;   ..   crime = col_double()</span></span>
+<span><span class="co">#&gt;   .. )</span></span>
+<span><span class="co">#&gt;  - attr(*, "problems")=&lt;externalptr&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Note:</span></span>
+<span><span class="co"># precincts are numbered 1-75</span></span>
+<span><span class="co"># ethnicity 1=black, 2=hispanic, 3=white</span></span>
+<span><span class="co"># crime type 1=violent, 2=weapons, 3=property, 4=drug</span></span></code></pre></div>
+</div>
+<div id="summary-statistics" class="section level3" number="10.1.2">
+<h3>
+<span class="header-section-number">10.1.2</span> 2. Summary Statistics<a class="anchor" aria-label="anchor" href="#summary-statistics"><i class="fas fa-link"></i></a>
+</h3>
+<p>We’ll group by ethnicity to see how many stops, how many arrests, and what fraction of population each group represents across all precincts/crime categories.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_summaries</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>eth <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    <span class="va">eth</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"black"</span>,</span>
+<span>    <span class="va">eth</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"hispanic"</span>,</span>
+<span>    <span class="va">eth</span> <span class="op">==</span> <span class="fl">3</span> <span class="op">~</span> <span class="st">"white"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">eth</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    pop           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pop</span><span class="op">)</span>,</span>
+<span>    total_stops   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">stops</span><span class="op">)</span>,</span>
+<span>    total_arrests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">past.arrests</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    prop_of_all_stops <span class="op">=</span> <span class="va">total_stops</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">total_stops</span><span class="op">)</span>,</span>
+<span>    pop_fraction      <span class="op">=</span> <span class="va">pop</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pop</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">d_summaries</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 6</span></span>
+<span><span class="co">#&gt;   eth        pop total_stops total_arrests prop_of_all_stops</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 black   7.46e6       69823        125719             0.531</span></span>
+<span><span class="co">#&gt; 2 hispan… 6.93e6       44623         74898             0.340</span></span>
+<span><span class="co">#&gt; 3 white   1.27e7       16974         35922             0.129</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: pop_fraction &lt;dbl&gt;</span></span></code></pre></div>
+</div>
+<div id="model-definition" class="section level3" number="10.1.3">
+<h3>
+<span class="header-section-number">10.1.3</span> 3. Model Definition<a class="anchor" aria-label="anchor" href="#model-definition"><i class="fas fa-link"></i></a>
+</h3>
+<p>We define the overdispersed Poisson model:</p>
+<p><span class="math display">\[
+y_{ep} \;\sim\; \text{Poisson}\bigl(\underbrace{\text{past.arrests}_{ep} \times \tfrac{15}{12}}_{\text{offset term}} \;\times\; e^{\,\alpha_{e} + \beta_{p} + \epsilon_{ep}} \bigr),
+\]</span></p>
+<p>where:</p>
+<ul>
+<li>
+<span class="math inline">\(y_{ep}\)</span> = number of stops for ethnicity <span class="math inline">\(e\)</span> in precinct <span class="math inline">\(p\)</span>.<br>
+</li>
+<li>
+<span class="math inline">\(\alpha_{e}\)</span> = fixed effect for each ethnicity (<span class="math inline">\(e = 1,2,3\)</span>).<br>
+</li>
+<li>
+<span class="math inline">\(\beta_{p}\)</span> = random effect for precinct <span class="math inline">\(p\)</span>, with <span class="math inline">\(\beta_p \sim N(0, \sigma_\beta^2).\)</span><br>
+</li>
+<li>
+<span class="math inline">\(\epsilon_{ep}\)</span> = observation-level overdispersion, <span class="math inline">\(\epsilon_{ep} \sim N(0, \sigma_\epsilon^2).\)</span>
+</li>
+</ul>
+<p>Hence, the log-rate is: <span class="math inline">\(\log(\lambda_{ep}) = \alpha_e + \beta_p + \epsilon_{ep}\)</span>, and we multiply <span class="math inline">\(\lambda_{ep}\)</span> by the offset <span class="math inline">\(\text{past.arrests}_{ep} \times \tfrac{15}{12}\)</span>.</p>
+<div id="non-centered-parametrization" class="section level4" number="10.1.3.1">
+<h4>
+<span class="header-section-number">10.1.3.1</span> Non-Centered Parametrization<a class="anchor" aria-label="anchor" href="#non-centered-parametrization"><i class="fas fa-link"></i></a>
+</h4>
+<p>We call <span class="math inline">\(\beta_p\)</span> <em>non-centered</em> if we write:</p>
+<p><span class="math display">\[
+\beta_p = \sigma_\beta \;\beta_{\text{raw},p}, \quad \beta_{\text{raw},p} \sim N(0,1),
+\]</span></p>
+<p>instead of sampling <span class="math inline">\(\beta_p\)</span> directly from <span class="math inline">\(N(0,\sigma_\beta^2)\)</span>. This often improves sampling efficiency in hierarchical models. The same logic applies to <span class="math inline">\(\epsilon_{ep}\)</span>.</p>
+</div>
+</div>
+<div id="stan-code" class="section level3" number="10.1.4">
+<h3>
+<span class="header-section-number">10.1.4</span> 4. Stan Code<a class="anchor" aria-label="anchor" href="#stan-code"><i class="fas fa-link"></i></a>
+</h3>
+<p>Below is the Stan code (which you can save in a file named <code>overdispersed_poisson.stan</code>):</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode stan"><code class="sourceCode stan"><span id="cb61-1"><a href="bayes-multilevel.html#cb61-1" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb61-2"><a href="bayes-multilevel.html#cb61-2" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; N;          <span class="co">// total # of (eth, precinct) data points</span></span>
+<span id="cb61-3"><a href="bayes-multilevel.html#cb61-3" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; n_eth;      <span class="co">// number of ethnicity categories, e.g. 3</span></span>
+<span id="cb61-4"><a href="bayes-multilevel.html#cb61-4" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>&gt; n_prec;     <span class="co">// number of precincts</span></span>
+<span id="cb61-5"><a href="bayes-multilevel.html#cb61-5" tabindex="-1"></a>  </span>
+<span id="cb61-6"><a href="bayes-multilevel.html#cb61-6" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; y[N];       <span class="co">// outcome counts y_{ep}</span></span>
+<span id="cb61-7"><a href="bayes-multilevel.html#cb61-7" tabindex="-1"></a>  <span class="dt">vector</span>[N] past_arrests;  <span class="co">// baseline/reference rate</span></span>
+<span id="cb61-8"><a href="bayes-multilevel.html#cb61-8" tabindex="-1"></a>  </span>
+<span id="cb61-9"><a href="bayes-multilevel.html#cb61-9" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>, <span class="kw">upper</span>=n_eth&gt; eth[N];      <span class="co">// ethnicity ID for each row</span></span>
+<span id="cb61-10"><a href="bayes-multilevel.html#cb61-10" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">1</span>, <span class="kw">upper</span>=n_prec&gt; precinct[N]; <span class="co">// precinct ID for each row</span></span>
+<span id="cb61-11"><a href="bayes-multilevel.html#cb61-11" tabindex="-1"></a>}</span>
+<span id="cb61-12"><a href="bayes-multilevel.html#cb61-12" tabindex="-1"></a></span>
+<span id="cb61-13"><a href="bayes-multilevel.html#cb61-13" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb61-14"><a href="bayes-multilevel.html#cb61-14" tabindex="-1"></a>  <span class="co">// Ethnicity effects (fixed)</span></span>
+<span id="cb61-15"><a href="bayes-multilevel.html#cb61-15" tabindex="-1"></a>  <span class="dt">vector</span>[n_eth] alpha; </span>
+<span id="cb61-16"><a href="bayes-multilevel.html#cb61-16" tabindex="-1"></a>  </span>
+<span id="cb61-17"><a href="bayes-multilevel.html#cb61-17" tabindex="-1"></a>  <span class="co">// Random intercepts for precinct</span></span>
+<span id="cb61-18"><a href="bayes-multilevel.html#cb61-18" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma_beta; </span>
+<span id="cb61-19"><a href="bayes-multilevel.html#cb61-19" tabindex="-1"></a>  <span class="dt">vector</span>[n_prec] beta_raw;   <span class="co">// non-centered param for precinct</span></span>
+<span id="cb61-20"><a href="bayes-multilevel.html#cb61-20" tabindex="-1"></a></span>
+<span id="cb61-21"><a href="bayes-multilevel.html#cb61-21" tabindex="-1"></a>  <span class="co">// Overdispersion</span></span>
+<span id="cb61-22"><a href="bayes-multilevel.html#cb61-22" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma_eps;</span>
+<span id="cb61-23"><a href="bayes-multilevel.html#cb61-23" tabindex="-1"></a>  <span class="dt">vector</span>[N] eps_raw;         <span class="co">// non-centered param for each (e,p) observation</span></span>
+<span id="cb61-24"><a href="bayes-multilevel.html#cb61-24" tabindex="-1"></a>}</span>
+<span id="cb61-25"><a href="bayes-multilevel.html#cb61-25" tabindex="-1"></a></span>
+<span id="cb61-26"><a href="bayes-multilevel.html#cb61-26" tabindex="-1"></a><span class="kw">transformed parameters</span> {</span>
+<span id="cb61-27"><a href="bayes-multilevel.html#cb61-27" tabindex="-1"></a>  <span class="dt">vector</span>[n_prec] beta; </span>
+<span id="cb61-28"><a href="bayes-multilevel.html#cb61-28" tabindex="-1"></a>  beta = sigma_beta * beta_raw;</span>
+<span id="cb61-29"><a href="bayes-multilevel.html#cb61-29" tabindex="-1"></a></span>
+<span id="cb61-30"><a href="bayes-multilevel.html#cb61-30" tabindex="-1"></a>  <span class="dt">vector</span>[N] eps;</span>
+<span id="cb61-31"><a href="bayes-multilevel.html#cb61-31" tabindex="-1"></a>  eps = sigma_eps * eps_raw;</span>
+<span id="cb61-32"><a href="bayes-multilevel.html#cb61-32" tabindex="-1"></a>}</span>
+<span id="cb61-33"><a href="bayes-multilevel.html#cb61-33" tabindex="-1"></a></span>
+<span id="cb61-34"><a href="bayes-multilevel.html#cb61-34" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb61-35"><a href="bayes-multilevel.html#cb61-35" tabindex="-1"></a>  <span class="co">// Priors (adjust as appropriate)</span></span>
+<span id="cb61-36"><a href="bayes-multilevel.html#cb61-36" tabindex="-1"></a>  alpha ~ normal(<span class="dv">0</span>, <span class="dv">5</span>);           </span>
+<span id="cb61-37"><a href="bayes-multilevel.html#cb61-37" tabindex="-1"></a>  sigma_beta ~ exponential(<span class="dv">1</span>);    </span>
+<span id="cb61-38"><a href="bayes-multilevel.html#cb61-38" tabindex="-1"></a>  beta_raw ~ normal(<span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb61-39"><a href="bayes-multilevel.html#cb61-39" tabindex="-1"></a></span>
+<span id="cb61-40"><a href="bayes-multilevel.html#cb61-40" tabindex="-1"></a>  sigma_eps ~ exponential(<span class="dv">1</span>);     </span>
+<span id="cb61-41"><a href="bayes-multilevel.html#cb61-41" tabindex="-1"></a>  eps_raw ~ normal(<span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb61-42"><a href="bayes-multilevel.html#cb61-42" tabindex="-1"></a>  </span>
+<span id="cb61-43"><a href="bayes-multilevel.html#cb61-43" tabindex="-1"></a>  <span class="co">// Likelihood</span></span>
+<span id="cb61-44"><a href="bayes-multilevel.html#cb61-44" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span>:N) {</span>
+<span id="cb61-45"><a href="bayes-multilevel.html#cb61-45" tabindex="-1"></a>    <span class="co">// lambda = alpha[ eth[i] ] + beta[ precinct[i] ] + eps[i]</span></span>
+<span id="cb61-46"><a href="bayes-multilevel.html#cb61-46" tabindex="-1"></a>    <span class="co">// Multiply by (past_arrests[i] * 15/12) to get Poisson mean</span></span>
+<span id="cb61-47"><a href="bayes-multilevel.html#cb61-47" tabindex="-1"></a>    y[i] ~ poisson(past_arrests[i] * (<span class="fl">15.0</span> / <span class="fl">12.0</span>) * exp(alpha[eth[i]] + beta[precinct[i]] + eps[i]));</span>
+<span id="cb61-48"><a href="bayes-multilevel.html#cb61-48" tabindex="-1"></a>  }</span>
+<span id="cb61-49"><a href="bayes-multilevel.html#cb61-49" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="prior-predictive-check" class="section level3" number="10.1.5">
+<h3>
+<span class="header-section-number">10.1.5</span> 5. Prior Predictive Check<a class="anchor" aria-label="anchor" href="#prior-predictive-check"><i class="fas fa-link"></i></a>
+</h3>
+<p>Before fitting the model, it’s good practice to simulate data under the prior to see if the implied distribution is reasonable. For brevity, here’s a minimal example:</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Suppose we do a quick simulation from the prior in R:</span></span>
+<span><span class="co"># (We won't run Stan's generated quantities block, but just do a rough check.)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">N_sim</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">sigma_beta_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">sigma_eps_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">alpha_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># 3 ethnicity groups</span></span>
+<span></span>
+<span><span class="va">beta_raw_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">75</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">beta_sim</span> <span class="op">&lt;-</span> <span class="va">sigma_beta_sim</span> <span class="op">*</span> <span class="va">beta_raw_sim</span></span>
+<span></span>
+<span><span class="va">eps_raw_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N_sim</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">eps_sim</span> <span class="op">&lt;-</span> <span class="va">sigma_eps_sim</span> <span class="op">*</span> <span class="va">eps_raw_sim</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Simulated sigma_beta ="</span>, <span class="va">sigma_beta_sim</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Simulated sigma_beta = 0.8434573</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Simulated sigma_eps  ="</span>, <span class="va">sigma_eps_sim</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Simulated sigma_eps  = 0.5766103</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Simulated alpha ="</span>, <span class="va">alpha_sim</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Simulated alpha = -1.150887 7.793542 0.352542</span></span></code></pre></div>
+<p>We could draw some random <code>past_arrests</code> values (e.g., 1–50) and see how big the Poisson means might get. If these are unreasonably large or small, we might tighten the priors.</p>
+</div>
+<div id="fit-the-model" class="section level3" number="10.1.6">
+<h3>
+<span class="header-section-number">10.1.6</span> 6. Fit the Model<a class="anchor" aria-label="anchor" href="#fit-the-model"><i class="fas fa-link"></i></a>
+</h3>
+<p><strong>Important</strong>: If <code>past.arrests == 0</code> for some rows but <code>stops</code> are nonzero, we need to avoid a zero Poisson mean. One quick fix is to add a small constant (e.g. 0.5) to <code>past.arrests</code>.</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Correction for zero arrests</span></span>
+<span><span class="va">d</span><span class="op">$</span><span class="va">past.arrests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">past.arrests</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="va">d</span><span class="op">$</span><span class="va">past.arrests</span><span class="op">)</span></span></code></pre></div>
+<div id="prepare-data-for-stan" class="section level4" number="10.1.6.1">
+<h4>
+<span class="header-section-number">10.1.6.1</span> Prepare data for Stan<a class="anchor" aria-label="anchor" href="#prepare-data-for-stan"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stan_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  N         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>,</span>
+<span>  n_eth     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">eth</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  n_prec    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">precinct</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  y         <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">stops</span>,</span>
+<span>  eth       <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">eth</span>,</span>
+<span>  past_arrests  <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">past.arrests</span>,</span>
+<span>  precinct  <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">precinct</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="compile-and-run-stan" class="section level4" number="10.1.6.2">
+<h4>
+<span class="header-section-number">10.1.6.2</span> Compile and Run Stan<a class="anchor" aria-label="anchor" href="#compile-and-run-stan"><i class="fas fa-link"></i></a>
+</h4>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Make sure you have the Stan model saved as "overdispersed_poisson.stan".</span></span>
+<span><span class="co"># Then run:</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stan</span><span class="op">(</span></span>
+<span>  file <span class="op">=</span> <span class="st">"../models/overdispersed_poisson.stan"</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">stan_data</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">2000</span>,</span>
+<span>  chains <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  cores <span class="op">=</span> <span class="fl">4</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"sigma_beta"</span>, <span class="st">"sigma_eps"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Inference for Stan model: anon_model.</span></span>
+<span><span class="co">#&gt; 4 chains, each with iter=2000; warmup=1000; thin=1; </span></span>
+<span><span class="co">#&gt; post-warmup draws per chain=1000, total post-warmup draws=4000.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;             mean se_mean   sd  2.5%   25%   50%   75% 97.5%</span></span>
+<span><span class="co">#&gt; alpha[1]   -0.58       0 0.09 -0.76 -0.64 -0.58 -0.52 -0.41</span></span>
+<span><span class="co">#&gt; alpha[2]   -0.53       0 0.09 -0.71 -0.59 -0.53 -0.47 -0.34</span></span>
+<span><span class="co">#&gt; alpha[3]   -0.97       0 0.09 -1.15 -1.03 -0.97 -0.91 -0.80</span></span>
+<span><span class="co">#&gt; sigma_beta  0.54       0 0.06  0.43  0.50  0.54  0.58  0.68</span></span>
+<span><span class="co">#&gt; sigma_eps   1.11       0 0.03  1.06  1.10  1.11  1.13  1.17</span></span>
+<span><span class="co">#&gt;            n_eff Rhat</span></span>
+<span><span class="co">#&gt; alpha[1]    7809    1</span></span>
+<span><span class="co">#&gt; alpha[2]    6275    1</span></span>
+<span><span class="co">#&gt; alpha[3]    7447    1</span></span>
+<span><span class="co">#&gt; sigma_beta  1065    1</span></span>
+<span><span class="co">#&gt; sigma_eps   1688    1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Samples were drawn using NUTS(diag_e) at Tue Mar 25 16:31:01 2025.</span></span>
+<span><span class="co">#&gt; For each parameter, n_eff is a crude measure of effective sample size,</span></span>
+<span><span class="co">#&gt; and Rhat is the potential scale reduction factor on split chains (at </span></span>
+<span><span class="co">#&gt; convergence, Rhat=1).</span></span></code></pre></div>
+<p>Here, <code>alpha</code> are the ethnic-group log-effects, <code>sigma_beta</code> is the precinct-level standard deviation, and <code>sigma_eps</code> is the overdispersion. You can also examine random intercepts <code>beta</code> or the <code>eps</code> in detail.</p>
+</div>
+</div>
+<div id="diagnostic-checks" class="section level3" number="10.1.7">
+<h3>
+<span class="header-section-number">10.1.7</span> 7. Diagnostic Checks<a class="anchor" aria-label="anchor" href="#diagnostic-checks"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Traceplots</span></span>
+<span><span class="fu">traceplot</span><span class="op">(</span><span class="va">fit</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"sigma_beta"</span>, <span class="st">"sigma_eps"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="10-bayes-multilevel_files/figure-html/diagnostics-1.png" width="672"></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Pairs plot for some key parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">fit</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"alpha[1]"</span>, <span class="st">"alpha[2]"</span>, <span class="st">"alpha[3]"</span>, <span class="st">"sigma_beta"</span>, <span class="st">"sigma_eps"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="10-bayes-multilevel_files/figure-html/diagnostics-2.png" width="672"></div>
+<p>Check for good mixing (no major issues in traceplots) and no suspicious funnel shapes in pairs plots.</p>
+</div>
+<div id="posterior-analysis" class="section level3" number="10.1.8">
+<h3>
+<span class="header-section-number">10.1.8</span> 8. Posterior Analysis<a class="anchor" aria-label="anchor" href="#posterior-analysis"><i class="fas fa-link"></i></a>
+</h3>
+<p>We use <strong>tidybayes</strong> to extract samples and summarize. Suppose we want to look at the exponentiated ethnic effects (relative stops vs. arrests).</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/tidybayes/">tidybayes</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">posterior</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">spread_draws</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">[</span><span class="va">e</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">alpha</span><span class="op">)</span><span class="op">)</span>  <span class="co"># exponentiate to interpret as a multiplicative factor</span></span>
+<span></span>
+<span><span class="co"># Summarize the rate by ethnicity</span></span>
+<span><span class="va">posterior</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html">mean_hdi</a></span><span class="op">(</span><span class="va">rate</span>, .width <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 7</span></span>
+<span><span class="co">#&gt;       e  rate .lower .upper .width .point .interval</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1     1 0.560  0.467  0.660   0.95 mean   hdi      </span></span>
+<span><span class="co">#&gt; 2     2 0.591  0.488  0.697   0.95 mean   hdi      </span></span>
+<span><span class="co">#&gt; 3     3 0.381  0.316  0.449   0.95 mean   hdi</span></span></code></pre></div>
+<p>If <code>e=1</code> = black, <code>e=2</code> = hispanic, <code>e=3</code> = white, these give the average ratio of stops to arrests (relative to some baseline) for each ethnicity, controlling for precinct and overdispersion.</p>
+<p>You might then compare black vs. white, etc., by calculating differences or ratios in the posterior draws.</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">posterior_ratios</span> <span class="op">&lt;-</span> <span class="va">posterior</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span></span>
+<span>    id_cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">.chain</span>, <span class="va">.iteration</span>, <span class="va">.draw</span><span class="op">)</span>,  <span class="co"># these 3 columns identify each draw</span></span>
+<span>    names_from <span class="op">=</span> <span class="va">e</span>,                          <span class="co"># which column to pivot on</span></span>
+<span>    values_from <span class="op">=</span> <span class="va">rate</span>,                      <span class="co"># which column holds the values</span></span>
+<span>    names_prefix <span class="op">=</span> <span class="st">"eth_"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    black_vs_white <span class="op">=</span> <span class="va">eth_1</span> <span class="op">/</span> <span class="va">eth_3</span>,</span>
+<span>    hisp_vs_white  <span class="op">=</span> <span class="va">eth_2</span> <span class="op">/</span> <span class="va">eth_3</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>   <span class="co"># Pivot longer so each ratio is in its own row</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">black_vs_white</span>, <span class="va">hisp_vs_white</span><span class="op">)</span>,</span>
+<span>    names_to <span class="op">=</span> <span class="st">"contrast"</span>,</span>
+<span>    values_to <span class="op">=</span> <span class="st">"ratio"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Summarize with mean_hdi -&gt; returns columns .mean, .lower, .upper</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">contrast</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html">mean_hdi</a></span><span class="op">(</span><span class="va">ratio</span>, .width <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">posterior_ratios</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 7</span></span>
+<span><span class="co">#&gt;   contrast       ratio .lower .upper .width .point .interval</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 black_vs_white  1.48   1.22   1.75   0.95 mean   hdi      </span></span>
+<span><span class="co">#&gt; 2 hisp_vs_white   1.56   1.28   1.85   0.95 mean   hdi</span></span></code></pre></div>
+<p>This gives an estimate of how many times more likely black (or hispanic) stops are relative to white stops, after controlling for arrests, precinct differences, and overdispersion.</p>
+<p>We can use this for plotting e.g.:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">posterior_ratios</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">contrast</span>, y <span class="op">=</span> <span class="va">ratio</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept<span class="op">=</span><span class="fl">1</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">.lower</span>, ymax <span class="op">=</span> <span class="va">.upper</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Ratio relative to White"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Ethnicity vs. White Stop Ratios"</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Points = posterior means; bars = 95% HDI"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="10-bayes-multilevel_files/figure-html/unnamed-chunk-2-1.png" width="240" style="display: block; margin: auto;"></div>
+</div>
+<div id="prior-predictive-check-1" class="section level3" number="10.1.9">
+<h3>
+<span class="header-section-number">10.1.9</span> Prior predictive check<a class="anchor" aria-label="anchor" href="#prior-predictive-check-1"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="va">n_eth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">eth</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">n_prec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">precinct</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Decide how many draws from the prior to simulate</span></span>
+<span><span class="va">n_sims</span> <span class="op">&lt;-</span> <span class="fl">200</span>  </span>
+<span></span>
+<span><span class="co"># We'll store all simulated Y values in a single big vector</span></span>
+<span><span class="co"># so we can compare them to the observed distribution</span></span>
+<span><span class="va">all_prior_stops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span>  <span class="co"># reproducibility</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_sims</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># 1) Sample the parameters from their priors</span></span>
+<span>  </span>
+<span>   </span>
+<span>  <span class="va">alpha_draw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_eth</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="co"># alpha: one for each ethnicity</span></span>
+<span>  <span class="va">sigma_beta_draw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="fl">1</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">beta_raw_draw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n_prec</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">beta_draw</span> <span class="op">&lt;-</span> <span class="va">sigma_beta_draw</span> <span class="op">*</span> <span class="va">beta_raw_draw</span></span>
+<span>  </span>
+<span>  <span class="va">sigma_eps_draw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="fl">1</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>          <span class="co"># Overdispersion</span></span>
+<span>  <span class="va">eps_raw_draw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">eps_draw</span> <span class="op">&lt;-</span> <span class="va">sigma_eps_draw</span> <span class="op">*</span> <span class="va">eps_raw_draw</span></span>
+<span>  </span>
+<span>  <span class="co"># 2) Generate y (stops) from Poisson for each observation i</span></span>
+<span></span>
+<span>  <span class="va">past_arrests_offset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">past.arrests</span> <span class="op">==</span> <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="va">d</span><span class="op">$</span><span class="va">past.arrests</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># compute the linear predictor for each row i</span></span>
+<span>  <span class="va">lambda_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">e</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">eth</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">precinct</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>    <span class="va">lambda_vec</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">alpha_draw</span><span class="op">[</span><span class="va">e</span><span class="op">]</span> <span class="op">+</span> <span class="va">beta_draw</span><span class="op">[</span><span class="va">p</span><span class="op">]</span> <span class="op">+</span> <span class="va">eps_draw</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="co"># Poisson means</span></span>
+<span>  <span class="va">mu_vec</span> <span class="op">&lt;-</span> <span class="va">past_arrests_offset</span> <span class="op">*</span> <span class="op">(</span><span class="fl">15</span><span class="op">/</span><span class="fl">12</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">lambda_vec</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># sample from Poisson</span></span>
+<span>  <span class="va">y_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">rpois</a></span><span class="op">(</span><span class="va">N</span>, <span class="va">mu_vec</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># 3) Store in a big vector for later comparison</span></span>
+<span>  <span class="va">all_prior_stops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">all_prior_stops</span>, <span class="va">y_sim</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Now we have n_sims * N simulated 'stops' from the prior</span></span>
+<span><span class="co"># Compare with the empirical distribution:</span></span>
+<span><span class="va">observed_stops</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">stops</span></span>
+<span></span>
+<span><span class="va">df_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">(</span><span class="va">observed_stops</span> <span class="op">)</span>, <span class="op">(</span><span class="va">all_prior_stops</span> <span class="op">)</span><span class="op">)</span>,</span>
+<span>  type  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Empirical"</span>, <span class="st">"Prior"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">observed_stops</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">all_prior_stops</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot densities</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df_plot</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"stops"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Density"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Prior Predictive vs. Empirical Distribution (log scale)"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"Data Source"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="10-bayes-multilevel_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;"></div>
+</div>
+<div id="references" class="section level3" number="10.1.10">
+<h3>
+<span class="header-section-number">10.1.10</span> References<a class="anchor" aria-label="anchor" href="#references"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>Gelman, Andrew, and Jennifer Hill. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. 2007.</li>
+</ul>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="missing-data.html"><span class="header-section-number">9</span> Missing data</a></div>
+<div class="next"><a href="SDT.html"><span class="header-section-number">11</span> Signal Detection Theory</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#bayes-multilevel"><span class="header-section-number">10</span> Multilevel Bayesian models</a></li>
+<li>
+<a class="nav-link" href="#overdispersed-poisson-glmm-example-police-stops-in-nyc"><span class="header-section-number">10.1</span> Overdispersed poisson GLMM example: police stops in NYC</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#load-and-explore-the-data"><span class="header-section-number">10.1.1</span> 1. Load and Explore the Data</a></li>
+<li><a class="nav-link" href="#summary-statistics"><span class="header-section-number">10.1.2</span> 2. Summary Statistics</a></li>
+<li><a class="nav-link" href="#model-definition"><span class="header-section-number">10.1.3</span> 3. Model Definition</a></li>
+<li><a class="nav-link" href="#stan-code"><span class="header-section-number">10.1.4</span> 4. Stan Code</a></li>
+<li><a class="nav-link" href="#prior-predictive-check"><span class="header-section-number">10.1.5</span> 5. Prior Predictive Check</a></li>
+<li><a class="nav-link" href="#fit-the-model"><span class="header-section-number">10.1.6</span> 6. Fit the Model</a></li>
+<li><a class="nav-link" href="#diagnostic-checks"><span class="header-section-number">10.1.7</span> 7. Diagnostic Checks</a></li>
+<li><a class="nav-link" href="#posterior-analysis"><span class="header-section-number">10.1.8</span> 8. Posterior Analysis</a></li>
+<li><a class="nav-link" href="#prior-predictive-check-1"><span class="header-section-number">10.1.9</span> Prior predictive check</a></li>
+<li><a class="nav-link" href="#references"><span class="header-section-number">10.1.10</span> References</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/mattelisi/RHUL-stats/blob/main/RHUL-stats-notebook/10-bayes-multilevel.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/mattelisi/RHUL-stats/edit/main/RHUL-stats-notebook/10-bayes-multilevel.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>RHUL Psychology
+Statistical modelling notebook</strong>" was written by Matteo Lisi. It was last built on 2025-07-16.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
